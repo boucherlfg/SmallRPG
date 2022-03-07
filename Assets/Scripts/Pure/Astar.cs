@@ -33,10 +33,10 @@ public class Astar : CSharpSingleton<Astar>
         {
             return $"pos : {Position}, cost : {Cost}, pred : {Predecessor}";
         }
-        private Node _pred;
+        private readonly Node _pred;
         private Vector2Int _pos;
-        private float _stepsDone;
-        private float _stepsTodo;
+        private readonly float _stepsDone;
+        private readonly float _stepsTodo;
 
         public Vector2Int Position => _pos;
         public Node Predecessor => _pred;
@@ -66,8 +66,8 @@ public class Astar : CSharpSingleton<Astar>
             }
         }
     }
-    public static List<Vector2Int> GetPath(Vector2Int start, Vector2Int end) => _instance._GetPath(start, end);
-    private List<Vector2Int> _GetPath(Vector2Int start, Vector2Int end)
+    public static List<Vector2Int> GetPath(Vector2Int start, Vector2Int end) => _instance.GetPathPrivate(start, end);
+    private List<Vector2Int> GetPathPrivate(Vector2Int start, Vector2Int end)
     {
         if (IsObstacle(end)) return new List<Vector2Int>(); 
 

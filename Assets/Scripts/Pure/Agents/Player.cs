@@ -30,12 +30,6 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
     public int Defense { get => PlayerData.Defense; set => PlayerData.Defense = value; }
     public int Precision { get => PlayerData.Precision; set => PlayerData.Precision = value; }
     public int Evasion { get => PlayerData.Evasion; set => PlayerData.Evasion = value; }
-    public int MaxLife { get => PlayerData.MaxLife; set => PlayerData.MaxLife = value; }
-    public int MaxMana { get => PlayerData.MaxMana; set => PlayerData.MaxMana = value; }
-    public int MaxAttack { get => PlayerData.MaxAttack; set => PlayerData.MaxAttack = value; }
-    public int MaxDefense { get => PlayerData.MaxDefense; set => PlayerData.MaxDefense = value; }
-    public int MaxPrecision { get => PlayerData.MaxPrecision; set => PlayerData.MaxPrecision = value; }
-    public int MaxEvasion { get => PlayerData.MaxEvasion; set => PlayerData.MaxEvasion = value; }
     #endregion
 
     public State state;
@@ -43,6 +37,7 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
     {
         Orientation = Vector2Int.down;
         state = new WaitState(this);
+
     }
 
     public virtual void Update()
@@ -57,6 +52,7 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
         {
             Game.Instance.Create(new Tombstone { position = position });
             NotifManager.CreateNotification("oh dear! you are dead!");
+            UIManager.GameOver.Active = true;
         }
     }
 
@@ -93,13 +89,10 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
         public UseState(Player self) : base(self) { }
         public override State Update()
         {
-            var target = Game.Instance.Agents.Find(agent => agent is IUsableAgent && agent.position == self.position + self.Orientation);
-            if (target == null)
+            if (PlayerData.Equipment.Tool != null)
             {
-                NotifManager.CreateNotification("there is nothing in front of you.");
-                return new WaitState(self);
+                PlayerData.Equipment.Tool.Use();
             }
-            (target as IUsableAgent).Use(self);
             return new WaitState(self);
         }
     }

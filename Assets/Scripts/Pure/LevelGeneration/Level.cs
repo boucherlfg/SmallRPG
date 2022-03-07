@@ -102,7 +102,7 @@ public class Level
     }
     private void AddResources()
     {
-        var types = GameHelper.GetAllSubTypes<Resource>();
+        var types = GameHelper.GetAllSubTypes<Source>();
         float resourceBudget = rooms.Count;
         while (resourceBudget > 0)
         {

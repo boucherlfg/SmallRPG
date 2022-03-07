@@ -15,9 +15,9 @@ public class StatDisplay : MonoBehaviour
         IEnumerator HookAfter()
         {
             yield return null;
-            PlayerData.Changed += () => text = $"life : {PlayerData.Life}/{PlayerData.MaxLife}";
+            PlayerData.Changed += () => text = $"life : {PlayerData.Life}";
         }
-        text = $"life : {PlayerData.Life}/{PlayerData.MaxLife}";
+        text = $"life : {PlayerData.Life}";
     }
 
     private void Update()

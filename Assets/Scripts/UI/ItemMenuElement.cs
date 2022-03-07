@@ -28,6 +28,6 @@ public class ItemMenuElement : MonoBehaviour
     }
     public void Use()
     {
-        item.Use();
+        item.Equip();
     }
 }

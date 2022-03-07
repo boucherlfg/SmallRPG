@@ -5,6 +5,6 @@ public class Scroll : Item
 {
     public override void Use()
     {
-        NotifManager.CreateNotification("not much use to that");
+        NotifManager.CreateNotification("unimplemented yet *wink wink*");
     }
 }

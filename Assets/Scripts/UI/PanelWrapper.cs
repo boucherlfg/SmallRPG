@@ -16,4 +16,9 @@ public class PanelWrapper : MonoBehaviour
             ActiveStateChanged?.Invoke();
         }
     }
+    public void Toggle()
+    {
+        Active = !Active;
+        this.transform.SetAsLastSibling();
+    }
 }

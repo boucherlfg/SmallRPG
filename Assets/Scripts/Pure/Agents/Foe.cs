@@ -20,10 +20,10 @@ public class Foe : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision, I
         state = new RandomWalk(this);
         Orientation = Vector2Int.down;
 
-        life = maxLife = 3;
-        attack = maxAttack = 1;
-        precision = maxPrecision = 1;
-        evasion = maxEvasion = 1;
+        life = 3;
+        attack = 1;
+        precision = 1;
+        evasion = 1;
 
         loot = GameHelper.PopulateLoot(value);
     }
@@ -41,25 +41,13 @@ public class Foe : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision, I
     private int defense;
     private int precision;
     private int evasion;
-    private int maxLife;
-    private int maxMana;
-    private int maxAttack;
-    private int maxDefense;
-    private int maxPrecision;
-    private int maxEvasion;
 
-    public int Life { get => life; set => life = value > maxLife ? life : value; }
-    public int Mana { get => mana; set => mana = value > maxMana ? mana : value; }
-    public int Attack { get => attack; set => attack = value > maxAttack ? attack : value; }
-    public int Defense { get => defense; set => defense = value > maxDefense ? defense : value; }
-    public int Precision { get => precision; set => precision = value > maxPrecision ? precision : value; }
-    public int Evasion { get => evasion; set => evasion = value > maxEvasion ? evasion : value; }
-    public int MaxLife { get => maxLife; set { maxLife = value; life = life > maxLife ? maxLife : life; } }
-    public int MaxMana { get => maxMana; set { maxMana = value; mana = mana > maxMana ? maxMana : mana; } }
-    public int MaxAttack { get => maxAttack; set { maxAttack = value; attack = attack > maxAttack ? maxAttack : attack; } }
-    public int MaxDefense { get => maxDefense; set { maxDefense = value; defense = defense > maxDefense ? maxDefense : defense; } }
-    public int MaxPrecision { get => maxPrecision; set { maxPrecision = value; precision = precision > maxPrecision ? maxPrecision : precision; } }
-    public int MaxEvasion { get => maxEvasion; set { maxEvasion = value; evasion = evasion > maxEvasion ? maxEvasion : evasion; } }
+    public int Life { get => life; set => life = value; }
+    public int Mana { get => mana; set => mana = value; }
+    public int Attack { get => attack; set => attack = value; }
+    public int Defense { get => defense; set => defense = value; }
+    public int Precision { get => precision; set => precision = value; }
+    public int Evasion { get => evasion; set => evasion = value; }
     #endregion
 
     public void Update()
@@ -74,8 +62,16 @@ public class Foe : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision, I
         NotifManager.CreateNotification("your foe crumbles in agony, leaving sweet loot behind.");
     }
 
+    public UseType UseType => UseType.Attack;
     public void Use(Player user)
     {
+        var tool = PlayerData.Equipment.Tool;
+        if (tool == null || !(tool is Tool) || (tool as Tool).useType != UseType)
+        {
+            NotifManager.CreateNotification("Get a weapon before you attack!");
+            return;
+        }
+
         NotifManager.CreateNotification("you attempt to attack an enemy...");
         if (!GameHelper.CalculateHit(user, this))
         {

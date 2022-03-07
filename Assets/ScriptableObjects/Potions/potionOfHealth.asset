@@ -22,18 +22,11 @@ MonoBehaviour:
     defense: 0
     precision: 0
     evasion: 0
-  buff:
-    life: 10
-    mana: 0
-    attack: 0
-    defense: 0
-    precision: 0
-    evasion: 0
   regen:
-    life: 0
+    life: -0.25
     mana: 0
     attack: 0
     defense: 0
     precision: 0
     evasion: 0
-  duration: 15
+  duration: 20

@@ -6,29 +6,43 @@ public static class GameHelper
 {
     public static bool CalculateHit(IStats attack, IStats defense)
     {
+        var total = PlayerData.Equipment.TotalBonus;
+        float precisionBonus = attack is Player ? total.precision : 0;
+        float evasionBonus = defense is Player ? total.evasion : 0;
+
         var attackPrecision = attack.Precision;
         var defenseEvasion = defense.Evasion;
-        return Random.value < ((float)attackPrecision) / ((float)(1 + defenseEvasion));
+        return Random.value < ((float)attackPrecision + precisionBonus) / ((float)(1 + defenseEvasion + evasionBonus));
     }
     public static int CalculateDamage(IStats attack, IStats defense)
     {
-        return attack.Attack - defense.Defense < 0 ? (Random.value < 0.5f ? 0 : 1) : attack.Attack - defense.Defense;
+        int bonus = 0;
+        if (attack is Player)
+        {
+            bonus += (int)PlayerData.Equipment.TotalBonus.attack;
+        }
+        else if (defense is Player)
+        {
+            bonus -= (int)PlayerData.Equipment.TotalBonus.defense;
+        }
+        var dmg = bonus + attack.Attack - defense.Defense;
+        return dmg <= 0 ? (Random.value < 0.5f ? 0 : 1) : dmg;
     }
 
     public static List<string> PopulateLoot(float value)
     {
         var loot = new List<string>();
-
+        var choices = new List<Item>(ItemsCodex.Instance.Items.OrderBy(x => x.value));
         float k = value;
-        for (int i = 0; i < 10; i++) //infinite loop guard
+        for (int i = 0; i < 10 && loot.Count < 3; i++) //infinite loop guard
         {
-            int f = DistributedRandom(0, ItemsCodex.Instance.Items.Count);
-            Item item = ItemsCodex.Instance.Items.OrderBy(x => x.value).ToArray()[f];
+            Item item = DistributedRandom(choices);
+            choices.Remove(item);
             int max = (int)(k / item.value);
             if (max < 1) continue;
 
             i = 0;
-            max = DistributedRandom(1, max > 5 ? 5 : max);
+            max = DistributedRandom(1, max > 3 ? 3 : max);
             for (int j = 0; j < max; j++)
             {
                 loot.Add(item.name);

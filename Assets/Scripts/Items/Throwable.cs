@@ -20,15 +20,18 @@ public class Throwable : Consumable
                     if (agent is Foe)
                     {
                         NotifManager.CreateNotification("and it landed on an enemy");
+                        return;
                     }
                     else
                     {
                         NotifManager.CreateNotification("and it landed on a friend!");
+                        return;
                     }
                 }
                 else
                 {
                     NotifManager.CreateNotification("and it landed on a wall");
+                    return;
                 }
             }
             startPosition += player.Orientation;

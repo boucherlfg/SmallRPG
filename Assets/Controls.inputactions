@@ -17,15 +17,6 @@
                 {
                     "name": "Attack",
                     "type": "Button",
-                    "id": "033fd38d-0384-43c0-bf7d-ba9f46997cf6",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Wait",
-                    "type": "Button",
                     "id": "f38625e2-d6d3-427d-b228-006947575b11",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -45,6 +36,15 @@
                     "name": "Inventory",
                     "type": "Button",
                     "id": "8d012dcd-8365-45df-8e31-ba5eb20260aa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Equipment",
+                    "type": "Button",
+                    "id": "3cdea3de-3b3c-402c-9917-ad48c1a80f69",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -186,23 +186,12 @@
                 },
                 {
                     "name": "",
-                    "id": "41b1d540-6ea3-408c-90b4-eb7b09b12a34",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Attack",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "da1472e3-c0dc-4f0e-a23a-ff7a7f85f897",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Wait",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -225,6 +214,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "315d4722-fc2a-4fc9-9600-ce5ed369d5bc",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Equipment",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

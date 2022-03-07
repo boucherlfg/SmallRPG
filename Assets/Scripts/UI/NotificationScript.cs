@@ -26,17 +26,17 @@ public class NotificationScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        sustain -= Time.deltaTime;
-        if (sustain > 0) return;
+    //void Update()
+    //{
+    //    sustain -= Time.deltaTime;
+    //    if (sustain > 0) return;
 
-        var color = text.color;
-        color.a = alpha;
-        text.color = color;
+    //    var color = text.color;
+    //    color.a = alpha;
+    //    text.color = color;
 
-        alpha -= Time.deltaTime * increment;
-        fadeOut -= Time.deltaTime;
-        if (fadeOut <= 0) Destroy(gameObject);
-    }
+    //    alpha -= Time.deltaTime * increment;
+    //    fadeOut -= Time.deltaTime;
+    //    if (fadeOut <= 0) Destroy(gameObject);
+    //}
 }

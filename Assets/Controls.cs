@@ -39,15 +39,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Attack"",
                     ""type"": ""Button"",
-                    ""id"": ""033fd38d-0384-43c0-bf7d-ba9f46997cf6"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Wait"",
-                    ""type"": ""Button"",
                     ""id"": ""f38625e2-d6d3-427d-b228-006947575b11"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -67,6 +58,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""name"": ""Inventory"",
                     ""type"": ""Button"",
                     ""id"": ""8d012dcd-8365-45df-8e31-ba5eb20260aa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Equipment"",
+                    ""type"": ""Button"",
+                    ""id"": ""3cdea3de-3b3c-402c-9917-ad48c1a80f69"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -208,23 +208,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""41b1d540-6ea3-408c-90b4-eb7b09b12a34"",
-                    ""path"": ""<Keyboard>/enter"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Attack"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""da1472e3-c0dc-4f0e-a23a-ff7a7f85f897"",
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Wait"",
+                    ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -249,6 +238,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""315d4722-fc2a-4fc9-9600-ce5ed369d5bc"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Equipment"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -259,9 +259,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-        m_Player_Wait = m_Player.FindAction("Wait", throwIfNotFound: true);
         m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
+        m_Player_Equipment = m_Player.FindAction("Equipment", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -323,18 +323,18 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Attack;
-    private readonly InputAction m_Player_Wait;
     private readonly InputAction m_Player_Escape;
     private readonly InputAction m_Player_Inventory;
+    private readonly InputAction m_Player_Equipment;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
         public PlayerActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Attack => m_Wrapper.m_Player_Attack;
-        public InputAction @Wait => m_Wrapper.m_Player_Wait;
         public InputAction @Escape => m_Wrapper.m_Player_Escape;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
+        public InputAction @Equipment => m_Wrapper.m_Player_Equipment;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -350,15 +350,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
                 @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                @Wait.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWait;
-                @Wait.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWait;
-                @Wait.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWait;
                 @Escape.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
                 @Escape.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
                 @Escape.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
                 @Inventory.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventory;
                 @Inventory.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventory;
                 @Inventory.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInventory;
+                @Equipment.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipment;
+                @Equipment.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipment;
+                @Equipment.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipment;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -369,15 +369,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
-                @Wait.started += instance.OnWait;
-                @Wait.performed += instance.OnWait;
-                @Wait.canceled += instance.OnWait;
                 @Escape.started += instance.OnEscape;
                 @Escape.performed += instance.OnEscape;
                 @Escape.canceled += instance.OnEscape;
                 @Inventory.started += instance.OnInventory;
                 @Inventory.performed += instance.OnInventory;
                 @Inventory.canceled += instance.OnInventory;
+                @Equipment.started += instance.OnEquipment;
+                @Equipment.performed += instance.OnEquipment;
+                @Equipment.canceled += instance.OnEquipment;
             }
         }
     }
@@ -386,8 +386,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnAttack(InputAction.CallbackContext context);
-        void OnWait(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnEquipment(InputAction.CallbackContext context);
     }
 }

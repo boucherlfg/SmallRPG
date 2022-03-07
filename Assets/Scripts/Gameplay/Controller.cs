@@ -14,7 +14,19 @@ public class Controller : MonoBehaviour
         DisplayManager.Instance.Draw();
         InputManager.Moved += InputManager_Moved;
         InputManager.Attacked += InputManager_Attacked;
-        InputManager.Waited += InputManager_Waited;
+        InputManager.Equipment += InputManager_Equipment;
+        InputManager.Inventory += InputManager_Inventory;
+
+    }
+
+    private void InputManager_Inventory()
+    {
+        UIManager.Inventory.Toggle();
+    }
+
+    private void InputManager_Equipment()
+    {
+        UIManager.Equipment.Toggle();
     }
 
     IEnumerator UpdateEvery()
@@ -50,7 +62,7 @@ public class Controller : MonoBehaviour
         Game.Instance.Player.state = new Player.UseState(Game.Instance.Player);
         update = StartCoroutine(UpdateEvery());
     }
-    private void InputManager_Waited()
+    private void Inputm()
     {
         if (update != null) return;
         //NotifManager.CreateNotification("you waited");

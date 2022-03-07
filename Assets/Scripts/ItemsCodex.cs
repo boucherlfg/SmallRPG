@@ -2,11 +2,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEditor;
 
 public class ItemsCodex : MonoSingleton<ItemsCodex>
 {
     [SerializeField]
     private List<Item> items;
+
     public static ItemsCodex Instance => _instance;
     public List<Item> Items => _instance.items;
     public Item this[string name]

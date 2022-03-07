@@ -19,11 +19,11 @@ public class InputManager : MonoSingleton<InputManager>
         remove => _instance.onAttacked -= value;
     }
 
-    private event VoidAction onWaited;
-    public static event VoidAction Waited
+    private event VoidAction onEquipment;
+    public static event VoidAction Equipment
     {
-        add => _instance.onWaited += value;
-        remove => _instance.onWaited -= value;
+        add => _instance.onEquipment += value;
+        remove => _instance.onEquipment -= value;
     }
 
     private event VoidAction onEscaped;
@@ -57,9 +57,9 @@ public class InputManager : MonoSingleton<InputManager>
         controls.Player.Enable();
         controls.Player.Move.performed += Move_performed;
         controls.Player.Attack.performed += Attack_performed;
-        controls.Player.Wait.performed += Wait_performed;
         controls.Player.Escape.performed += Escape_performed;
         controls.Player.Inventory.performed += Inventory_performed;
+        controls.Player.Equipment.performed += Equipment_performed;
     }
 
     private void Inventory_performed(InputAction.CallbackContext obj)
@@ -72,9 +72,9 @@ public class InputManager : MonoSingleton<InputManager>
         onEscaped?.Invoke();
     }
 
-    private void Wait_performed(InputAction.CallbackContext obj)
+    private void Equipment_performed(InputAction.CallbackContext obj)
     {
-        onWaited?.Invoke();
+        onEquipment?.Invoke();
     }
 
     private void Attack_performed(InputAction.CallbackContext obj)
