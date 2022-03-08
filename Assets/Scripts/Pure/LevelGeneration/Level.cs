@@ -53,6 +53,7 @@ public class Level
         AddFoes();
         AddLoot();
         AddResources();
+        AddCraftingStations();
     }
 
     private void AddWallsAndStartEnd()
@@ -77,14 +78,20 @@ public class Level
     }
     private void AddFoes()
     {
+        Mob RandomAgent(Room room)
+        {
+            var types = GameHelper.GetAllSubTypes<Mob>();
+            var type = GameHelper.DistributedRandom(types);
+            return room.CreateAtRandomPosition(type, room.Agents) as Mob;
+        }
         float foeBudget = rooms.Count;
         
         while (foeBudget > 0)
         {
-            var room = rooms[Random.Range(0, rooms.Count)];
-            var foe = room.CreateAtRandomPosition<Foe>(room.Agents);
-            agents.Add(foe);
-            foeBudget -= foe.Value;
+            var room = GameHelper.LinearRandom(rooms.FindAll(x => !(x is StartingRoom)));
+            var mob = RandomAgent(room);
+            agents.Add(mob);
+            foeBudget -= mob.Value;
         }
     }
     private void AddLoot()
@@ -103,15 +110,23 @@ public class Level
     private void AddResources()
     {
         var types = GameHelper.GetAllSubTypes<Source>();
-        float resourceBudget = rooms.Count;
+        float resourceBudget = rooms.Count * 2;
         while (resourceBudget > 0)
         {
             var choice = GameHelper.LinearRandom(types);
             var room = GameHelper.LinearRandom(rooms);
             var agent = room.CreateAtRandomPosition(choice, agents);
             agents.Add(agent);
-            resourceBudget -= 3;
+            resourceBudget--;
         }
+    }
+    private void AddCraftingStations()
+    {
+        var types = GameHelper.GetAllSubTypes<CraftingStation>();
+        var choice = GameHelper.LinearRandom(types);
+        var room = GameHelper.LinearRandom(rooms);
+        var agent = room.CreateAtRandomPosition(choice, agents);
+        agents.Add(agent);
     }
     private void AddCorridors()
     {//add corridors
@@ -160,6 +175,9 @@ public class Level
                 Vector2Int v = start;
                 agents.Remove(agents.Find(r => r.position == v - door));
                 agents.Remove(agents.Find(r => r.position == v));
+                DisplayManager.Instance.Background(v.x, v.y);
+                DisplayManager.Instance.Background(v.x - door.x, v.y - door.y);
+                
                 agents.Add(new Wall { position = v + new Vector2Int(door.y, -door.x) });
                 agents.Add(new Wall { position = v - new Vector2Int(door.y, -door.x) });
 
@@ -167,10 +185,14 @@ public class Level
                 {
                     var test = agents;
                     agents.Remove(agents.Find(r => r.position == v));
+                    DisplayManager.Instance.Background(v.x, v.y);
                     agents.Add(new Wall { position = v + new Vector2Int(door.y, -door.x) });
                     agents.Add(new Wall { position = v - new Vector2Int(door.y, -door.x) });
                 }
+                agents.Remove(agents.Find(r => r.position == v));
                 agents.Remove(agents.Find(r => r.position == v + door));
+                DisplayManager.Instance.Background(v.x, v.y);
+                DisplayManager.Instance.Background(v.x + door.x, v.y + door.y);
                 agents.Add(new Wall { position = v + new Vector2Int(door.y, -door.x) });
                 agents.Add(new Wall { position = v - new Vector2Int(door.y, -door.x) });
             });

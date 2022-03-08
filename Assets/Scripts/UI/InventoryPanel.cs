@@ -14,6 +14,7 @@ public class InventoryPanel : PanelWrapper
     [SerializeField]
     private GameObject itemMenuElementPrefab;
 
+    private int currentFilter = 0;
     void Start()
     {
         StartCoroutine(HookWhenReady());
@@ -21,12 +22,13 @@ public class InventoryPanel : PanelWrapper
         {
             ActiveStateChanged += Refresh;
             yield return null;
-            PlayerData.Inventory.Changed += Refresh;
+            DataModel.Inventory.Changed += Refresh;
         }
     }
 
     public void Refresh(int value)
     {
+        currentFilter = value;
         string type = dropdown.options[value].text;
         var types = GameHelper.GetAllSubTypes<Item>();
         foreach (Type t in types)
@@ -41,12 +43,18 @@ public class InventoryPanel : PanelWrapper
     }
     public void Refresh()
     {
+        if (currentFilter > 0)
+        {
+            Refresh(currentFilter);
+            return;
+        }
+
         foreach (Transform child in container)
         {
             Destroy(child.gameObject);
         }
 
-        PlayerData.Inventory.ForEachDistinct(item =>
+        DataModel.Inventory.ForEachDistinct(item =>
         {
             var obj = Instantiate(itemMenuElementPrefab, container);
             var comp = obj.GetComponent<ItemMenuElement>();
@@ -60,9 +68,9 @@ public class InventoryPanel : PanelWrapper
             Destroy(child.gameObject);
         }
 
-        PlayerData.Inventory.ForEachDistinct(item =>
+        DataModel.Inventory.ForEachDistinct(item =>
         {
-            if (ItemsCodex.Instance[item].GetType().Name == filter)
+            if (Codex.Items[item].GetType().Name == filter)
             {
                 var obj = Instantiate(itemMenuElementPrefab, container);
                 var comp = obj.GetComponent<ItemMenuElement>();

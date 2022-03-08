@@ -13,7 +13,7 @@ public class InputManager : MonoSingleton<InputManager>
     }
 
     private event VoidAction onAttacked;
-    public static event VoidAction Attacked
+    public static event VoidAction Used
     {
         add => _instance.onAttacked += value;
         remove => _instance.onAttacked -= value;
@@ -40,6 +40,13 @@ public class InputManager : MonoSingleton<InputManager>
         remove => _instance.onInventory -= value;
     }
 
+    private event VoidAction onStats;
+    public static event VoidAction Stats
+    {
+        add => _instance.onStats += value;
+        remove => _instance.onStats -= value;
+    }
+
     public bool Active
     {
         get => controls.Player.enabled;
@@ -60,6 +67,12 @@ public class InputManager : MonoSingleton<InputManager>
         controls.Player.Escape.performed += Escape_performed;
         controls.Player.Inventory.performed += Inventory_performed;
         controls.Player.Equipment.performed += Equipment_performed;
+        controls.Player.Stats.performed += Stats_performed;
+    }
+
+    private void Stats_performed(InputAction.CallbackContext obj)
+    {
+        onStats?.Invoke();
     }
 
     private void Inventory_performed(InputAction.CallbackContext obj)

@@ -6,6 +6,8 @@ using System;
 
 public class Game : CSharpSingleton<Game>
 {
+    private int turn = 0;
+    public static int Turn => _instance.turn;
     #region [properties]
     public static Game Instance => _instance;
 
@@ -91,13 +93,17 @@ public class Game : CSharpSingleton<Game>
 
     public void StartNewGame()
     {
-        PlayerData.Reset();
-        Init(10, true);
+        DataModel.Reset();
+        Init(10);
+        turn = 0;
+        DisplayManager.Instance.Draw();
     }
 
-    public void Init(int size, bool newGame = false)
+    public void Init(int size)
     {
+        DisplayManager.Instance.ResetBackground();
         level = new Level(size);
+        turn = 0;
         level.Generate();
         player = null;
     }

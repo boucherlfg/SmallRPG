@@ -24,12 +24,12 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
     }
 
     #region stats
-    public int Life { get => PlayerData.Life; set => PlayerData.Life = value; }
-    public int Mana { get => PlayerData.Mana; set => PlayerData.Mana = value; }
-    public int Attack { get => PlayerData.Attack; set => PlayerData.Attack = value; }
-    public int Defense { get => PlayerData.Defense; set => PlayerData.Defense = value; }
-    public int Precision { get => PlayerData.Precision; set => PlayerData.Precision = value; }
-    public int Evasion { get => PlayerData.Evasion; set => PlayerData.Evasion = value; }
+    public int Life { get => DataModel.Life; set => DataModel.Life = value; }
+    public int Mana { get => DataModel.Mana; set => DataModel.Mana = value; }
+    public int Attack { get => DataModel.Attack; set => DataModel.Attack = value; }
+    public int Defense { get => DataModel.Defense; set => DataModel.Defense = value; }
+    public int Precision { get => DataModel.Precision; set => DataModel.Precision = value; }
+    public int Evasion { get => DataModel.Evasion; set => DataModel.Evasion = value; }
     #endregion
 
     public State state;
@@ -37,8 +37,8 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
     {
         Orientation = Vector2Int.down;
         state = new WaitState(this);
-
     }
+
 
     public virtual void Update()
     {
@@ -46,12 +46,12 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
         state = state.Update();
     }
 
-    public void End()
+    public virtual void End()
     {
-        if (PlayerData.Life <= 0)
+        if (DataModel.Life <= 0)
         {
             Game.Instance.Create(new Tombstone { position = position });
-            NotifManager.CreateNotification("oh dear! you are dead!");
+            UIManager.Notifications.CreateNotification("oh dear! you are dead!");
             UIManager.GameOver.Active = true;
         }
     }
@@ -89,9 +89,18 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
         public UseState(Player self) : base(self) { }
         public override State Update()
         {
-            if (PlayerData.Equipment.Tool != null)
+            if (DataModel.Equipment.Tool != null)
             {
-                PlayerData.Equipment.Tool.Use();
+                DataModel.Equipment.Tool.Use();
+            }
+            else
+            {
+                var target = Game.Instance.Agents.FindLast(agent => agent is IUsableAgent && agent.position == self.position + self.Orientation);
+                if (target != null)
+                {
+                    (target as IUsableAgent).Use(self);
+                }
+        
             }
             return new WaitState(self);
         }

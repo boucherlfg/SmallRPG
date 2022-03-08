@@ -9,16 +9,23 @@ public class PanelWrapper : MonoBehaviour
     public event OnActiveStateChange ActiveStateChanged;
     public bool Active
     {
-        get => menu.activeSelf;
+        get => menu.activeSelf && menu.transform.GetSiblingIndex() >= menu.transform.parent.childCount - 1;
         set
         {
             menu.SetActive(value);
+            if (menu.activeSelf)
+            {
+                menu.transform.SetAsLastSibling();
+            }
+            else
+            {
+                menu.transform.SetAsFirstSibling();
+            }
             ActiveStateChanged?.Invoke();
         }
     }
     public void Toggle()
     {
         Active = !Active;
-        this.transform.SetAsLastSibling();
     }
 }

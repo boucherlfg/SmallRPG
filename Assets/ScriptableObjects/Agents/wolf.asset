@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29ed373b81e9d78428eb39288455ea4a, type: 3}
+  m_Name: wolf
+  m_EditorClassIdentifier: 
+  visibleName: Wolf
+  statblock:
+    life: 3
+    mana: 0
+    attack: 1
+    defense: 0
+    precision: 2
+    evasion: 3
+  certainLoot:
+  - {fileID: 11400000, guid: 977b0382ff7c3a64493243713ce07f47, type: 2}
+  - {fileID: 11400000, guid: 36b0b3e0341751f47895a581f8349132, type: 2}
+  - {fileID: 11400000, guid: 7f0c189a885505c48830809c0c148068, type: 2}
+  useCodexForPossibleLoot: 0
+  possibleLoot: []

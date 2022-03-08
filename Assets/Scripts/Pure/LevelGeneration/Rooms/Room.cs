@@ -53,6 +53,14 @@ public class Room
             agents.Add(new Wall { position = new Vector2Int(bottomRight.x + position.x * Constraint.x, y + position.y * Constraint.y) });
         }
 
+        for (int x = topLeft.x + 1; x <= bottomRight.x - 1; x++)
+        {
+            for (int y = topLeft.y - 1; y >= bottomRight.y + 1; y--)
+            {
+                DisplayManager.Instance.Background(x + position.x * Constraint.x, y + position.y * Constraint.y);
+            }
+        }
+
         return agents.Distinct().ToList();
     }
     public List<Vector2Int> GetAvailableDirections(List<Room> existingRooms)

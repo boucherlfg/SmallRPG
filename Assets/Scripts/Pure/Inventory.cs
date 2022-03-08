@@ -8,10 +8,14 @@ public class Inventory
     public delegate void OnChange();
     public event OnChange Changed;
 
+    public void Init()
+    {
+        items.Clear();
+        StartingGear.Inventory.ForEach(item => items.Add(item.name));
+    }
     public Inventory()
     {
         items = new List<string>();
-        StartingGear.Inventory.ForEach(item => items.Add(item.name));
     }
 
     public void Add(string item)

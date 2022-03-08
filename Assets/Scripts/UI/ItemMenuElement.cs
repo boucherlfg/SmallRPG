@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemMenuElement : MonoBehaviour
 {
@@ -10,12 +11,15 @@ public class ItemMenuElement : MonoBehaviour
         get => item.name;
         set
         {
-            item = ItemsCodex.Instance[value];
-            label.text = $"{PlayerData.Inventory.HowMany(value)} x {item.visibleName}";
+            item = Codex.Items[value];
+            image.sprite = item.sprite;
+            label.text = $"{DataModel.Inventory.HowMany(value)} x {item.visibleName}";
         }
     }
     private Item item;
     private InventoryPanel inventoryPanel;
+    [SerializeField]
+    private Image image;
     [SerializeField]
     private TMP_Text label;
     void Start()
@@ -24,7 +28,9 @@ public class ItemMenuElement : MonoBehaviour
     }
     public void Drop()
     {
-        PlayerData.Inventory.Delete(item.name);
+        DataModel.Inventory.Delete(item.name);
+        var floorItem = new FloorItem(item) { position = Game.Instance.Player.position };
+        Game.Instance.Create(floorItem);
     }
     public void Use()
     {

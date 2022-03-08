@@ -3,20 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-    [Serializable]
-    public struct TileWithTag
-    {
-        public string tag;
-        public Tile tile;
-    }
-
 class DisplayManager : MonoSingleton<DisplayManager>
 {
-    public Tile this[string tag] => tilePerType.Exists(x => x.tag == tag) ? tilePerType.Find(x => x.tag == tag).tile : null;
+    public Tile this[string tag] => tilePerType.Find(x => x.name == tag);
     [SerializeField]
-    private List<TileWithTag> tilePerType;
+    private List<Tile> tilePerType;
     [SerializeField]
     private Tilemap tilemap;
+    [SerializeField]
+    private Tilemap background;
+    [SerializeField]
+    private Tile floorTile;
     private void Clear()
     {
         tilemap.ClearAllTiles();
@@ -30,6 +27,12 @@ class DisplayManager : MonoSingleton<DisplayManager>
             var tile = (agent as IDrawable).CurrentTile;
             tilemap.SetTile(pos, tile);
         });
+    }
+
+    public void ResetBackground() => background.ClearAllTiles();
+    public void Background(int x, int y)
+    {
+        background.SetTile(new Vector3Int(x, y, 0), floorTile);
     }
 
     public static DisplayManager Instance => _instance;

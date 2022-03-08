@@ -7,16 +7,29 @@ public class Controller : MonoBehaviour
     int level = 1;
     const float updateTime = 0.1f;
     const float level_expansion = 1.25f;
-    public void Start()
+    public void StartGame()
     {
-        NotifManager.CreateNotification("welcome to level " + level);
+        UIManager.Notifications.CreateNotification("welcome to level " + level);
         Game.Instance.StartNewGame();
         DisplayManager.Instance.Draw();
         InputManager.Moved += InputManager_Moved;
-        InputManager.Attacked += InputManager_Attacked;
+        InputManager.Used += InputManager_Used;
+
+        //menus
         InputManager.Equipment += InputManager_Equipment;
         InputManager.Inventory += InputManager_Inventory;
+        InputManager.Stats += InputManager_Stats;
+        InputManager.Escaped += InputManager_Escaped;
+    }
 
+    private void InputManager_Escaped()
+    {
+        UIManager.Pause.Toggle();
+    }
+
+    private void InputManager_Stats()
+    {
+        UIManager.Stats.Toggle();
     }
 
     private void InputManager_Inventory()
@@ -29,13 +42,13 @@ public class Controller : MonoBehaviour
         UIManager.Equipment.Toggle();
     }
 
-    IEnumerator UpdateEvery()
+    IEnumerator UpdateAndWait()
     {
         Game.Instance.Update();
         if (Game.Instance.Player.state is Player.ExitState)
         {
             level++;
-            NotifManager.CreateNotification("welcome to level " + level);
+            UIManager.Notifications.CreateNotification("welcome to level " + level);
             int newSize = (int)(Game.Instance.Rooms.Count * level_expansion);
             Game.Instance.Init(newSize);
             Game.Instance.Update();
@@ -43,7 +56,6 @@ public class Controller : MonoBehaviour
         DisplayManager.Instance.Draw();
         yield return new WaitForSeconds(updateTime);
         update = null;
-        
     }
     private Coroutine update;
     private void InputManager_Moved(Vector2Int orientation)
@@ -53,20 +65,20 @@ public class Controller : MonoBehaviour
         //NotifManager.CreateNotification("you moved");
         Game.Instance.Player.Orientation = orientation;
         Game.Instance.Player.state = new Player.MoveState(Game.Instance.Player);
-        update = StartCoroutine(UpdateEvery());
+        update = StartCoroutine(UpdateAndWait());
     }
-    private void InputManager_Attacked()
+    private void InputManager_Used()
     {
         if (update != null) return;
         //NotifManager.CreateNotification("you attacked");
         Game.Instance.Player.state = new Player.UseState(Game.Instance.Player);
-        update = StartCoroutine(UpdateEvery());
+        update = StartCoroutine(UpdateAndWait());
     }
     private void Inputm()
     {
         if (update != null) return;
         //NotifManager.CreateNotification("you waited");
         Game.Instance.Player.state = new Player.WaitState(Game.Instance.Player);
-        update = StartCoroutine(UpdateEvery());
+        update = StartCoroutine(UpdateAndWait());
     }
 }

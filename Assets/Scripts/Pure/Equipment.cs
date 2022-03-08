@@ -5,11 +5,15 @@ public class Equipment
     public delegate void OnChange();
     public event OnChange onChanged;
 
+    public void Init()
+    {
+        equipment.Clear();
+        StartingGear.Equipment.ForEach(e => equipment[e.equipType] = e.name);
+        tool = StartingGear.Tool;
+    }
     public Equipment()
     {
         equipment = new Dictionary<EquipType, string>();
-        StartingGear.Equipment.ForEach(e => equipment[e.equipType] = e.name);
-        tool = StartingGear.Tool;
     }
     public string this[EquipType type]
     {
@@ -32,8 +36,8 @@ public class Equipment
         get => tool;
         set
         {
-            if(tool != null) PlayerData.Inventory.Add(tool.name);
-            if(value != null) PlayerData.Inventory.Delete(value.name);
+            if(tool != null) DataModel.Inventory.Add(tool.name);
+            if(value != null) DataModel.Inventory.Delete(value.name);
             
             tool = value;
             onChanged?.Invoke();
@@ -52,7 +56,7 @@ public class Equipment
             precision = 0,
             evasion = 0
         };
-        return (ItemsCodex.Instance[item] as Equipable).buff;
+        return (Codex.Items[item] as Equipable).buff;
     }
     public StatBlock TotalBonus
     {
@@ -75,14 +79,14 @@ public class Equipment
         Unequip(type);
         this[type] = equipment;
 
-        PlayerData.Inventory.Delete(this[type]);
+        DataModel.Inventory.Delete(this[type]);
         onChanged?.Invoke();
     }
     public void Unequip(EquipType type)
     {
         if (this[type] != null)
         {
-            PlayerData.Inventory.Add(this[type]);
+            DataModel.Inventory.Add(this[type]);
         }
         equipment[type] = null;
         onChanged?.Invoke();
