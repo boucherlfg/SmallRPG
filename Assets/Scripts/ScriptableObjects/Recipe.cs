@@ -9,6 +9,7 @@ public enum CraftingType
     Bench = 1,
     Anvil = 2,
     Hand = 3,
+    Alchemy = 4,
 }
 [CreateAssetMenu(menuName = "Felix/Recipe")]
 public class Recipe : ScriptableObject

@@ -1,0 +1,5 @@
+how to add a new agent
+- create the agent as pure c# class (inheriting the Agent class or one of its subclasses)
+- if you want it to be displayed
+	- add the IDrawable interface
+	- the DisplayManager is a facility for holding Tiles for the IDrawable interface

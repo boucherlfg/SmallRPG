@@ -15,7 +15,7 @@ MonoBehaviour:
   visibleName: Iron sword
   sprite: {fileID: -4184117239326914467, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
-  value: 4
+  value: 8
   useType: 1
   stats:
     life: 0

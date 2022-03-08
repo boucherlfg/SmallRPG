@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Controller : MonoBehaviour
@@ -24,7 +25,15 @@ public class Controller : MonoBehaviour
 
     private void InputManager_Escaped()
     {
-        UIManager.Pause.Toggle();
+        var activePanel = UIManager.Panels.FirstOrDefault(x => !(x is PausePanel) && x.Active);
+        if (activePanel)
+        {
+            activePanel.Toggle();
+        }
+        else
+        {
+            UIManager.Pause.Toggle();
+        }
     }
 
     private void InputManager_Stats()

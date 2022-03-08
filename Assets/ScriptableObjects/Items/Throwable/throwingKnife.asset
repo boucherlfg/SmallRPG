@@ -9,18 +9,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95d31c9b461da4f4b945edf6cc95b54e, type: 3}
-  m_Name: ironTop
+  m_Script: {fileID: 11500000, guid: c40f4144b36660b40a253b31d21b54e6, type: 3}
+  m_Name: throwingKnife
   m_EditorClassIdentifier: 
-  visibleName: Iron body
-  sprite: {fileID: -2974297893697859306, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
+  visibleName: Poison knife
+  sprite: {fileID: 998144437415630953, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
-  value: 16
-  equipType: 1
-  buff:
+  value: 2
+  heal:
+    life: -2
+    mana: 0
+    attack: 0
+    defense: 0
+    precision: 0
+    evasion: 0
+  regen:
     life: 0
     mana: 0
     attack: 0
-    defense: 8
+    defense: 0
     precision: 0
     evasion: 0
+  duration: 5

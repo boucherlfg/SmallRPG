@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoSingleton<UIManager>
 {
+    public static PanelWrapper[] Panels => _instance.GetComponentsInChildren<PanelWrapper>();
     [SerializeField]
     private PausePanel pause;
     public static PausePanel Pause => _instance.pause;
