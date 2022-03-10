@@ -3,7 +3,7 @@
 public class TreeSource : Source
 {
     const string tree_tag = "tree";
-    public TreeSource() : base(ResourceType.Wood)
+    public TreeSource() : base(SourceType.Woodcutting)
     {
         possibleItems.Add(Codex.Items["roots"]);
     }
@@ -12,5 +12,5 @@ public class TreeSource : Source
 
     public override Tile CurrentTile => DisplayManager.Instance[tree_tag];
 
-    public override string Name => "wood source";
+    public override string Name => "wood";
 }

@@ -23,6 +23,7 @@ public class FloorItem : Agent, IUsableAgent, IDrawable
     }
     private void Pickup()
     {
+        AudioManager.PlayAsSound("equip");
         DataModel.Inventory.Add(reference.name);
         UIManager.Notifications.CreateNotification("you just found " + reference.visibleName);
         Game.Instance.Destroy(this);

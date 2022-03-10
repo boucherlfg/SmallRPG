@@ -11,7 +11,8 @@ public abstract class CraftingStation : Agent, IUsableAgent, IDrawable, ICollisi
     public Tile CurrentTile => DisplayManager.Instance[Crafting_Tag];
     public void Use(Player user)
     {
-        UIManager.Crafting.Active = true;
+        if (UIManager.Crafting.Active) UIManager.Crafting.Active = false;
+        UIManager.Crafting.Toggle();
         UIManager.Crafting.CraftingType = craftingType;
     }
 }

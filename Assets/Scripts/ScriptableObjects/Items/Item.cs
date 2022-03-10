@@ -9,11 +9,13 @@ public abstract class Item : ScriptableObject
 
     public virtual void Equip()
     {
-        UIManager.Notifications.CreateNotification("you are now using " + visibleName);
+        AudioManager.PlayAsSound("equip");
+        UIManager.Notifications.CreateNotification("you have just equiped " + visibleName);
         DataModel.Equipment.Tool = this;
     }
     public virtual void Unequip()
     {
+        AudioManager.PlayAsSound("equip");
         UIManager.Notifications.CreateNotification("you are now empty handed");
         DataModel.Equipment.Tool = null;
     }

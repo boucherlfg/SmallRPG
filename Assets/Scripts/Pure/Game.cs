@@ -6,8 +6,11 @@ using System;
 
 public class Game : CSharpSingleton<Game>
 {
+    int levelNumber = 1;
+    const float level_expansion = 1.25f;
     private int turn = 0;
     public static int Turn => _instance.turn;
+    public static event VoidAction OnTurn;
     #region [properties]
     public static Game Instance => _instance;
 
@@ -58,9 +61,10 @@ public class Game : CSharpSingleton<Game>
 
     public void Update()
     {
+        OnTurn?.Invoke();
         Agents.FindAll(agent => agent is IUpdatable).ForEach(agent =>
         {
-            if(agent is IUpdatable) (agent as IUpdatable).Update();
+            (agent as IUpdatable).Update();
             if (agent is IMovable)
             {
                 ApplyTrigger(agent);
@@ -79,8 +83,6 @@ public class Game : CSharpSingleton<Game>
         toDestroy.Clear();
         toCreate.ForEach(a => Agents.Add(a));
         toCreate.Clear();
-
-
     }
     public void Create(Agent agent)
     {
@@ -93,10 +95,18 @@ public class Game : CSharpSingleton<Game>
 
     public void StartNewGame()
     {
+        AudioManager.PlayAsMusic("theme_song");
         DataModel.Reset();
         Init(10);
         turn = 0;
         DisplayManager.Instance.Draw();
+    }
+    public void NextLevel()
+    {
+        levelNumber++;
+        UIManager.Notifications.CreateNotification("welcome to level " + levelNumber);
+        int newSize = (int)(Rooms.Count * level_expansion);
+        Init(newSize);
     }
 
     public void Init(int size)
@@ -105,6 +115,9 @@ public class Game : CSharpSingleton<Game>
         level = new Level(size);
         turn = 0;
         level.Generate();
+        level.Ground.ForEach(x => DisplayManager.Instance.Background(x.x, x.y));
+        MinimapScript.Instance.UpdateMinimap();
+
         player = null;
     }
 }

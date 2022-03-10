@@ -3,11 +3,10 @@ using static Player;
 
 public enum UseType
 {
-    Attack = 1,
-    Mining = 2,
-    Woodcutting = 4,
-    Harvesting = 8,
-    Loot = 16,
+    Mining = 1,
+    Woodcutting = 2,
+    Harvesting = 4,
+    Loot = 8,
 }
 [CreateAssetMenu(menuName = "Felix/Items/Tool")]
 public class Tool : Item

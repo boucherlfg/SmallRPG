@@ -21,4 +21,18 @@ public struct StatBlock
             evasion = a.evasion + b.evasion
         };
     }
+    public static StatBlock operator -(StatBlock a, StatBlock b) => a + -b;
+    public static StatBlock operator -(StatBlock a) => -1 * a;
+    public static StatBlock operator *(float k, StatBlock b)
+    {
+        return new StatBlock()
+        {
+            life = b.life * k,
+            mana = b.mana * k,
+            attack = b.attack * k,
+            defense = b.defense * k,
+            precision = b.precision * k,
+            evasion = b.evasion * k,
+        };
+    }
 }

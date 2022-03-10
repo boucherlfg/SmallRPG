@@ -3,11 +3,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Loot : Agent, IDrawable, ICollision, IUsableAgent
+public class Loot : Agent, IDrawable, ICollision, IUsableAgent, IEndable
 {
     public List<string> loot;
     const string loot_tag = "loot";
     private bool locked;
+    private bool broke;
     public Loot()
     {
         loot = new List<string>();
@@ -27,26 +28,12 @@ public class Loot : Agent, IDrawable, ICollision, IUsableAgent
         {
             UIManager.Notifications.CreateNotification("this loot is locked");
             var tool = DataModel.Equipment.Tool;
-            if (tool == null || !(tool is Tool) || !(UseType.Attack | UseType.Loot).HasFlag((tool as Tool).useType))
+            if (tool == null || !(tool is Tool) || !UseType.Loot.HasFlag((tool as Tool).useType))
             {
                 UIManager.Notifications.CreateNotification("You would need a key.");
                 return;
             }
 
-            //at this point, tool is not null, and it is a tool. either an attack or loot type.
-
-            if((tool as Tool).useType == UseType.Attack) 
-            {
-                UIManager.Notifications.CreateNotification("You try to gently force it...");
-                float precision = DataModel.Precision + DataModel.Equipment.TotalBonus.precision;
-                var success = precision != 0 && Random.value < (precision - 1) / precision;
-                if (!success)
-                {
-                    UIManager.Notifications.CreateNotification("but it breaks, and all loot with it...");
-                    Game.Instance.Destroy(this);
-                    return;
-                }
-            }
             var recharge = DataModel.Inventory.HowMany(DataModel.Equipment.Tool.name) > 0 ? DataModel.Equipment.Tool : null;
             DataModel.Equipment.ConsumeTool();
             DataModel.Equipment.Tool = recharge;
@@ -72,5 +59,10 @@ public class Loot : Agent, IDrawable, ICollision, IUsableAgent
         }
 
         Game.Instance.Destroy(this);
+    }
+
+    public void End()
+    {
+        AudioManager.PlayAsSound(broke ? "empty" : "loot");
     }
 }

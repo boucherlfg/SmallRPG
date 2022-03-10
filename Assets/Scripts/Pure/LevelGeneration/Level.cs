@@ -4,11 +4,13 @@ using System.Linq;
 
 public class Level
 {
+    public List<Vector2Int> Ground => ground;
     public List<Agent> Agents => agents;
     public List<Room> Rooms => rooms;
 
     protected List<Agent> agents;
     protected List<Room> rooms;
+    protected List<Vector2Int> ground;
 
     public Level(int size)
     {
@@ -47,6 +49,7 @@ public class Level
 
     public void Generate()
     {
+        ground = new List<Vector2Int>();
         agents = new List<Agent>();
         AddWallsAndStartEnd();
         AddCorridors();
@@ -62,6 +65,7 @@ public class Level
         rooms.ForEach(room =>
         {
             agents.AddRange(room.Generate());
+            ground.AddRange(room.Ground);
         });
         //walls may have overlapped, so we delete the twins
         agents = agents.Distinct(new AgentComparer()).ToList();
@@ -75,13 +79,14 @@ public class Level
         room = rooms.Find(x => x is EndRoom);
         agent = room.CreateAtRandomPosition<Exit>(Agents);
         agents.Add(agent);
+        
     }
     private void AddFoes()
     {
         Mob RandomAgent(Room room)
         {
             var types = GameHelper.GetAllSubTypes<Mob>();
-            var type = GameHelper.DistributedRandom(types);
+            var type = GameHelper.LinearRandom(types);
             return room.CreateAtRandomPosition(type, room.Agents) as Mob;
         }
         float foeBudget = rooms.Count;
@@ -129,7 +134,7 @@ public class Level
         agents.Add(agent);
     }
     private void AddCorridors()
-    {//add corridors
+    {
         var doneRooms = new List<Room>();
         rooms.ForEach(room =>
         {
@@ -175,24 +180,28 @@ public class Level
                 Vector2Int v = start;
                 agents.Remove(agents.Find(r => r.position == v - door));
                 agents.Remove(agents.Find(r => r.position == v));
-                DisplayManager.Instance.Background(v.x, v.y);
-                DisplayManager.Instance.Background(v.x - door.x, v.y - door.y);
+
+                ground.Add(new Vector2Int(v.x, v.y));
+                ground.Add(new Vector2Int(v.x - door.x, v.y - door.y));
                 
                 agents.Add(new Wall { position = v + new Vector2Int(door.y, -door.x) });
                 agents.Add(new Wall { position = v - new Vector2Int(door.y, -door.x) });
 
                 for (; !agents.Exists(r => r.position == v + door); v += door)
                 {
-                    var test = agents;
                     agents.Remove(agents.Find(r => r.position == v));
-                    DisplayManager.Instance.Background(v.x, v.y);
+
+                    ground.Add(new Vector2Int(v.x, v.y));
+
                     agents.Add(new Wall { position = v + new Vector2Int(door.y, -door.x) });
                     agents.Add(new Wall { position = v - new Vector2Int(door.y, -door.x) });
                 }
                 agents.Remove(agents.Find(r => r.position == v));
                 agents.Remove(agents.Find(r => r.position == v + door));
-                DisplayManager.Instance.Background(v.x, v.y);
-                DisplayManager.Instance.Background(v.x + door.x, v.y + door.y);
+
+                ground.Add(new Vector2Int(v.x, v.y));
+                ground.Add(new Vector2Int(v.x + door.x, v.y + door.y));
+
                 agents.Add(new Wall { position = v + new Vector2Int(door.y, -door.x) });
                 agents.Add(new Wall { position = v - new Vector2Int(door.y, -door.x) });
             });

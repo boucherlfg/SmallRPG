@@ -15,9 +15,9 @@ public class StatDisplay : MonoBehaviour
         IEnumerator HookAfter()
         {
             yield return null;
-            DataModel.Changed += () => text = $"life : {DataModel.Life}";
+            DataModel.Changed += () => text = $"life : {DataModel.StatBlock.life}";
         }
-        text = $"life : {DataModel.Life}";
+        text = $"life : {DataModel.StatBlock.life}";
     }
 
     private void Update()

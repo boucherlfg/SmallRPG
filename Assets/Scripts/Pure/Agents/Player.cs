@@ -24,12 +24,16 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
     }
 
     #region stats
-    public int Life { get => DataModel.Life; set => DataModel.Life = value; }
-    public int Mana { get => DataModel.Mana; set => DataModel.Mana = value; }
-    public int Attack { get => DataModel.Attack; set => DataModel.Attack = value; }
-    public int Defense { get => DataModel.Defense; set => DataModel.Defense = value; }
-    public int Precision { get => DataModel.Precision; set => DataModel.Precision = value; }
-    public int Evasion { get => DataModel.Evasion; set => DataModel.Evasion = value; }
+    public StatBlock Stats 
+    { 
+        get => DataModel.StatBlock;
+        set
+        {
+            DataModel.StatBlock = value;
+
+            if (DataModel.StatBlock.life <= 0) Game.Instance.Destroy(this);
+        }
+    }
     #endregion
 
     public State state;
@@ -48,11 +52,12 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
 
     public virtual void End()
     {
-        if (DataModel.Life <= 0)
+        if (DataModel.StatBlock.life <= 0)
         {
             Game.Instance.Create(new Tombstone { position = position });
             UIManager.Notifications.CreateNotification("oh dear! you are dead!");
             UIManager.GameOver.Active = true;
+            AudioManager.PlayAsMusic("end_song");
         }
     }
 
@@ -81,6 +86,12 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
         public override State Update()
         {
             self.position += self.Orientation;
+            var room = Game.Instance.Level.Rooms.Find(x => x.Ground.Contains(self.position));
+            if (room != null)
+            {
+                room.discovered = true;
+                MinimapScript.Instance.UpdateMinimap();
+            }
             return new WaitState(self);
         }
     }
@@ -93,14 +104,18 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
             {
                 DataModel.Equipment.Tool.Use();
             }
-            else
+            return new WaitState(self);
+        }
+    }
+    public class AttackState : State
+    {
+        public AttackState(Player self) : base(self) { }
+        public override State Update()
+        {
+            var target = Game.Instance.Agents.FindLast(agent => agent is IUsableAgent && agent.position == self.position + self.Orientation);
+            if (target != null)
             {
-                var target = Game.Instance.Agents.FindLast(agent => agent is IUsableAgent && agent.position == self.position + self.Orientation);
-                if (target != null)
-                {
-                    (target as IUsableAgent).Use(self);
-                }
-        
+                (target as IUsableAgent).Use(self);
             }
             return new WaitState(self);
         }

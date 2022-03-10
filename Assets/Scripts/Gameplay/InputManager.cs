@@ -12,8 +12,15 @@ public class InputManager : MonoSingleton<InputManager>
         remove => _instance.onMoved -= value;
     }
 
-    private event VoidAction onAttacked;
+    private event VoidAction onUsed;
     public static event VoidAction Used
+    {
+        add => _instance.onUsed += value;
+        remove => _instance.onUsed -= value;
+    }
+
+    private event VoidAction onAttacked;
+    public static event VoidAction Attacked
     {
         add => _instance.onAttacked += value;
         remove => _instance.onAttacked -= value;
@@ -47,13 +54,13 @@ public class InputManager : MonoSingleton<InputManager>
         remove => _instance.onStats -= value;
     }
 
-    public bool Active
+    public static bool Active
     {
-        get => controls.Player.enabled;
+        get => _instance.controls.Player.enabled;
         set
         {
-            if (value) controls.Player.Disable();
-            else controls.Player.Enable();
+            if (value) _instance.controls.Player.Enable();
+            else _instance.controls.Player.Disable();
         }
     }
     private Controls controls;
@@ -68,6 +75,12 @@ public class InputManager : MonoSingleton<InputManager>
         controls.Player.Inventory.performed += Inventory_performed;
         controls.Player.Equipment.performed += Equipment_performed;
         controls.Player.Stats.performed += Stats_performed;
+        controls.Player.Use.performed += Use_performed;
+    }
+
+    private void Use_performed(InputAction.CallbackContext obj)
+    {
+        onUsed?.Invoke();
     }
 
     private void Stats_performed(InputAction.CallbackContext obj)

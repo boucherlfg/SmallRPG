@@ -80,6 +80,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use"",
+                    ""type"": ""Button"",
+                    ""id"": ""e1740466-d767-4609-b30a-f0d4c00af764"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -269,6 +278,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Stats"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9aa79370-d533-4098-b83c-39c862ae6425"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Use"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -283,6 +303,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_Equipment = m_Player.FindAction("Equipment", throwIfNotFound: true);
         m_Player_Stats = m_Player.FindAction("Stats", throwIfNotFound: true);
+        m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -348,6 +369,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_Equipment;
     private readonly InputAction m_Player_Stats;
+    private readonly InputAction m_Player_Use;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -358,6 +380,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @Equipment => m_Wrapper.m_Player_Equipment;
         public InputAction @Stats => m_Wrapper.m_Player_Stats;
+        public InputAction @Use => m_Wrapper.m_Player_Use;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -385,6 +408,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Stats.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStats;
                 @Stats.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStats;
                 @Stats.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStats;
+                @Use.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
+                @Use.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
+                @Use.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -407,6 +433,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Stats.started += instance.OnStats;
                 @Stats.performed += instance.OnStats;
                 @Stats.canceled += instance.OnStats;
+                @Use.started += instance.OnUse;
+                @Use.performed += instance.OnUse;
+                @Use.canceled += instance.OnUse;
             }
         }
     }
@@ -419,5 +448,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnInventory(InputAction.CallbackContext context);
         void OnEquipment(InputAction.CallbackContext context);
         void OnStats(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
     }
 }

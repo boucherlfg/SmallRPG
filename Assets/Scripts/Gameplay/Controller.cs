@@ -1,26 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Controller : MonoBehaviour
 {
-    int level = 1;
     const float updateTime = 0.1f;
-    const float level_expansion = 1.25f;
+    private bool paused = true;
     public void StartGame()
     {
-        UIManager.Notifications.CreateNotification("welcome to level " + level);
-        Game.Instance.StartNewGame();
-        DisplayManager.Instance.Draw();
         InputManager.Moved += InputManager_Moved;
+        InputManager.Attacked += InputManager_Attacked;
         InputManager.Used += InputManager_Used;
-
         //menus
         InputManager.Equipment += InputManager_Equipment;
         InputManager.Inventory += InputManager_Inventory;
         InputManager.Stats += InputManager_Stats;
         InputManager.Escaped += InputManager_Escaped;
+        PanelWrapper.AnyActiveStateChanged += PanelWrapper_AnyActiveStateChanged;
+
+
+        Game.Instance.StartNewGame();
+        DisplayManager.Instance.Draw();
+    }
+
+
+    private void PanelWrapper_AnyActiveStateChanged()
+    {
+        paused = UIManager.Panels.Any(x =>
+        {
+            return x.Active;
+        });
     }
 
     private void InputManager_Escaped()
@@ -56,11 +68,7 @@ public class Controller : MonoBehaviour
         Game.Instance.Update();
         if (Game.Instance.Player.state is Player.ExitState)
         {
-            level++;
-            UIManager.Notifications.CreateNotification("welcome to level " + level);
-            int newSize = (int)(Game.Instance.Rooms.Count * level_expansion);
-            Game.Instance.Init(newSize);
-            Game.Instance.Update();
+            Game.Instance.NextLevel();
         }
         DisplayManager.Instance.Draw();
         yield return new WaitForSeconds(updateTime);
@@ -69,25 +77,25 @@ public class Controller : MonoBehaviour
     private Coroutine update;
     private void InputManager_Moved(Vector2Int orientation)
     {
-        
+        if (paused) return;
         if (update != null) return;
-        //NotifManager.CreateNotification("you moved");
         Game.Instance.Player.Orientation = orientation;
         Game.Instance.Player.state = new Player.MoveState(Game.Instance.Player);
         update = StartCoroutine(UpdateAndWait());
     }
     private void InputManager_Used()
     {
+        if (paused) return;
         if (update != null) return;
-        //NotifManager.CreateNotification("you attacked");
         Game.Instance.Player.state = new Player.UseState(Game.Instance.Player);
         update = StartCoroutine(UpdateAndWait());
     }
-    private void Inputm()
+
+    private void InputManager_Attacked()
     {
+        if (paused) return;
         if (update != null) return;
-        //NotifManager.CreateNotification("you waited");
-        Game.Instance.Player.state = new Player.WaitState(Game.Instance.Player);
+        Game.Instance.Player.state = new Player.AttackState(Game.Instance.Player);
         update = StartCoroutine(UpdateAndWait());
     }
 }

@@ -6,7 +6,8 @@ public enum EquipType
     Body = 1,
     Leg = 2,
     Necklace = 3,
-    Ring = 4
+    Ring = 4, 
+    Weapon = 5,
 }
 [CreateAssetMenu(menuName = "Felix/Items/Equipment")]
 public class Equipable : Item
@@ -15,11 +16,13 @@ public class Equipable : Item
     public StatBlock buff;
     public override void Equip()
     {
+        AudioManager.PlayAsSound("equip");
         DataModel.Equipment.Equip(name, equipType);
         UIManager.Notifications.CreateNotification("you equiped " + visibleName);
     }
     public override void Unequip()
     {
+        AudioManager.PlayAsSound("equip");
         DataModel.Equipment.Unequip(equipType);
         UIManager.Notifications.CreateNotification("you unequiped " + visibleName);
     }

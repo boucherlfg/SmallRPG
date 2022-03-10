@@ -15,4 +15,4 @@ MonoBehaviour:
   visibleName: Broken hero sword
   sprite: {fileID: 4964851560782374217, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
-  value: 1
+  value: 2

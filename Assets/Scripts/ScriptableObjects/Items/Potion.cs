@@ -3,9 +3,15 @@
 [CreateAssetMenu(menuName = "Felix/Items/Potion")]
 class Potion : Consumable
 {
+    public override void Equip()
+    {
+        base.Equip();
+    }
     public override void Consume()
     {
-        Game.Instance.Create(new ActiveEffect(this, Game.Instance.Player));
+        var buff = new Buff(() => Game.Instance.Player, heal, regen, resolve, duration);
+        DataModel.ActiveBuffs.Add(buff);
         UIManager.Notifications.CreateNotification($"you just drank {visibleName}.");
+        AudioManager.PlayAsSound("potion");
     }
 }

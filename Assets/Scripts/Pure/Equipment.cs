@@ -2,18 +2,21 @@
 
 public class Equipment
 {
+    private List<Buff> buffs;
     public delegate void OnChange();
     public event OnChange onChanged;
 
     public void Init()
     {
         equipment.Clear();
-        StartingGear.Equipment.ForEach(e => equipment[e.equipType] = e.name);
-        tool = StartingGear.Tool;
+        buffs.Clear();
+        StartingGear.Equipment.ForEach(e => Equip(e.name, e.equipType));
+        Tool = StartingGear.Tool;
     }
     public Equipment()
     {
         equipment = new Dictionary<EquipType, string>();
+        buffs = new List<Buff>();
     }
     public string this[EquipType type]
     {
@@ -58,32 +61,18 @@ public class Equipment
         };
         return (Codex.Items[item] as Equipable).buff;
     }
-    public StatBlock TotalBonus
-    {
-        get
-        {
-            StatBlock stat = new StatBlock();
-            foreach (EquipType eq in System.Enum.GetValues(typeof(EquipType)))
-            {
-                stat += GetBuff(eq);
-            }
-            if (tool != null && tool is Tool)
-            {
-                stat += (tool as Tool).stats;
-            }
-            return stat;
-        }
-    }
     public void Equip(string equipment, EquipType type)
     {
         Unequip(type);
         this[type] = equipment;
 
         DataModel.Inventory.Delete(this[type]);
+        DataModel.StatBlock += GetBuff(type);
         onChanged?.Invoke();
     }
     public void Unequip(EquipType type)
     {
+        DataModel.StatBlock -= GetBuff(type);
         if (this[type] != null)
         {
             DataModel.Inventory.Add(this[type]);

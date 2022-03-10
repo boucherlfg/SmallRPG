@@ -31,4 +31,12 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField]
     private CraftingPanel crafting;
     public static CraftingPanel Crafting => _instance.crafting;
+
+    [SerializeField]
+    private CreditsPanel credits;
+    public static CreditsPanel Credits => _instance.credits;
+
+    [SerializeField]
+    private SettingsPanel settings;
+    public static SettingsPanel Settings => _instance.settings;
 }

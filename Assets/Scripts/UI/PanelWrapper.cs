@@ -2,8 +2,9 @@
 
 public class PanelWrapper : MonoBehaviour
 {
+    public static event VoidAction AnyActiveStateChanged;
     [SerializeField]
-    private GameObject menu;
+    protected GameObject menu;
 
     public delegate void OnActiveStateChange();
     public event OnActiveStateChange ActiveStateChanged;
@@ -22,10 +23,17 @@ public class PanelWrapper : MonoBehaviour
                 menu.transform.SetAsFirstSibling();
             }
             ActiveStateChanged?.Invoke();
+            AnyActiveStateChanged?.Invoke();
         }
     }
     public void Toggle()
     {
         Active = !Active;
+        UISound();
+    }
+    private void UISound()
+    {
+        string tag = Active ? "openMenu" : "closeMenu";
+        AudioManager.PlayAsSound(tag);
     }
 }

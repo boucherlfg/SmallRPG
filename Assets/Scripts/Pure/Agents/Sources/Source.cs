@@ -5,16 +5,24 @@ using UnityEngine.Tilemaps;
 
 public abstract class Source : Agent, IUsableAgent, IDrawable, ICollision
 {
+    public enum SourceType
+    {
+        Crafting = -1,
+        Mining = 0,
+        Woodcutting = 1,
+        Foraging = 2,
+        Hunting = 3,
+    }
     public int life;
-    public ResourceType type;
+    public SourceType sourceType;
     public List<Item> possibleItems;
     public bool harvested;
 
-    public Source(ResourceType type)
+    public Source(SourceType type)
     {
-        this.type = type;
+        this.sourceType = type;
         var items = Codex.Items.FindAll(item => item is Resource);
-        items = items.FindAll(item => type.HasFlag((item as Resource).type));
+        items = items.FindAll(item => type == (item as Resource).type);
         possibleItems = items.OrderBy(x => x.value).ToList();
         life = GameHelper.DistributedRandom(3, 10);
     }
@@ -36,14 +44,19 @@ public abstract class Source : Agent, IUsableAgent, IDrawable, ICollision
         if (possibleItems.Count > 0 && Random.value < 0.5)
         {
             harvested = true;
-            var item = GameHelper.DistributedRandom(possibleItems);
+            var item = GameHelper.DistributedRandom(possibleItems.OrderBy(x => x.value));
             DataModel.Inventory.Add(item.name);
             UIManager.Notifications.CreateNotification("and you find " + item.visibleName);
         }
-        if (life > 0) return;
+
+        if (life > 0)
+        {
+            AudioManager.PlayAsSound(Name, 0.2f);
+            return;
+        }
 
         UIManager.Notifications.CreateNotification($"You have completely harvested {Name}");
-
+        AudioManager.PlayAsSound("empty");
         if (!harvested)
         {
             UIManager.Notifications.CreateNotification("you turned out empty handed.");

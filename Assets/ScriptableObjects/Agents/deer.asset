@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ed373b81e9d78428eb39288455ea4a, type: 3}
   m_Name: deer
   m_EditorClassIdentifier: 
-  visibleName: Wolf
+  visibleName: Deer
+  agentType: 2
   statblock:
     life: 3
     mana: 0
@@ -20,6 +21,8 @@ MonoBehaviour:
     defense: 0
     precision: 1
     evasion: 2
+  tile: {fileID: 11400000, guid: 8ba6d77ff30a8aa4887d6cec16dd2cc4, type: 2}
+  value: 3
   certainLoot:
   - {fileID: 11400000, guid: 977b0382ff7c3a64493243713ce07f47, type: 2}
   - {fileID: 11400000, guid: 36b0b3e0341751f47895a581f8349132, type: 2}

@@ -20,7 +20,7 @@ public class StatsPanel : PanelWrapper
     private StatBlock statBlock;
     void Start()
     {
-        ActiveStateChanged += () => StatBlock = DataModel.StatBlock + DataModel.Equipment.TotalBonus;
+        ActiveStateChanged += () => StatBlock = DataModel.StatBlock;
     }
     public StatBlock StatBlock
     {

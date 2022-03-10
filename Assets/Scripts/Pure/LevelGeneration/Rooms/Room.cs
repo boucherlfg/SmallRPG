@@ -19,6 +19,9 @@ public class Room
 
     private List<Agent> agents;
     public List<Agent> Agents => agents;
+    public List<Vector2Int> Ground => ground;
+    private List<Vector2Int> ground;
+    public bool discovered;
 
     public Room()
     {
@@ -39,6 +42,7 @@ public class Room
     }
     public virtual List<Agent> Generate()
     {
+        ground = new List<Vector2Int>();
         agents = new List<Agent>();
 
         for (int x = topLeft.x; x <= bottomRight.x; x++)
@@ -57,7 +61,7 @@ public class Room
         {
             for (int y = topLeft.y - 1; y >= bottomRight.y + 1; y--)
             {
-                DisplayManager.Instance.Background(x + position.x * Constraint.x, y + position.y * Constraint.y);
+                ground.Add(new Vector2Int(x + position.x * Constraint.x, y + position.y * Constraint.y));
             }
         }
 

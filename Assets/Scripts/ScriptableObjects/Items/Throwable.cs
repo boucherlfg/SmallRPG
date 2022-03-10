@@ -15,11 +15,11 @@ public class Throwable : Consumable
             {
                 if (agent is IStats)
                 {
-                    var effect = new ActiveEffect(this, agent as IStats);
-                    Game.Instance.Agents.Add(effect);
-                    if (agent is Bandit)
+                    var buff = new Buff(() => agent, heal, regen, resolve, duration);
+                    DataModel.ActiveBuffs.Add(buff);
+                    if (agent is Mob)
                     {
-                        UIManager.Notifications.CreateNotification("and it landed on an enemy");
+                        UIManager.Notifications.CreateNotification($"and it landed on a {(agent as Mob).data.visibleName}!");
                         return;
                     }
                     else

@@ -12,37 +12,36 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
     public AgentData data;
     protected State state;
     public int detectionTreshold = 15;
-
+    public abstract AgentData.AgentType AgentType { get; }
     public Mob()
     {
         Orientation = Vector2Int.down;
 
-        data = Codex.Agents[Mob_tag];
+        var datas = Codex.Agents.FindAll(x => x.agentType == AgentType);
+        data = GameHelper.DistributedRandom(datas.OrderBy(x => x.value));
         loot = GameHelper.PopulateLoot(data);
 
-        Life = (int)data.statblock.life;
-        Mana = (int)data.statblock.mana;
-        Attack = (int)data.statblock.attack;
-        Defense = (int)data.statblock.defense;
-        Precision = (int)data.statblock.precision;
-        Evasion = (int)data.statblock.evasion;
-
+        Stats = data.statblock;
         state = InitialState;
     }
 
     #region [stats]
-    public int Life { get; set; }
-    public int Mana { get; set; }
-    public int Attack { get; set; }
-    public int Defense { get; set; }
-    public int Precision { get; set; }
-    public int Evasion { get; set; }
+    private StatBlock stats;
+    public StatBlock Stats
+    {
+        get => stats;
+        set
+        {
+            stats = value;
+            if (stats.life <= 0) Game.Instance.Destroy(this);
+        }
+    }
     #endregion
 
     public abstract float Value { get; }
     protected abstract State InitialState { get; }
     protected abstract string Mob_tag { get; }
-    public virtual Tile CurrentTile => DisplayManager.Instance[Mob_tag];
+    public virtual Tile CurrentTile => data.tile;
     public Vector2Int Orientation { get; set; }
     public bool Immobilized { get; set; }
 
@@ -52,7 +51,6 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
         {
             Game.Instance.Create(new FloorItem(Codex.Items[item]) { position = position });
         });
-        UIManager.Notifications.CreateNotification($"The {data.visibleName} crumbles in agony.");
     }
     public virtual void Update()
     {
@@ -61,13 +59,7 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
     }
     public virtual void Use(Player user)
     {
-        var tool = DataModel.Equipment.Tool;
-        if (tool == null || !(tool is Tool) || (tool as Tool).useType != UseType.Attack)
-        {
-            UIManager.Notifications.CreateNotification("Get a weapon before you attack!");
-            return;
-        }
-
+        AudioManager.PlayAsSound("use");
         UIManager.Notifications.CreateNotification("you attempt to attack an enemy...");
         if (!GameHelper.CalculateHit(user, this))
         {
@@ -76,11 +68,9 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
         }
         var damage = GameHelper.CalculateDamage(user, this);
         UIManager.Notifications.CreateNotification($"and you manage to deal {damage} damage.");
-        Life -= damage;
-        if (Life <= 0)
-        {
-            Game.Instance.Destroy(this);
-        }
+        var s = Stats;
+        s.life -= damage;
+        Stats = s;
     }
     protected abstract class State
     {
@@ -95,13 +85,17 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
 
         protected bool PlayerIsDead => Game.Instance.Player is Tombstone;
 
-        protected bool collisionDetection(Vector2Int pos, params Agent[] exclude) => Game.Instance.Agents.Exists(agent => agent.position == pos && agent is ICollision && !exclude.ToList().Contains(agent));
-        protected bool AnyInRange<U>() where U : Agent => Game.Instance.Agents.Exists(x => x is U && IsInRange(x));
-        protected bool IsInRange<U>(U obj) where U : Agent
+        protected bool collisionDetection(Vector2Int pos, params Agent[] exclude)
         {
-            var path = Astar.GetPath(obj.position, self.position);
-            return path.Count > 0 && path.Count < self.detectionTreshold;
+            return Game.Instance.Agents.Exists(agent => agent.position == pos && agent is ICollision && !exclude.ToList().Contains(agent));
+        }
+        protected bool AnyInRange<U>() where U : Agent => Game.Instance.Agents.Exists(x => x is U && IsInRange(x) && self != x);
+        protected bool IsInRange<U>(U obj, params Agent[] exclude) where U : Agent
+        {
+            var hit = GameHelper.Raycast(self.position, obj.position, exclude);
+            return hit == null || hit == obj;
         }
         protected bool IsNextToMe<U>(U obj) where U : Agent => Vector2Int.Distance(self.position, obj.position) < 1.1;
     }
+    protected class PathTarget : Agent { }
 }

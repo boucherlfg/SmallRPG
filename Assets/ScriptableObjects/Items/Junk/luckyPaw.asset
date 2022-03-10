@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d9035cdfa52f24e8bb6c387b9f52c2, type: 3}
   m_Name: luckyPaw
   m_EditorClassIdentifier: 
-  visibleName: Lucky paw
+  visibleName: Rabbit's paw
   sprite: {fileID: -3928262467028987026, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
   value: 2

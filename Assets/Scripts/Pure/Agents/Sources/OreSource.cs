@@ -10,7 +10,7 @@ public class OreSource : Source
 
     public override Tile CurrentTile => DisplayManager.Instance[ore_source_tag];
     public override UseType UseType => UseType.Mining;
-    public OreSource() : base(ResourceType.Gem | ResourceType.Ore)
+    public OreSource() : base(SourceType.Mining)
     {
         possibleItems.Add(Codex.Items["pebble"]);
     }

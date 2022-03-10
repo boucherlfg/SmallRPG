@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using UnityEngine.Tilemaps;
 
 public class Wolf : Mob
@@ -10,6 +11,9 @@ public class Wolf : Mob
     private bool friendly;
 
     public override float Value => 3;
+
+    public override AgentData.AgentType AgentType => AgentData.AgentType.Carnivore;
+
     protected override string Mob_tag => "wolf";
     protected override State InitialState => new RandomWalk(this);
 
@@ -18,7 +22,7 @@ public class Wolf : Mob
     {
         base.Use(user);
         friendly = false;
-        state = new GotoState(this, user);
+        state = new AttackState(this, user);
     }
     class ReturnToPosition : State
     {
@@ -45,6 +49,11 @@ public class Wolf : Mob
             }
 
             var step = path[0];
+            if (collisionDetection(step))
+            {
+                path.Clear();
+                return this;
+            }
             self.Orientation = step - self.position;
             self.position = path[0];
             path.RemoveAt(0);
@@ -58,42 +67,59 @@ public class Wolf : Mob
         public RandomWalk(Wolf self) : base(self) { }
         public override State Update()
         {
-            if (AnyInRange<Deer>())
+            // -------------------------------------------- trying to find a deer
+            var hit = Game.Instance.Agents.FindAll(x => x is Deer).Minimum(x => Vector2.Distance(x.position, self.position));
+            if (hit != null)
             {
-                var deer = Game.Instance.Agents.Find(x => IsInRange(x));
-                (self as Wolf).savedPosition = self.position;
-                return new GotoState(self as Wolf, deer);
-            }
-            else if (AnyInRange<Lure>())
-            {
-                var lure = Game.Instance.Agents.Find(x => IsInRange(x));
-                return new GotoState(self as Wolf, lure);
-            }
-            else
-            {
-                if (path.Count <= 0)
-                {
-                    var u = Vector2Int.RoundToInt(10 * Random.insideUnitCircle);
-                    u += self.position;
+                hit = GameHelper.Raycast(self.position, hit.position);
 
-                    var astarColDetection = Astar.CollisionDetection;
-                    Astar.CollisionDetection = pos => collisionDetection(pos);
+                if (hit is Deer)
+                {
+                    return new GotoState(self as Wolf, hit);
+                }
+            }
+            // -------------------------------------------- trying to find a lure
+            hit = Game.Instance.Agents.FindAll(x => x is Lure).Minimum(x => Vector2.Distance(x.position, self.position));
+            if (hit != null)
+            {
+                hit = GameHelper.Raycast(self.position, hit.position);
+                if (hit is Deer)
+                {
+                    return new GotoState(self as Wolf, hit);
+                }
+            }
+
+            // ---------------------------------------- random walk
+            if (path.Count <= 0)
+            {
+                var astarColDetection = Astar.CollisionDetection;
+                Astar.CollisionDetection = pos => collisionDetection(pos, self); //override collision detection method
+
+                while (path.Count <= 0)
+                {
+                    var u = GameHelper.LinearRandom(Game.Instance.Level.Ground);
                     path = Astar.GetPath(self.position, u);
-                    Astar.CollisionDetection = astarColDetection;
-                    if (path.Count <= 0) return this;
                 }
 
-                var step = path[0];
-                self.Orientation = step - self.position;
-                self.position = path[0];
-                path.RemoveAt(0);
+                Astar.CollisionDetection = astarColDetection;
+            }
 
+            var step = path[0];
+            if (collisionDetection(step))
+            {
+                path.Clear();
                 return this;
             }
+            self.Orientation = step - self.position;
+            self.position = path[0];
+            path.RemoveAt(0);
+
+            return this;
         }
     }
     class GotoState : State
     {
+        Vector2Int lastSeenAt;
         private Agent target;
         public GotoState(Wolf self, Agent target) : base(self) 
         {
@@ -101,6 +127,10 @@ public class Wolf : Mob
         }
         public override State Update()
         {
+            if (IsInRange(target))
+            {
+                lastSeenAt = target.position;
+            }
             if (IsNextToMe(target))
             {
                 if (target is Lure)
@@ -116,10 +146,10 @@ public class Wolf : Mob
                     return this;
                 }
             }
-            else if (!IsInRange(target))
+            else if (!IsInRange(target, self))
             {
                 //follow player back after loosing track of foe
-                if ((self as Wolf).friendly && !(target is Player) && IsInRange(Game.Instance.Player))
+                if ((self as Wolf).friendly && !(target is Player) && IsInRange(Game.Instance.Player, self))
                 {
                     return new GotoState(self as Wolf, Game.Instance.Player);
                 }
@@ -133,8 +163,6 @@ public class Wolf : Mob
             {
                 if (path.Count <= 0)
                 {
-                    var lastSeenAt = target.position;
-
                     var astarColDetection = Astar.CollisionDetection;
                     Astar.CollisionDetection = pos => collisionDetection(pos, target);
                     path = Astar.GetPath(self.position, lastSeenAt);
@@ -143,6 +171,11 @@ public class Wolf : Mob
                 }
 
                 var step = path[0];
+                if (collisionDetection(step))
+                {
+                    path.Clear();
+                    return this;
+                }
                 self.Orientation = step - self.position;
                 self.position = path[0];
                 path.RemoveAt(0);
@@ -161,7 +194,7 @@ public class Wolf : Mob
         public override State Update()
         {
             Game.Instance.Destroy(target);
-            if (IsInRange(Game.Instance.Player))
+            if (IsInRange(Game.Instance.Player, self))
             {
                 (self as Wolf).friendly = true;
                 return new GotoState(self as Wolf , Game.Instance.Player);
@@ -181,14 +214,24 @@ public class Wolf : Mob
         }
         public override State Update()
         {
+            bool isPlayer = target is Player;
+
+            if (isPlayer) UIManager.Notifications.CreateNotification($"{self.data.visibleName} tries to hit you");
+            if (target == self) return new RandomWalk(self as Wolf);
             var hit = GameHelper.CalculateHit(self, target as IStats);
             if (hit)
             {
                 var dmg = GameHelper.CalculateDamage(self, target as IStats);
-                (target as IStats).Life -= dmg;
-                if ((target as IStats).Life <= 0)
+                var lifeBefore = (target as IStats).Stats.life;
+
+                var s = (target as IStats).Stats;
+                s.life -= dmg;
+                (target as IStats).Stats = s;
+
+                if (isPlayer) UIManager.Notifications.CreateNotification($"and deals {dmg} damage to you.");
+                if ((target as IStats).Stats.life <= 0)
                 {
-                    Game.Instance.Destroy(target);
+                    return new RandomWalk(self as Wolf);
                 }
             }
             if (IsNextToMe(target)) return this;

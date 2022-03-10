@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: wolf
   m_EditorClassIdentifier: 
   visibleName: Wolf
+  agentType: 1
   statblock:
     life: 3
     mana: 0
@@ -20,6 +21,8 @@ MonoBehaviour:
     defense: 0
     precision: 2
     evasion: 3
+  tile: {fileID: 11400000, guid: 33106738590ba824185435285aec4d08, type: 2}
+  value: 3
   certainLoot:
   - {fileID: 11400000, guid: 977b0382ff7c3a64493243713ce07f47, type: 2}
   - {fileID: 11400000, guid: 36b0b3e0341751f47895a581f8349132, type: 2}
