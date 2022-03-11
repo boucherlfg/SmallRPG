@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3e25d7f44c51248aab4075620632e4, type: 3}
+  m_Name: attack
+  m_EditorClassIdentifier: 
+  craftingType: 4
+  input:
+  - {fileID: 11400000, guid: 745124a842ee06c44aeacb76d631a902, type: 2}
+  - {fileID: 11400000, guid: 445450e03c80b8c49be277aaaa38e921, type: 2}
+  output:
+  - {fileID: 11400000, guid: 1a3c52efe7ab8994ca613cc2a9e6f7e9, type: 2}
+  onFailure:
+  - {fileID: 11400000, guid: 7e72ec73b2efcfe4d84eaa8533676a85, type: 2}
+  successRate: 0.75

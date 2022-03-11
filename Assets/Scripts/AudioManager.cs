@@ -14,22 +14,24 @@ public class AudioManager : MonoSingleton<AudioManager>
     public static float Volume
     {
         get => Source.volume;
-        set {
-            Source.volume = value;
-            PlayerPrefs.SetFloat("volume", value);
-        }
+        set => Source.volume = value;
     }
     public static AudioSource Source => _instance.source;
     public override void Awake()
     {
         base.Awake();
-        if (PlayerPrefs.HasKey("volume"))
+        if (PlayerPrefs.HasKey(SettingsPanel.volume_tag))
         {
-            source.volume = PlayerPrefs.GetFloat("volume");
+            source.volume = PlayerPrefs.GetFloat(SettingsPanel.volume_tag);
         }
     }
     public static bool HasInstance => _instance != null;
 
+    public static void StopMusic()
+    {
+        if (!_instance.source) return;
+        _instance.source.Stop();
+    }
     public static void PlayAsMusic(string key) => _instance.PlayAsMusicInstance(key);
     private void PlayAsMusicInstance(string key)
     {

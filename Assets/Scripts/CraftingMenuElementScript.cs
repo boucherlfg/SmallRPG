@@ -43,9 +43,15 @@ public class CraftingMenuElementScript : MonoBehaviour
     {
         GameObject go = new GameObject();
         go.transform.SetParent(container, false);
+        
         RectTransform rect = go.AddComponent<RectTransform>();
         rect.sizeDelta = new Vector2(40, 40);
+        
         go.AddComponent<CanvasRenderer>();
+
+        var tooltip = go.AddComponent<TooltipWhenOver>();
+        tooltip.tooltipText = item.visibleName;
+        
         Image img = go.AddComponent<Image>();
         img.sprite = item.sprite;
 

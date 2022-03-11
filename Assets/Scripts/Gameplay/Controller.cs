@@ -18,6 +18,8 @@ public class Controller : MonoBehaviour
         InputManager.Equipment += InputManager_Equipment;
         InputManager.Inventory += InputManager_Inventory;
         InputManager.Stats += InputManager_Stats;
+        InputManager.Crafting += InputManager_Crafting;
+        InputManager.Logs += InputManager_Logs;
         InputManager.Escaped += InputManager_Escaped;
         PanelWrapper.AnyActiveStateChanged += PanelWrapper_AnyActiveStateChanged;
 
@@ -26,12 +28,22 @@ public class Controller : MonoBehaviour
         DisplayManager.Instance.Draw();
     }
 
+    private void InputManager_Logs()
+    {
+        UIManager.Logs.Toggle();
+    }
+
+    private void InputManager_Crafting()
+    {
+        UIManager.Crafting.Toggle();
+        UIManager.Crafting.CraftingType = CraftingType.Hand;
+    }
 
     private void PanelWrapper_AnyActiveStateChanged()
     {
         paused = UIManager.Panels.Any(x =>
         {
-            return x.Active;
+            return !x.ExcludeFromPause && x.Active;
         });
     }
 

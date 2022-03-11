@@ -39,4 +39,24 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField]
     private SettingsPanel settings;
     public static SettingsPanel Settings => _instance.settings;
+
+    [SerializeField]
+    private StorylinePanel storyline;
+    public static StorylinePanel Storyline => _instance.storyline;
+
+    [SerializeField]
+    private SplashScreen splashScreen;
+    public static SplashScreen SplashScreen => _instance.splashScreen;
+
+    [SerializeField]
+    private HowToPanel howTo;
+    public static HowToPanel HowTo => _instance.howTo;
+
+    [SerializeField]
+    private LogPanel logs;
+    public static LogPanel Logs => _instance.logs;
+
+    [SerializeField]
+    private TooltipPanel tooltip;
+    public static TooltipPanel Tooltip => _instance.tooltip;
 }

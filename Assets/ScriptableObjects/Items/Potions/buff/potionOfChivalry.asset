@@ -15,7 +15,7 @@ MonoBehaviour:
   visibleName: Potion of chivalry
   sprite: {fileID: 3994805371664618572, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
-  value: 3
+  value: 10
   heal:
     life: 0
     mana: 0
@@ -26,8 +26,15 @@ MonoBehaviour:
   regen:
     life: 0
     mana: 0
-    attack: -0.5
-    defense: -0.5
+    attack: -0.25
+    defense: -0.25
     precision: 0
     evasion: 0
-  duration: 10
+  resolve:
+    life: 0
+    mana: 0
+    attack: 0
+    defense: 0
+    precision: 0
+    evasion: 0
+  duration: 20

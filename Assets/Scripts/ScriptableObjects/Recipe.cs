@@ -17,6 +17,7 @@ public class Recipe : ScriptableObject
     public CraftingType craftingType;
     public List<Item> input;
     public List<Item> output;
+    public List<Item> onFailure;
     public float successRate = 1;
 
     public bool CanCraft
@@ -48,15 +49,16 @@ public class Recipe : ScriptableObject
             });
         }
 
-        if (Random.value > successRate)
+        var success = Random.value < successRate;
+        if (!success)
         {
             UIManager.Notifications.CreateNotification("you botched your job. What a shame..");
         }
-        items = new List<Item>(output);
+        items = new List<Item>(success ? output : onFailure);
         while (items.Count > 0)
         {
             var sub = items.FindAll(x => x.name == items[0].name);
-            UIManager.Notifications.CreateNotification($"you crafted {sub.Count} {items[0].visibleName}.");
+            UIManager.Notifications.CreateNotification($"you get {sub.Count} {items[0].visibleName}.");
             sub.ForEach(item =>
             {
                 items.Remove(item);

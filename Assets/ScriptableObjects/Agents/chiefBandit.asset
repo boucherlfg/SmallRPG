@@ -21,7 +21,7 @@ MonoBehaviour:
     defense: 0
     precision: 8
     evasion: 8
-  tile: {fileID: 11400000, guid: aa5477d8d23e4d04baba03414b627da1, type: 2}
+  tile: {fileID: 11400000, guid: 97424acfdec726244aa9a67bdc75679d, type: 2}
   value: 16
   certainLoot:
   - {fileID: 11400000, guid: 7f0c189a885505c48830809c0c148068, type: 2}

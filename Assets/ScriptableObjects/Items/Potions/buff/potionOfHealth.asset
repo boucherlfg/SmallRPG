@@ -15,7 +15,7 @@ MonoBehaviour:
   visibleName: Potion of health
   sprite: {fileID: 3994805371664618572, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
-  value: 3
+  value: 10
   heal:
     life: 10
     mana: 0
@@ -24,10 +24,17 @@ MonoBehaviour:
     precision: 0
     evasion: 0
   regen:
-    life: -0.25
+    life: 0
     mana: 0
     attack: 0
     defense: 0
     precision: 0
     evasion: 0
-  duration: 20
+  resolve:
+    life: 0
+    mana: 0
+    attack: 0
+    defense: 0
+    precision: 0
+    evasion: 0
+  duration: 0

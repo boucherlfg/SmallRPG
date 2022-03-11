@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LogPanel : PanelWrapper
@@ -20,11 +21,13 @@ public class LogPanel : PanelWrapper
             Destroy(child.gameObject);
         }
 
-        DataModel.Logs.ForEach(log =>
+
+        for (int i = 0; i < 100 && i < DataModel.Logs.Count; i++) 
         {
+            var log = DataModel.Logs[i];
             var obj = Instantiate(notificationElementPrefab, container);
             var comp = obj.GetComponent<NotificationScript>();
             comp.Text = log;
-        });
+        }
     }
 }

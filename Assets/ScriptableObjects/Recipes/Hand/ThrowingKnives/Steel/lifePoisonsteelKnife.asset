@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3e25d7f44c51248aab4075620632e4, type: 3}
+  m_Name: lifePoisonsteelKnife
+  m_EditorClassIdentifier: 
+  craftingType: 3
+  input:
+  - {fileID: 11400000, guid: 72ffe5381c9fe31459e965447cea42d0, type: 2}
+  - {fileID: 11400000, guid: b5de93ba8ab17444ea745ed637dd3468, type: 2}
+  output:
+  - {fileID: 11400000, guid: 1043c8efb3de46f4381d8dcb6346f208, type: 2}
+  onFailure: []
+  successRate: 1

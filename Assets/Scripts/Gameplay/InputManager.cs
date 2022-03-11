@@ -54,6 +54,20 @@ public class InputManager : MonoSingleton<InputManager>
         remove => _instance.onStats -= value;
     }
 
+    private event VoidAction onCrafting;
+    public static event VoidAction Crafting
+    {
+        add => _instance.onCrafting += value;
+        remove => _instance.onCrafting -= value;
+    }
+
+    private event VoidAction onLogs;
+    public static event VoidAction Logs
+    {
+        add => _instance.onLogs += value;
+        remove => _instance.onLogs -= value;
+    }
+
     public static bool Active
     {
         get => _instance.controls.Player.enabled;
@@ -74,8 +88,20 @@ public class InputManager : MonoSingleton<InputManager>
         controls.Player.Escape.performed += Escape_performed;
         controls.Player.Inventory.performed += Inventory_performed;
         controls.Player.Equipment.performed += Equipment_performed;
+        controls.Player.Crafting.performed += Crafting_performed;
         controls.Player.Stats.performed += Stats_performed;
         controls.Player.Use.performed += Use_performed;
+        controls.Player.Logs.performed += Logs_performed;
+    }
+
+    private void Logs_performed(InputAction.CallbackContext obj)
+    {
+        onLogs?.Invoke();
+    }
+
+    private void Crafting_performed(InputAction.CallbackContext obj)
+    {
+        onCrafting?.Invoke();
     }
 
     private void Use_performed(InputAction.CallbackContext obj)

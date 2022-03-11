@@ -89,6 +89,24 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crafting"",
+                    ""type"": ""Button"",
+                    ""id"": ""9cc9214d-4379-4a68-a3ff-6d50477dc6eb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Logs"",
+                    ""type"": ""Button"",
+                    ""id"": ""10cbf44c-9b9e-4875-a68b-c13b2f639ada"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -289,6 +307,28 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c5294536-e3c9-4401-bc93-a1b0b5f5246d"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crafting"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3bbfaacf-9fb2-480a-bdfa-151fb3d5f76f"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Logs"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -304,6 +344,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_Equipment = m_Player.FindAction("Equipment", throwIfNotFound: true);
         m_Player_Stats = m_Player.FindAction("Stats", throwIfNotFound: true);
         m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
+        m_Player_Crafting = m_Player.FindAction("Crafting", throwIfNotFound: true);
+        m_Player_Logs = m_Player.FindAction("Logs", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -370,6 +412,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Equipment;
     private readonly InputAction m_Player_Stats;
     private readonly InputAction m_Player_Use;
+    private readonly InputAction m_Player_Crafting;
+    private readonly InputAction m_Player_Logs;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -381,6 +425,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @Equipment => m_Wrapper.m_Player_Equipment;
         public InputAction @Stats => m_Wrapper.m_Player_Stats;
         public InputAction @Use => m_Wrapper.m_Player_Use;
+        public InputAction @Crafting => m_Wrapper.m_Player_Crafting;
+        public InputAction @Logs => m_Wrapper.m_Player_Logs;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -411,6 +457,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Use.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
                 @Use.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
                 @Use.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
+                @Crafting.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrafting;
+                @Crafting.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrafting;
+                @Crafting.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrafting;
+                @Logs.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLogs;
+                @Logs.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLogs;
+                @Logs.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLogs;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -436,6 +488,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Use.started += instance.OnUse;
                 @Use.performed += instance.OnUse;
                 @Use.canceled += instance.OnUse;
+                @Crafting.started += instance.OnCrafting;
+                @Crafting.performed += instance.OnCrafting;
+                @Crafting.canceled += instance.OnCrafting;
+                @Logs.started += instance.OnLogs;
+                @Logs.performed += instance.OnLogs;
+                @Logs.canceled += instance.OnLogs;
             }
         }
     }
@@ -449,5 +507,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnEquipment(InputAction.CallbackContext context);
         void OnStats(InputAction.CallbackContext context);
         void OnUse(InputAction.CallbackContext context);
+        void OnCrafting(InputAction.CallbackContext context);
+        void OnLogs(InputAction.CallbackContext context);
     }
 }

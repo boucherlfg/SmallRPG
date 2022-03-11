@@ -17,8 +17,9 @@ public static class GameHelper
     }
     public static bool CalculateHit(IStats attack, IStats defense)
     {
-        var attackPrecision = attack.Stats.precision;
-        var defenseEvasion = defense.Stats.evasion;
+        var attackPrecision = attack.Stats.precision < 1 ? 1 : attack.Stats.precision;
+        var defenseEvasion = defense.Stats.evasion < 1 ? 1 : attack.Stats.evasion;
+
         var result = Random.value < ((float)attackPrecision) / ((float)(1 + defenseEvasion));
         return result;
     }

@@ -2,6 +2,7 @@
 
 public class PanelWrapper : MonoBehaviour
 {
+    public virtual bool ExcludeFromPause => false;
     public static event VoidAction AnyActiveStateChanged;
     [SerializeField]
     protected GameObject menu;

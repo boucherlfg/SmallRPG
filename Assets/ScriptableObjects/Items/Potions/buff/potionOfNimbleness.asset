@@ -15,7 +15,7 @@ MonoBehaviour:
   visibleName: Potion of nimbleness
   sprite: {fileID: 3994805371664618572, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
-  value: 3
+  value: 10
   heal:
     life: 0
     mana: 0
@@ -28,6 +28,13 @@ MonoBehaviour:
     mana: 0
     attack: 0
     defense: 0
-    precision: -0.5
-    evasion: -0.5
-  duration: 10
+    precision: -0.25
+    evasion: -0.25
+  resolve:
+    life: 0
+    mana: 0
+    attack: 0
+    defense: 0
+    precision: 0
+    evasion: 0
+  duration: 20

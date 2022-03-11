@@ -24,8 +24,8 @@ MonoBehaviour:
   tile: {fileID: 11400000, guid: 8ba6d77ff30a8aa4887d6cec16dd2cc4, type: 2}
   value: 3
   certainLoot:
-  - {fileID: 11400000, guid: 977b0382ff7c3a64493243713ce07f47, type: 2}
   - {fileID: 11400000, guid: 36b0b3e0341751f47895a581f8349132, type: 2}
   - {fileID: 11400000, guid: 7f0c189a885505c48830809c0c148068, type: 2}
+  - {fileID: 11400000, guid: df7b75d0313728a498dd34bb3caef92c, type: 2}
   useCodexForPossibleLoot: 0
   possibleLoot: []

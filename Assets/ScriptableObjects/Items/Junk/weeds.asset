@@ -15,4 +15,4 @@ MonoBehaviour:
   visibleName: Weeds
   sprite: {fileID: -6542757716848618614, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
-  value: 0.5
+  value: 1
