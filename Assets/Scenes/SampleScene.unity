@@ -3618,6 +3618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3f3eecb7c0fafa4c962f93e1328b76e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenu: {fileID: 400455252}
   pause: {fileID: 400455251}
   notifications: {fileID: 400455245}
   gameOver: {fileID: 400455247}
@@ -4671,7 +4672,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 386.8883, y: 75}
+  m_SizeDelta: {x: 455, y: 75}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &513079163
 MonoBehaviour:
@@ -6379,21 +6380,7 @@ MonoBehaviour:
   m_ItemImage: {fileID: 0}
   m_Value: 0
   m_Options:
-    m_Options:
-    - m_Text: All
-      m_Image: {fileID: 98327405696554537, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
-    - m_Text: Tool
-      m_Image: {fileID: 98327405696554537, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
-    - m_Text: Equipable
-      m_Image: {fileID: -6404304953264236906, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
-    - m_Text: Potion
-      m_Image: {fileID: 3994805371664618572, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
-    - m_Text: Throwable
-      m_Image: {fileID: 7209405522989167864, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
-    - m_Text: Resource
-      m_Image: {fileID: -7470800371356827753, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
-    - m_Text: Trinket
-      m_Image: {fileID: -6587628289872118346, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
+    m_Options: []
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -8497,7 +8484,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilePerType:
+  - {fileID: 11400000, guid: 6ffb98e75e2f6584cb5f11d24f94a262, type: 2}
+  - {fileID: 11400000, guid: 58da56051bf295345a15394dc4c7dcf5, type: 2}
   - {fileID: 11400000, guid: aa5477d8d23e4d04baba03414b627da1, type: 2}
+  - {fileID: 11400000, guid: 97424acfdec726244aa9a67bdc75679d, type: 2}
+  - {fileID: 11400000, guid: 8ba6d77ff30a8aa4887d6cec16dd2cc4, type: 2}
   - {fileID: 11400000, guid: 341cf68eeefc2c64ea735949e95ca447, type: 2}
   - {fileID: 11400000, guid: 6ad3f982cb3ad3b40b6ffeee2bf5de17, type: 2}
   - {fileID: 11400000, guid: a4dd2e97ceed3c548a3ede6bf5fa68eb, type: 2}
@@ -8508,16 +8499,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1899695100200454598b980d068a31a7, type: 2}
   - {fileID: 11400000, guid: babafabc421e0bc47be4f722ca04503f, type: 2}
   - {fileID: 11400000, guid: b3ea987fef83a594ba042f45879d33c8, type: 2}
+  - {fileID: 11400000, guid: 8aab97b858616e0408e2f1f237ba0ba2, type: 2}
+  - {fileID: 11400000, guid: 2f05aef7f19820d43ba0deb868d8afc8, type: 2}
   - {fileID: 11400000, guid: 98305e62ab00fbf43beec4596d9daff2, type: 2}
+  - {fileID: 11400000, guid: 8d7c73b962b277146a74b1f811bc9cf4, type: 2}
   - {fileID: 11400000, guid: b84ff6e53d583fa459d9b0f4387c52a7, type: 2}
   - {fileID: 11400000, guid: a37fd9335a98c0541b3943914fbfc510, type: 2}
   - {fileID: 11400000, guid: 33106738590ba824185435285aec4d08, type: 2}
-  - {fileID: 11400000, guid: 8ba6d77ff30a8aa4887d6cec16dd2cc4, type: 2}
-  - {fileID: 11400000, guid: 8aab97b858616e0408e2f1f237ba0ba2, type: 2}
-  - {fileID: 11400000, guid: 58da56051bf295345a15394dc4c7dcf5, type: 2}
   - {fileID: 11400000, guid: b2dd66930482bf4478774ff866619159, type: 2}
-  - {fileID: 11400000, guid: 6ffb98e75e2f6584cb5f11d24f94a262, type: 2}
-  - {fileID: 11400000, guid: c850bd819f3258c439df0bbaf6dfb46c, type: 2}
+  - {fileID: 11400000, guid: 244c7fc5cea5ba34cae44003e8a0306e, type: 2}
+  - {fileID: 11400000, guid: 8ae9ebf8aae46bf4fb2091fac7286c89, type: 2}
   tilemap: {fileID: 567844595}
   background: {fileID: 1778391385}
   floorTile: {fileID: 11400000, guid: a4dd2e97ceed3c548a3ede6bf5fa68eb, type: 2}
@@ -9016,9 +9007,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 400455252}
-        m_TargetAssemblyTypeName: PanelWrapper, Assembly-CSharp
-        m_MethodName: Toggle
+      - m_Target: {fileID: 400455247}
+        m_TargetAssemblyTypeName: GameOverPanel, Assembly-CSharp
+        m_MethodName: MainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9414,7 +9405,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 18326b3e22aa3984ea8a4ad959d7d044, type: 3}
   - {fileID: 8300000, guid: bce734139aac9de40a280df6b9877413, type: 3}
   - {fileID: 8300000, guid: e8f01335cdd030b49b14a714126da0da, type: 3}
-  - {fileID: 8300000, guid: dd4bf6527027a40429c7d595ff2fe477, type: 3}
   - {fileID: 8300000, guid: fc439e3896d5e8545b5c7129615c0129, type: 3}
   - {fileID: 8300000, guid: 6886ec53beb7d804f99895b4550bed48, type: 3}
   - {fileID: 8300000, guid: 8d7a53ed5836b7e40834cdd3e8afa795, type: 3}
@@ -9425,6 +9415,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ffbbd64c816d56f42a0a443f9a28a253, type: 3}
   - {fileID: 8300000, guid: e47e0d9576744524fbc65731b3b59f4c, type: 3}
   - {fileID: 8300000, guid: a3758fedf6cad774798e7381dd38fcf9, type: 3}
+  - {fileID: 8300000, guid: f247872858416b841b7c1aa42230c37c, type: 3}
   source: {fileID: 1062343003}
 --- !u!1 &1064458460
 GameObject:
@@ -15617,12 +15608,19 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3997601c190443b4fb2d56fd43c77303, type: 2}
   - {fileID: 11400000, guid: 7004f99360e490c4481494563c13502c, type: 2}
   - {fileID: 11400000, guid: 94922ec574bd4fd468335bd6a29d5b9a, type: 2}
+  - {fileID: 11400000, guid: 679f47353d3f4e242b83676ad3b8c304, type: 2}
+  - {fileID: 11400000, guid: a71198a6362ef974bbbe2c267d113f61, type: 2}
+  - {fileID: 11400000, guid: 6a258b9c6499cdc4a90135aef6345bac, type: 2}
+  - {fileID: 11400000, guid: 1c06231cf929c714a80a2c99c5b968ea, type: 2}
+  - {fileID: 11400000, guid: 7c6909ce9feb11943b1b2da21b5a4a35, type: 2}
+  - {fileID: 11400000, guid: 8080ff620b92cda4fb0fae41dde4b0ec, type: 2}
   agents:
   - {fileID: 11400000, guid: b73fd2a1c6427814f98c5427302764f2, type: 2}
   - {fileID: 11400000, guid: 65e4934533dc9a24db7a310a75f29ab3, type: 2}
-  - {fileID: 11400000, guid: d45a67181bfe9014baaf614e5cd4e2c5, type: 2}
   - {fileID: 11400000, guid: 55b2306dc0058924cb8bb0129b6265c3, type: 2}
   - {fileID: 11400000, guid: 4b450f29521528140bcbf89ffb95a05c, type: 2}
+  - {fileID: 11400000, guid: 814cae94d9c968044949091be0496fdc, type: 2}
+  - {fileID: 11400000, guid: d45a67181bfe9014baaf614e5cd4e2c5, type: 2}
   recipes:
   - {fileID: 11400000, guid: 48b44ded65a227c4bac033aeb1d1b1a3, type: 2}
   - {fileID: 11400000, guid: 8ccb6e39c15c7e440bbc5fb16d398b4c, type: 2}
@@ -15683,6 +15681,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 590cf5889a255264bb349db49fde5915, type: 2}
   - {fileID: 11400000, guid: 862a0a9de84b2cf409ed266c8395dca4, type: 2}
   - {fileID: 11400000, guid: 3809099dae3f103408399cc75ff17e64, type: 2}
+  - {fileID: 11400000, guid: 6b31e8e6fbc7b1e4489fa7ab5c73b7df, type: 2}
+  - {fileID: 11400000, guid: c77324ac779ab7e4cbe88d2a3676505c, type: 2}
+  - {fileID: 11400000, guid: 5caa820bfa28fb64da519d35c553ebc2, type: 2}
+  - {fileID: 11400000, guid: 390cfc27e9e5c7f4d98f9ad1d5476343, type: 2}
+  - {fileID: 11400000, guid: fe002421915c4e74986b80be7020166d, type: 2}
+  - {fileID: 11400000, guid: a7be0f4618e63474eb7cfaf4d8345c80, type: 2}
 --- !u!114 &1795025055
 MonoBehaviour:
   m_ObjectHideFlags: 0

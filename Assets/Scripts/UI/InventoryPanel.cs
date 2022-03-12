@@ -17,65 +17,61 @@ public class InventoryPanel : PanelWrapper
     private int currentFilter = 0;
     void Start()
     {
+        InitDropdown();
         StartCoroutine(HookWhenReady());
         IEnumerator HookWhenReady()
         {
-            ActiveStateChanged += Refresh;
+            ActiveStateChanged += RefreshIfActive;
             yield return null;
-            DataModel.Inventory.Changed += Refresh;
+            DataModel.Inventory.Changed += RefreshIfActive;
         }
     }
+    public void RefreshIfActive()
+    {
+        if (Active)
+        {
+            Refresh(dropdown.value);
+        }
+    }
+    public void InitDropdown()
+    {
+        dropdown.onValueChanged.RemoveAllListeners();
+        dropdown.options.Clear();
+        var types = typeof(Item).Assembly.GetTypes();
+        types = types.OrderBy(x => types.Count(y => y.IsAssignableFrom(x))).ToArray();
 
+        foreach (var type in types)
+        {
+            if (Attribute.IsDefined(type, typeof(InventoryCategoryAttribute)))
+            {
+                dropdown.options.Add(new TMP_Dropdown.OptionData(type.Name));
+            }
+        }
+        dropdown.onValueChanged.AddListener(Refresh);
+    }
     public void Refresh(int value)
     {
-        currentFilter = value;
-        string type = dropdown.options[value].text;
-        var types = GameHelper.GetAllSubTypes<Item>();
-        foreach (Type t in types)
+        foreach (Transform t in container) Destroy(t.gameObject);
+
+        var categories = GetInventoryCategories();
+        var type = categories.FirstOrDefault(x => x.Name == dropdown.options[value].text);
+
+        var items = Codex.Items.FindAll(i => DataModel.Inventory.Items.Contains(i.name)).OrderBy(x => x.visibleName).ToList();
+        while(items.Count() > 0)
         {
-            if (t.Name == type)
+            var item = items.ElementAt(0);
+            items = items.FindAll(x => x.name != item.name);
+            if (item.GetType().IsSubclassOf(type) || item.GetType().Equals(type))
             {
-                Refresh(type);
-                return;
-            }
-        }
-        Refresh();
-    }
-    public void Refresh()
-    {
-        if (currentFilter > 0)
-        {
-            Refresh(currentFilter);
-            return;
-        }
-
-        foreach (Transform child in container)
-        {
-            Destroy(child.gameObject);
-        }
-
-        DataModel.Inventory.ForEachDistinct(item =>
-        {
-            var obj = Instantiate(itemMenuElementPrefab, container);
-            var comp = obj.GetComponent<ItemMenuElement>();
-            comp.Item = item;
-        });
-    }
-    public void Refresh(string filter)
-    {
-        foreach (Transform child in container)
-        {
-            Destroy(child.gameObject);
-        }
-
-        DataModel.Inventory.ForEachDistinct(item =>
-        {
-            if (Codex.Items[item].GetType().Name == filter)
-            {
-                var obj = Instantiate(itemMenuElementPrefab, container);
-                var comp = obj.GetComponent<ItemMenuElement>();
+                var go = Instantiate(itemMenuElementPrefab, container);
+                var comp = go.GetComponent<ItemMenuElement>();
                 comp.Item = item;
             }
-        });
+        }
+    }
+
+    Type[] GetInventoryCategories()
+    {
+        return typeof(Item).Assembly.GetTypes().Where(x => Attribute.IsDefined(x, typeof(InventoryCategoryAttribute))).ToArray();
     }
 }

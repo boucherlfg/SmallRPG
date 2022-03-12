@@ -5,6 +5,11 @@ using UnityEngine;
 public class UIManager : MonoSingleton<UIManager>
 {
     public static PanelWrapper[] Panels => _instance.GetComponentsInChildren<PanelWrapper>();
+
+    [SerializeField]
+    private MainMenuPanel mainMenu;
+    public static MainMenuPanel MainMenu => _instance.mainMenu;
+
     [SerializeField]
     private PausePanel pause;
     public static PausePanel Pause => _instance.pause;

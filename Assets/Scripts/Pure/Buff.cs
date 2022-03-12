@@ -17,18 +17,20 @@
 
     public void Start()
     {
+        if (!Game.Instance.Agents.Contains(getter())) return;
         var obj = getter() as IStats;
         obj.Stats += start;
     }
     public void Update()
     {
+        if (!Game.Instance.Agents.Contains(getter())) return;
         var obj = getter() as IStats;
         obj.Stats += overtime;
         counter++;
     }
     public void End()
     {
-        if (getter() == null) return;
+        if (!Game.Instance.Agents.Contains(getter())) return;
         var obj = getter() as IStats;
         obj.Stats += end;
     }

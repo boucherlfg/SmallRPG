@@ -10,6 +10,7 @@ public enum EquipType
     Weapon = 5,
 }
 [CreateAssetMenu(menuName = "Felix/Items/Equipment")]
+[InventoryCategory]
 public class Equipable : Item
 {
     public EquipType equipType;

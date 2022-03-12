@@ -30,7 +30,6 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
         set
         {
             DataModel.StatBlock = value;
-
             if (DataModel.StatBlock.life <= 0) Game.Instance.Destroy(this);
         }
     }

@@ -9,7 +9,7 @@ public class Controller : MonoBehaviour
 {
     const float updateTime = 0.1f;
     private bool paused = true;
-    public void StartGame()
+    void Start()
     {
         InputManager.Moved += InputManager_Moved;
         InputManager.Attacked += InputManager_Attacked;
@@ -22,6 +22,10 @@ public class Controller : MonoBehaviour
         InputManager.Logs += InputManager_Logs;
         InputManager.Escaped += InputManager_Escaped;
         PanelWrapper.AnyActiveStateChanged += PanelWrapper_AnyActiveStateChanged;
+    }
+    public void StartGame()
+    {
+        UIManager.SplashScreen.Toggle();
 
 
         Game.Instance.StartNewGame();

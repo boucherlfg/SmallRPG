@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[InventoryCategory]
 public abstract class Item : ScriptableObject
 {
     public string visibleName;

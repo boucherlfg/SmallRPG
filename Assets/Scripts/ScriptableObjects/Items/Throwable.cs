@@ -1,40 +1,38 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Felix/Items/Throwable")]
+[InventoryCategory]
 public class Throwable : Consumable
 {
     public override void Consume()
     {
         UIManager.Notifications.CreateNotification("you threw " + visibleName);
         var player = Game.Instance.Player;
-        var startPosition = player.position + player.Orientation;
+        var currentPosition = player.position + player.Orientation;
         for (int i = 0; i < 10; i++)
         {
-            var agent = Game.Instance.Agents.Find(x => x.position == startPosition);
+            var agent = Game.Instance.Agents.Find(x => x.position == currentPosition);
             if (agent != null && agent is ICollision)
             {
                 if (agent is IStats)
                 {
-                    var buff = new Buff(() => agent, heal, regen, resolve, duration);
-                    DataModel.ActiveBuffs.Add(buff);
-                    if (agent is Mob)
+                    var hit = GameHelper.CalculateHit(player, agent as IStats);
+                    if (hit)
                     {
-                        UIManager.Notifications.CreateNotification($"and it landed on a {(agent as Mob).data.visibleName}!");
-                        return;
-                    }
-                    else
-                    {
-                        UIManager.Notifications.CreateNotification("and it landed on a friend!");
-                        return;
+                        if (agent is Mob)
+                        {
+                            var buff = new Buff(() => agent, heal, regen, resolve, duration);
+                            DataModel.ActiveBuffs.Add(buff);
+                            UIManager.Notifications.CreateNotification($"and it landed on a {(agent as Mob).data.visibleName}!");
+                            return;
+                        }
                     }
                 }
-                else
-                {
-                    UIManager.Notifications.CreateNotification("and it landed on a wall");
-                    return;
-                }
+                UIManager.Notifications.CreateNotification($"and landed on {(Random.value < 0.5 ? "a wall" : "the ceiling")}.");
+                return;
+
             }
-            startPosition += player.Orientation;
+            currentPosition += player.Orientation;
         }
         
     }

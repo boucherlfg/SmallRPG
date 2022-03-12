@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: -1323103846669488298
     second: Wolfpack_0
+  - first:
+      213: -1816891644132194788
+    second: Wolfpack_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -126,7 +129,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,6 +137,27 @@ TextureImporter:
       bones: []
       spriteID: 65fef42cf0463ade0800000000000000
       internalID: -1323103846669488298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Wolfpack_1
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 33
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c16002c0daa19c6e0800000000000000
+      internalID: -1816891644132194788
       vertices: []
       indices: 
       edges: []

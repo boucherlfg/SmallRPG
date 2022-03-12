@@ -11,6 +11,13 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
     protected List<string> loot;
     public AgentData data;
     protected State state;
+    public override string ID
+    {
+        get
+        {
+            return data.visibleName + Game.Instance.Agents.IndexOf(this);
+        }
+    }
     public int detectionTreshold = 15;
     public abstract AgentData.AgentType AgentType { get; }
     public Mob()
@@ -32,6 +39,7 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
         get => stats;
         set
         {
+            Debug.Log(ID + " stats " + stats + " -> " + value);
             stats = value;
             if (stats.life <= 0) Game.Instance.Destroy(this);
         }
@@ -47,6 +55,7 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
 
     public virtual void End()
     {
+        Debug.Log(ID + " ended");
         loot.ForEach(item =>
         {
             Game.Instance.Create(new FloorItem(Codex.Items[item]) { position = position });
@@ -55,12 +64,18 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
     public virtual void Update()
     {
         Immobilized = false;
-        state = state.Update();
+        var newState = state.Update();
+
+        if (newState != state)
+        {
+            Debug.Log(ID + " : " + state.Message);
+        }
+        state = newState;
     }
     public virtual void Use(Player user)
     {
         AudioManager.PlayAsSound("use");
-        UIManager.Notifications.CreateNotification("you attempt to attack an enemy...");
+        UIManager.Notifications.CreateNotification($"you attempt to attack a {data.visibleName}...");
         if (!GameHelper.CalculateHit(user, this))
         {
             UIManager.Notifications.CreateNotification("but your attack misses.");
@@ -74,6 +89,7 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
     }
     protected abstract class State
     {
+        public abstract string Message { get; }
         protected List<Vector2Int> path;
         protected Mob self;
         public State(Mob self) 
@@ -92,8 +108,8 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
         protected bool AnyInRange<U>() where U : Agent => Game.Instance.Agents.Exists(x => x is U && IsInRange(x) && self != x);
         protected bool IsInRange<U>(U obj, params Agent[] exclude) where U : Agent
         {
-            var hit = GameHelper.Raycast(self.position, obj.position, exclude);
-            return hit == null || hit == obj;
+            var hit = GameHelper.Raycast(self.position, obj.position, self.detectionTreshold, exclude);
+            return hit == obj;
         }
         protected bool IsNextToMe<U>(U obj) where U : Agent => Vector2Int.Distance(self.position, obj.position) < 1.1;
     }

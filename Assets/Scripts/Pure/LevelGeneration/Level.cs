@@ -54,6 +54,8 @@ public class Level
         AddWallsAndStartEnd();
         AddCorridors();
         AddFoes();
+        AddTraps();
+        AddFurniture();
         AddLoot();
         AddResources();
         AddCraftingStations();
@@ -97,6 +99,42 @@ public class Level
             var mob = RandomAgent(room);
             agents.Add(mob);
             foeBudget -= mob.Value;
+        }
+    }
+    private void AddFurniture()
+    {
+        float furnitureBudget = rooms.Count;
+
+        while (furnitureBudget > 0)
+        {
+            FurnitureAgent furniture = null;
+            var room = GameHelper.LinearRandom(rooms.FindAll(x => !(x is StartingRoom)));
+
+            //is there a furniture with nothing next to it?
+            var agent = agents.Find(x => x is FurnitureAgent && !agents.Exists(y => Mathf.Abs(1 - Vector2.Distance(x.position, y.position)) < 0.5f));
+            if (agent == null)
+            {
+                furniture = room.CreateAtRandomPosition<FurnitureAgent>(agents);
+            }
+            else
+            {
+                var pos = agent.position + GameHelper.RandomCardinal();
+                furniture = new FurnitureAgent { position = pos };
+            }
+            agents.Add(furniture);
+            furnitureBudget--;
+        }
+    }
+    private void AddTraps()
+    {
+        float trapBudget = rooms.Count/2;
+
+        while (trapBudget > 0)
+        {
+            var room = GameHelper.LinearRandom(rooms.FindAll(x => !(x is StartingRoom)));
+            var trap = room.CreateAtRandomPosition<TrapAgent>(agents);
+            agents.Add(trap);
+            trapBudget--;
         }
     }
     private void AddLoot()

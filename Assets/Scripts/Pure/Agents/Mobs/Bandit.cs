@@ -20,24 +20,84 @@ public class Bandit : Mob
 
     public override AgentData.AgentType AgentType => AgentData.AgentType.Bandit;
 
-    class ReturnToPosition : State
+    abstract class BanditState : State
+    {
+        public BanditState(Bandit self) : base(self) { }
+
+        public Agent FindATarget()
+        {
+            // -------------------------------------------- trying to find a lure of type bandit
+            var hit = Game.Instance.Agents.FindAll(x => x is LureAgent && (x as LureAgent).lure.type == Lure.LureType.Bandit).Minimum(x => Vector2.Distance(x.position, self.position));
+            if (hit != null)
+            {
+                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
+                if (hit is Deer)
+                {
+                    return hit;
+                }
+            }
+            //------------------------------------------- trying to find player
+            hit = GameHelper.Raycast(self.position, Game.Instance.Player.position, self.detectionTreshold);
+            if (hit == Game.Instance.Player)
+            {
+                return hit;
+            }
+
+            // -------------------------------------------- trying to find a deer
+            hit = Game.Instance.Agents.FindAll(x =>
+            {
+                return x is Deer;
+            }).Minimum(x =>
+            {
+                return Vector2.Distance(x.position, self.position);
+            });
+            if (hit != null)
+            {
+                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
+                if (hit is Deer)
+                {
+                    return hit;
+                }
+            }
+
+            // -------------------------------------------- trying to find a wolf
+            hit = Game.Instance.Agents.FindAll(x =>
+            {
+                return x is Wolf;
+            }).Minimum(x =>
+            {
+                return Vector2.Distance(x.position, self.position);
+            });
+            if (hit != null)
+            {
+                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
+                if (hit is Wolf)
+                {
+                    return hit;
+                }
+            }
+
+            return null;
+        }
+    }
+    class ReturnToPosition : BanditState
     {
         public ReturnToPosition(Bandit self) : base(self)
         {
             path = new List<Vector2Int>();
         }
 
+        public override string Message => "returns to position";
+
         public override State Update()
         {
-            if (IsInRange(Game.Instance.Player, self))
+            var target = FindATarget();
+            if (target != null)
             {
-                return new GotoState(self as Bandit, Game.Instance.Player);
-            }
-            if (AnyInRange<Mob>())
-            {
-                var target = Game.Instance.Agents.Minimum(x => Vector2Int.Distance(x.position, self.position));
                 return new GotoState(self as Bandit, target);
             }
+
+            //go to start position
             if (path.Count <= 0)
             {
                 var astarColDetection = Astar.CollisionDetection;
@@ -59,7 +119,7 @@ public class Bandit : Mob
             return this;
         }
     }
-    class GotoState : State
+    class GotoState : BanditState
     {
         Vector2Int lastSeenAt;
         private Agent target;
@@ -69,32 +129,42 @@ public class Bandit : Mob
             self.savedPosition = self.position;
             path = new List<Vector2Int>();
             lastSeenAt = target.position;
-            if (target is Player && Random.value < 0.3)
-            {
-                AudioManager.PlayAsSound(self.Mob_tag);
-            }
         }
+
+        public override string Message => "go to " + target.ID;
+
         public override State Update()
         {
-            
+            //if we're following ourself, we skur ASAP
             if (target == self) return new RandomWalk(self as Bandit);
 
+            bool isInRange = IsInRange(target);
+            var player = Game.Instance.Player;
+
+            //if we were following a lure, and we get next to it, then we eat it. 
+            if (target is LureAgent && IsNextToMe(target))
+            {
+                return new EatState(self as Bandit, target);
+            }
+
+            //if we're not following the player, we try to find the player (bc we're obsessed with him)
             if (!(target is Player))
             {
-                //------------------------------------------- trying to find player
-                var hit = GameHelper.Raycast(self.position, Game.Instance.Player.position);
-                if (hit == Game.Instance.Player)
+                var hit = GameHelper.Raycast(self.position, player.position, self.detectionTreshold);
+                if (hit == player)
                 {
                     return new GotoState(self as Bandit, hit);
                 }
             }
-            else if (IsInRange(target))
+
+            if (isInRange)
             {
                 lastSeenAt = target.position;
             }
-            if (path.Count == 0)
+
+            if (path.Count <= 0)
             {
-                if (IsInRange(target, self)) //path is done and target is still in range
+                if (isInRange) //path is done and target is still in range
                 {
                     lastSeenAt = target.position;
 
@@ -132,72 +202,35 @@ public class Bandit : Mob
             }
         }
     }
-    class RandomWalk : State
+    class RandomWalk : BanditState
     {       
         public RandomWalk(Bandit self) : base(self) 
         {
             path = new List<Vector2Int>();
         }
+
+        public override string Message => "random walk";
+
         public override State Update()
         {
-            //--------------------------- update state
+            var target = FindATarget();
 
-            //------------------------------------------- trying to find player
-            var hit = GameHelper.Raycast(self.position, Game.Instance.Player.position);
-            if (hit == Game.Instance.Player)
+            if (target != null)
             {
-                return new GotoState(self as Bandit, hit);
+                return new GotoState(self as Bandit, target);
             }
-
-
-            // -------------------------------------------- trying to molest a deer
-            hit = Game.Instance.Agents.FindAll(x =>
-            {
-                return x is Deer;
-            }).Minimum(x =>
-            {
-                return Vector2.Distance(x.position, self.position);
-            });
-            if (hit != null)
-            {
-                hit = GameHelper.Raycast(self.position, hit.position);
-                if (hit is Deer)
-                {
-                    return new GotoState(self as Bandit, hit);
-                }
-            }
-
-            // -------------------------------------------- trying to molest a wolf
-            hit = Game.Instance.Agents.FindAll(x => 
-            {
-                return x is Wolf;
-            }).Minimum(x => 
-            { 
-                return Vector2.Distance(x.position, self.position); 
-            });
-            if (hit != null)
-            {
-                hit = GameHelper.Raycast(self.position, hit.position);
-                if (hit is Wolf)
-                {
-                    return new GotoState(self as Bandit, hit);
-                }
-            }
-
 
             // ---------------------------------------- go to random position            
             if (path.Count <= 0)
             {
                 var astarColDetection = Astar.CollisionDetection;
                 Astar.CollisionDetection = pos => collisionDetection(pos, self); //override collision detection method
-
-                while (path.Count <= 0)
-                {
-                    var u = GameHelper.LinearRandom(Game.Instance.Level.Ground);
-                    path = Astar.GetPath(self.position, u);
-                }
-
+                var u = GameHelper.LinearRandom(Game.Instance.Level.Ground);
+                path = Astar.GetPath(self.position, u);
                 Astar.CollisionDetection = astarColDetection;
+                if (path.Count <= 0) return this;
+
+                
             }
 
             var step = path[0];
@@ -212,13 +245,16 @@ public class Bandit : Mob
             return this;
         }
     }
-    class AttackState : State
+    class AttackState : BanditState
     {
         private Agent target;
         public AttackState(Bandit self, Agent target) : base(self)
         {
             this.target = target;
         }
+
+        public override string Message => "attacks " + target.ID;
+
         public override State Update()
         {
             bool isPlayer = target is Player;
@@ -246,4 +282,21 @@ public class Bandit : Mob
             else return new GotoState(self as Bandit, target);
         }
     }
+    class EatState : BanditState
+    {
+        private Agent target;
+        public EatState(Bandit self, Agent target) : base(self)
+        {
+            this.target = target;
+        }
+
+        public override string Message => "eats " + target.ID;
+
+        public override State Update()
+        {
+            Game.Instance.Destroy(target);
+            return new RandomWalk(self as Bandit);
+        }
+    }
+
 }

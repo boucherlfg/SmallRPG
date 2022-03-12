@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b3e25d7f44c51248aab4075620632e4, type: 3}
   m_Name: leather
   m_EditorClassIdentifier: 
-  craftingType: 0
+  craftingType: 1
   input:
   - {fileID: 11400000, guid: df7b75d0313728a498dd34bb3caef92c, type: 2}
   - {fileID: 11400000, guid: df7b75d0313728a498dd34bb3caef92c, type: 2}

@@ -2,6 +2,7 @@
 
 
 [CreateAssetMenu(menuName = "Felix/Items/Resource")]
+[InventoryCategory]
 public class Resource : Item
 {
     public Source.SourceType type;

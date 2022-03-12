@@ -1,4 +1,6 @@
 ﻿
+using UnityEngine;
+
 [System.Serializable]
 public struct StatBlock
 {
@@ -13,12 +15,12 @@ public struct StatBlock
     {
         return new StatBlock()
         {
-            life = a.life + b.life,
-            mana = a.mana + b.mana,
-            attack = a.attack + b.attack,
-            defense = a.defense + b.defense,
-            precision = a.precision + b.precision,
-            evasion = a.evasion + b.evasion
+            life = (a.life + b.life).Round(2),
+            mana = (a.mana + b.mana).Round(2),
+            attack = (a.attack + b.attack).Round(2),
+            defense = (a.defense + b.defense).Round(2),
+            precision = (a.precision + b.precision).Round(2),
+            evasion = (a.evasion + b.evasion).Round(2)
         };
     }
     public static StatBlock operator -(StatBlock a, StatBlock b) => a + -b;
@@ -27,12 +29,16 @@ public struct StatBlock
     {
         return new StatBlock()
         {
-            life = b.life * k,
-            mana = b.mana * k,
-            attack = b.attack * k,
-            defense = b.defense * k,
-            precision = b.precision * k,
-            evasion = b.evasion * k,
+            life = (b.life * k).Round(2),
+            mana = (b.mana * k).Round(2),
+            attack = (b.attack * k).Round(2),
+            defense = (b.defense * k),
+            precision = (b.precision * k).Round(2),
+            evasion = (b.evasion * k).Round(2),
         };
+    }
+    public override string ToString()
+    {
+        return $"({life}, {mana}, {attack}, {defense}, {precision}, {evasion})";
     }
 }

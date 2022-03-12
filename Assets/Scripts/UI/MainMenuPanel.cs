@@ -6,20 +6,26 @@ public class MainMenuPanel : PanelWrapper
 {
     [SerializeField]
     private Controller controller;
-    void OnEnable()
+    void Start()
     {
+        ActiveStateChanged += PlayIntroMusic;
         StartCoroutine(PlayMusicWhenReady());
 
         IEnumerator PlayMusicWhenReady()
         {
             yield return new WaitUntil(() => AudioManager.HasInstance);
+            PlayIntroMusic();
+        }
+    }
+
+    private void PlayIntroMusic()
+    {
+        if (Active)
+        {
             AudioManager.PlayAsMusic("intro_song");
         }
     }
-    void OnDisable()
-    {
-        AudioManager.StopMusic();
-    }
+
     public void Storyline()
     {
         UIManager.Storyline.Toggle();
@@ -29,7 +35,6 @@ public class MainMenuPanel : PanelWrapper
     {
         UIManager.Storyline.Toggle();
         controller.StartGame();
-        UIManager.SplashScreen.Toggle();
     }
     public void Quit()
     {

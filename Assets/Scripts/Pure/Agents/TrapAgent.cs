@@ -1,0 +1,34 @@
+﻿using UnityEngine.Tilemaps;
+
+public class TrapAgent : Agent, IActivatable, IDrawable, IUsableAgent
+{
+    public Trap data;
+    const string trap_tag = "trap";
+    const string basicTrap = nameof(basicTrap);
+    public Tile CurrentTile => DisplayManager.Instance[trap_tag];
+
+    public TrapAgent() 
+    {
+        data = Codex.Items[basicTrap] as Trap;
+    }
+    public TrapAgent(Trap data)
+    {
+        this.data = data;
+    }
+    
+    public void Activate(IMovable source)
+    {
+        if (!(source is IStats)) return;
+
+        if (source is Player) AudioManager.PlayAsSound("use");
+        var buff = new Buff(() => source as Agent, data.heal, data.regen, data.resolve, data.duration);
+        DataModel.ActiveBuffs.Add(buff);
+        Game.Instance.Destroy(this);
+    }
+
+    public void Use(Player user)
+    {
+        AudioManager.PlayAsSound("empty");
+        Game.Instance.Destroy(this);
+    }
+}

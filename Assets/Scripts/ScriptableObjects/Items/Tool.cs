@@ -9,6 +9,7 @@ public enum UseType
     Loot = 8,
 }
 [CreateAssetMenu(menuName = "Felix/Items/Tool")]
+[InventoryCategory]
 public class Tool : Item
 {
     public UseType useType;

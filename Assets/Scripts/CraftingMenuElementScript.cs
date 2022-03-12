@@ -6,6 +6,14 @@ using UnityEngine.UI;
 
 public class CraftingMenuElementScript : MonoBehaviour
 {
+    private Dictionary<CraftingType, string> audios => new Dictionary<CraftingType, string>()
+    {
+        [CraftingType.Alchemy] = "potion",
+        [CraftingType.Anvil] = "rock",
+        [CraftingType.Hand] = "equip",
+        [CraftingType.Bench] = "wood",
+        [CraftingType.Smelting] = "longMetal"
+    };
     [SerializeField]
     private Transform inputContainer;
     [SerializeField]
@@ -59,6 +67,8 @@ public class CraftingMenuElementScript : MonoBehaviour
     public void Craft()
     {
         recipe.Craft();
+        var sound = audios[recipe.craftingType];
+        AudioManager.PlayAsSound(sound);
         Refresh();
     }
 }

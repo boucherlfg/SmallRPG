@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(menuName = "Felix/Items/Potion")]
+[InventoryCategory]
 class Potion : Consumable
 {
     public override void Equip()

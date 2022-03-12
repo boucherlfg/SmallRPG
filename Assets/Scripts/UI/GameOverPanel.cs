@@ -9,6 +9,11 @@ public class GameOverPanel : PanelWrapper
         Game.Instance.StartNewGame();
         Active = false;
     }
+    public void MainMenu()
+    {
+        UIManager.MainMenu.Toggle();
+        Active = false;
+    }
     public void Quit()
     {
         Application.Quit();

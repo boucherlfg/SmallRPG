@@ -24,8 +24,40 @@ public class Wolf : Mob
         friendly = false;
         state = new AttackState(this, user);
     }
-    class ReturnToPosition : State
+
+    abstract class WolfState : State
     {
+        public WolfState(Wolf self) : base(self) { }
+
+        public Agent FindATarget()
+        {
+            // -------------------------------------------- trying to find a lure of type wolf
+            var hit = Game.Instance.Agents.FindAll(x => x is LureAgent && (x as LureAgent).lure.type == Lure.LureType.Carnivore).Minimum(x => Vector2.Distance(x.position, self.position));
+            if (hit != null)
+            {
+                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
+                if (hit is LureAgent)
+                {
+                    return hit;
+                }
+            }
+            // -------------------------------------------- trying to find a deer
+            hit = Game.Instance.Agents.FindAll(x => x is Deer).Minimum(x => Vector2.Distance(x.position, self.position));
+            if (hit != null)
+            {
+                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
+
+                if (hit is Deer)
+                {
+                    return hit;
+                }
+            }
+            return null;
+        }
+    }
+    class ReturnToPosition : WolfState
+    {
+        public override string Message => "returns to position";
         public ReturnToPosition(Wolf self) : base(self)
         {
             path = new List<Vector2Int>();
@@ -33,9 +65,9 @@ public class Wolf : Mob
 
         public override State Update()
         {
-            if (AnyInRange<Mob>())
+            var target = FindATarget();
+            if (target != null)
             {
-                var target = Game.Instance.Agents.Minimum(x => Vector2Int.Distance(x.position, self.position));
                 return new GotoState(self as Wolf, target);
             }
 
@@ -60,48 +92,31 @@ public class Wolf : Mob
             return this;
         }
     }
-
-    class RandomWalk : State
+    class RandomWalk : WolfState
     {
-        Vector2Int u;
         public RandomWalk(Wolf self) : base(self) { }
+
+        public override string Message => "random walk";
+
         public override State Update()
         {
-            // -------------------------------------------- trying to find a deer
-            var hit = Game.Instance.Agents.FindAll(x => x is Deer).Minimum(x => Vector2.Distance(x.position, self.position));
-            if (hit != null)
+            var target = FindATarget();
+            if (target != null)
             {
-                hit = GameHelper.Raycast(self.position, hit.position);
+                return new GotoState(self as Wolf, target);
+            }
 
-                if (hit is Deer)
-                {
-                    return new GotoState(self as Wolf, hit);
-                }
-            }
-            // -------------------------------------------- trying to find a lure
-            hit = Game.Instance.Agents.FindAll(x => x is Lure).Minimum(x => Vector2.Distance(x.position, self.position));
-            if (hit != null)
-            {
-                hit = GameHelper.Raycast(self.position, hit.position);
-                if (hit is Deer)
-                {
-                    return new GotoState(self as Wolf, hit);
-                }
-            }
 
             // ---------------------------------------- random walk
             if (path.Count <= 0)
             {
                 var astarColDetection = Astar.CollisionDetection;
                 Astar.CollisionDetection = pos => collisionDetection(pos, self); //override collision detection method
-
-                while (path.Count <= 0)
-                {
-                    var u = GameHelper.LinearRandom(Game.Instance.Level.Ground);
-                    path = Astar.GetPath(self.position, u);
-                }
-
+                var u = GameHelper.LinearRandom(Game.Instance.Level.Ground);
+                path = Astar.GetPath(self.position, u);
                 Astar.CollisionDetection = astarColDetection;
+                if (path.Count <= 0) return this;
+
             }
 
             var step = path[0];
@@ -117,26 +132,33 @@ public class Wolf : Mob
             return this;
         }
     }
-    class GotoState : State
+    class GotoState : WolfState
     {
         Vector2Int lastSeenAt;
         private Agent target;
         public GotoState(Wolf self, Agent target) : base(self) 
         {
+            self.savedPosition = self.position;
             this.target = target;
+            path = new List<Vector2Int>();
+            lastSeenAt = target.position;
         }
+
+        public override string Message => "goes to " + target.ID;
+
         public override State Update()
         {
-            if (IsInRange(target))
-            {
-                lastSeenAt = target.position;
-            }
+            if (target == self) return new RandomWalk(self as Wolf);
+            var isInRange = IsInRange(target, self);
+
+            //if target is next to us, we attack/eat it
             if (IsNextToMe(target))
             {
-                if (target is Lure)
+                if (target is LureAgent)
                 {
                     return new EatState(self as Wolf, target);
                 }
+                
                 else if (!(self as Wolf).friendly || !(target is Player))
                 {
                     return new AttackState(self as Wolf, target);
@@ -146,30 +168,40 @@ public class Wolf : Mob
                     return this;
                 }
             }
-            else if (!IsInRange(target, self))
+
+            //if target is in range, we "see" it
+            if (isInRange)
             {
-                //follow player back after loosing track of foe
-                if ((self as Wolf).friendly && !(target is Player) && IsInRange(Game.Instance.Player, self))
+                lastSeenAt = target.position;
+            }
+
+            if (path.Count <= 0)
+            {
+
+                if (!isInRange)
                 {
-                    return new GotoState(self as Wolf, Game.Instance.Player);
+                    //follow player back after loosing track of foe
+                    if ((self as Wolf).friendly && !(target is Player) && IsInRange(Game.Instance.Player, self))
+                    {
+                        return new GotoState(self as Wolf, Game.Instance.Player);
+                    }
+                    else
+                    {
+                        (self as Wolf).friendly = false;
+                        return new ReturnToPosition(self as Wolf);
+                    }
                 }
                 else
-                {
-                    (self as Wolf).friendly = false;
-                    return new ReturnToPosition(self as Wolf);
-                }
-            }
-            else
-            {
-                if (path.Count <= 0)
                 {
                     var astarColDetection = Astar.CollisionDetection;
                     Astar.CollisionDetection = pos => collisionDetection(pos, target);
                     path = Astar.GetPath(self.position, lastSeenAt);
                     Astar.CollisionDetection = astarColDetection;
-                    if (path.Count <= 0) return this;
+                    return this;
                 }
-
+            }
+            else
+            {
                 var step = path[0];
                 if (collisionDetection(step))
                 {
@@ -183,7 +215,7 @@ public class Wolf : Mob
             }
         }
     }
-    class EatState : State
+    class EatState : WolfState
     {
         private Agent target;
         public EatState(Wolf self, Agent target) : base(self)
@@ -191,8 +223,11 @@ public class Wolf : Mob
             this.target = target;
         }
 
+        public override string Message => "eats " + target.ID;
+
         public override State Update()
         {
+            if (target == self) return new RandomWalk(self as Wolf);
             Game.Instance.Destroy(target);
             if (IsInRange(Game.Instance.Player, self))
             {
@@ -201,19 +236,23 @@ public class Wolf : Mob
             }
             else
             {
-                return new GotoState(self as Wolf, target);
+                return new RandomWalk(self as Wolf);
             }
         }
     }
-    class AttackState : State
+    class AttackState : WolfState
     {
         private Agent target;
         public AttackState(Wolf wolf, Agent target) : base(wolf)
         {
             this.target = target;
         }
+
+        public override string Message => "attacks " + target.ID;
+
         public override State Update()
         {
+            if (target == self) return new RandomWalk(self as Wolf);
             bool isPlayer = target is Player;
 
             if (isPlayer) UIManager.Notifications.CreateNotification($"{self.data.visibleName} tries to hit you");

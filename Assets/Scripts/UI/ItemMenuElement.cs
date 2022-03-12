@@ -6,14 +6,14 @@ using UnityEngine.UI;
 
 public class ItemMenuElement : MonoBehaviour
 {
-    public string Item
+    public Item Item
     {
-        get => item.name;
+        get => item;
         set
         {
-            item = Codex.Items[value];
+            item = value;
             image.sprite = item.sprite;
-            label.text = $"{DataModel.Inventory.HowMany(value)} x {item.visibleName}";
+            label.text = $"{DataModel.Inventory.HowMany(value.name)} x {value.visibleName}";
         }
     }
     private Item item;

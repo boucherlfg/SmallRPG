@@ -8,6 +8,7 @@ using UnityEngine;
 public abstract class Agent
 {
     public Vector2Int position;
+    public virtual string ID => GetType().Name + Game.Instance.Agents.IndexOf(this);
 }
 
 

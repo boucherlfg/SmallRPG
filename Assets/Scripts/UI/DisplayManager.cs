@@ -34,6 +34,5 @@ class DisplayManager : MonoSingleton<DisplayManager>
     {
         background.SetTile(new Vector3Int(x, y, 0), floorTile);
     }
-
     public static DisplayManager Instance => _instance;
 }

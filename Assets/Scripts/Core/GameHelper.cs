@@ -5,6 +5,13 @@ using UnityEngine.Tilemaps;
 
 public static class GameHelper
 {
+    public static float Round(this float f, int place)
+    {
+        f *= Mathf.Pow(10, place);
+        f = (int)f;
+        f /= Mathf.Pow(10, place);
+        return f;
+    }
     public static Vector2Int Rotate90Right(this Vector2Int vect) => new Vector2Int(vect.y, -vect.x);
     public static Tile CreateTile(Sprite sprite)
     {
@@ -108,14 +115,14 @@ public static class GameHelper
     {
         return new Rect(agent.position, Vector2.one);
     }
-    public static Agent Raycast(Vector2 startingPoint, Vector2 endingPoint, params Agent[] exclude)
+    public static Agent Raycast(Vector2 startingPoint, Vector2 endingPoint, float distance, params Agent[] exclude)
     {
         //techniquement O(n²) mais exclude sera toujours très petit
         var list = Game.Instance.Agents.FindAll(agent => agent is ICollision && !exclude.Contains(agent));
         list.Sort((x, y) => System.Math.Sign(Vector2.Distance(x.position, startingPoint) - Vector2.Distance(y.position, startingPoint)));
 
         float len = 0;
-        while (len < Vector2.Distance(startingPoint, endingPoint) || list.Count <= 0)
+        while (len < distance || list.Count <= 0)
         {
             //avancer d'un closest à l'autre en raycastant sur la bounding box. devrait donner une recherche en O(n) -> O(n²) si on considère le while
             var closest = list.Minimum(x => Vector2.Distance(x.position, startingPoint));
@@ -219,4 +226,5 @@ public static class GameHelper
     public static int DistributedRandom(float min, float max) => (int)Mathf.Clamp((RarityDistribution(Random.value) * max) + min, min, max);
     public static T DistributedRandom<T>(IEnumerable<T> list) => list.ElementAtOrDefault(DistributedRandom(0, list.Count()));
     public static T LinearRandom<T>(IEnumerable<T> list) => list.ElementAtOrDefault(Random.Range(0, list.Count()));
+    public static Vector2Int RandomCardinal() => LinearRandom(new Vector2Int[] { Vector2Int.down, Vector2Int.up, Vector2Int.left, Vector2Int.right });
 }
