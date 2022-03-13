@@ -83,6 +83,7 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
         }
         var damage = GameHelper.CalculateDamage(user, this);
         UIManager.Notifications.CreateNotification($"and you manage to deal {damage} damage.");
+        DisplayManager.Instance.CreateDamageText(damage, position);
         var s = Stats;
         s.life -= damage;
         Stats = s;
@@ -113,5 +114,4 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
         }
         protected bool IsNextToMe<U>(U obj) where U : Agent => Vector2Int.Distance(self.position, obj.position) < 1.1;
     }
-    protected class PathTarget : Agent { }
 }

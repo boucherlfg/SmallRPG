@@ -8483,6 +8483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f287330e8eeed646a637b500589d990, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageTextPrefab: {fileID: 4098990142092707414, guid: 90a5dad4d819c284daeb59500df8b4ad, type: 3}
   tilePerType:
   - {fileID: 11400000, guid: 6ffb98e75e2f6584cb5f11d24f94a262, type: 2}
   - {fileID: 11400000, guid: 58da56051bf295345a15394dc4c7dcf5, type: 2}

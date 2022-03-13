@@ -267,7 +267,12 @@ public class Wolf : Mob
                 s.life -= dmg;
                 (target as IStats).Stats = s;
 
-                if (isPlayer) UIManager.Notifications.CreateNotification($"and deals {dmg} damage to you.");
+                if (isPlayer)
+                {
+                    UIManager.Notifications.CreateNotification($"and deals {dmg} damage to you.");
+
+                    DisplayManager.Instance.CreateDamageText(dmg, target.position);
+                }
                 if ((target as IStats).Stats.life <= 0)
                 {
                     return new RandomWalk(self as Wolf);

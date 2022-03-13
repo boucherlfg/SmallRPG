@@ -5,6 +5,13 @@ using UnityEngine.Tilemaps;
 
 class DisplayManager : MonoSingleton<DisplayManager>
 {
+    public void CreateDamageText(int damage, Vector2Int position)
+    {
+        GameObject go = Instantiate(damageTextPrefab);
+        go.transform.position = (Vector2)position;
+        go.GetComponent<DamageDisplayScript>().Damage = damage;
+    }
+    public GameObject damageTextPrefab;
     public Tile this[string tag] => tilePerType.Find(x => x.name == tag);
     [SerializeField]
     private List<Tile> tilePerType;

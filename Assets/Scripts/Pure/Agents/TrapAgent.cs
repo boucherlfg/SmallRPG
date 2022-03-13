@@ -1,4 +1,5 @@
 ﻿using UnityEngine.Tilemaps;
+using static UnityEngine.GraphicsBuffer;
 
 public class TrapAgent : Agent, IActivatable, IDrawable, IUsableAgent
 {
@@ -20,7 +21,12 @@ public class TrapAgent : Agent, IActivatable, IDrawable, IUsableAgent
     {
         if (!(source is IStats)) return;
 
-        if (source is Player) AudioManager.PlayAsSound("use");
+        if (source is Player)
+        {
+            AudioManager.PlayAsSound("use");
+            UIManager.Notifications.CreateNotification("you just fell in a trap!");
+
+        }
         var buff = new Buff(() => source as Agent, data.heal, data.regen, data.resolve, data.duration);
         DataModel.ActiveBuffs.Add(buff);
         Game.Instance.Destroy(this);
@@ -30,5 +36,6 @@ public class TrapAgent : Agent, IActivatable, IDrawable, IUsableAgent
     {
         AudioManager.PlayAsSound("empty");
         Game.Instance.Destroy(this);
+        UIManager.Notifications.CreateNotification("you just deactivated a trap");
     }
 }
