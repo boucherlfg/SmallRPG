@@ -12,10 +12,10 @@ public class Bandit : Mob
     private string mob_tag = "bandit";
     protected override string Mob_tag => mob_tag;
     protected override State InitialState => new RandomWalk(this);
-    public override void Use(Player user)
+    public override void Activate(IMovable user)
     {
-        base.Use(user);
-        state = new AttackState(this, user);
+        base.Activate(user);
+        state = new AttackState(this, user as Agent);
     }
 
     public override AgentData.AgentType AgentType => AgentData.AgentType.Bandit;

@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Tilemaps;
 
-public class FloorItem : Agent, IUsableAgent, IDrawable
+public class FloorItem : Agent, IActivatable, IDrawable
 {
     private Item reference;
 
@@ -28,8 +28,11 @@ public class FloorItem : Agent, IUsableAgent, IDrawable
         UIManager.Notifications.CreateNotification("you just found " + reference.visibleName);
         Game.Instance.Destroy(this);
     }
-    public void Use(Player user)
+    public void Activate(IMovable user)
     {
-        Pickup();
+        if (user is Player)
+        {
+            Pickup();
+        }
     }
 }

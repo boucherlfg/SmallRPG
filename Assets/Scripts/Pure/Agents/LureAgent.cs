@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Tilemaps;
 
-public class LureAgent : Agent, IDrawable
+public class LureAgent : Agent, IDrawable, IActivatable, IEndable
 {
     public Lure lure;
     public LureAgent(Lure lure)
@@ -8,10 +8,19 @@ public class LureAgent : Agent, IDrawable
         this.lure = lure;
     }
 
+    public void Activate(IMovable source)
+    {
+        Game.Instance.Destroy(this);
+    }
+
+    public void End()
+    {
+        AudioManager.PlayAsSound("empty");
+    }
+
     private Tile tile;
     public Tile CurrentTile
     {
-
         get
         {
             if (!tile)

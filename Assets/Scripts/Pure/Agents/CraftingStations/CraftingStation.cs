@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine.Tilemaps;
 
-public abstract class CraftingStation : Agent, IUsableAgent, IDrawable, ICollision
+public abstract class CraftingStation : Agent, IActivatable, IDrawable, ICollision
 {
     protected abstract string Crafting_Tag { get; }
     protected abstract CraftingType craftingType { get; }
@@ -9,7 +9,7 @@ public abstract class CraftingStation : Agent, IUsableAgent, IDrawable, ICollisi
     {
     }
     public Tile CurrentTile => DisplayManager.Instance[Crafting_Tag];
-    public void Use(Player user)
+    public void Activate(IMovable user)
     {
         if (UIManager.Crafting.Active) UIManager.Crafting.Active = false;
         UIManager.Crafting.Toggle();

@@ -18,11 +18,11 @@ public class Wolf : Mob
     protected override State InitialState => new RandomWalk(this);
 
 
-    public override void Use(Player user)
+    public override void Activate(IMovable user)
     {
-        base.Use(user);
+        base.Activate(user);
         friendly = false;
-        state = new AttackState(this, user);
+        state = new AttackState(this, user as Agent);
     }
 
     abstract class WolfState : State

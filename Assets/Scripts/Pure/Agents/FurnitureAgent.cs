@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class FurnitureAgent : Agent, IUsableAgent, ICollision, IDrawable, IEndable
+public class FurnitureAgent : Agent, IActivatable, ICollision, IDrawable, IEndable
 {
     public Furniture item;
     public Tile CurrentTile => GameHelper.CreateTile(item.sprite);
@@ -14,7 +14,7 @@ public class FurnitureAgent : Agent, IUsableAgent, ICollision, IDrawable, IEndab
     {
         this.item = item;
     }
-    public void Use(Player user)
+    public void Activate(IMovable source)
     {
         Game.Instance.Destroy(this);
     }

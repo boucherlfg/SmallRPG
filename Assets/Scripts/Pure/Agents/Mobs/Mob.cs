@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
 
-public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision, IUsableAgent, IEndable
+public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision, IActivatable, IEndable
 {
     
     protected List<string> loot;
@@ -72,16 +72,16 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
         }
         state = newState;
     }
-    public virtual void Use(Player user)
+    public virtual void Activate(IMovable user)
     {
         AudioManager.PlayAsSound("use");
         UIManager.Notifications.CreateNotification($"you attempt to attack a {data.visibleName}...");
-        if (!GameHelper.CalculateHit(user, this))
+        if (!GameHelper.CalculateHit(user as IStats, this))
         {
             UIManager.Notifications.CreateNotification("but your attack misses.");
             return;
         }
-        var damage = GameHelper.CalculateDamage(user, this);
+        var damage = GameHelper.CalculateDamage(user as IStats, this);
         UIManager.Notifications.CreateNotification($"and you manage to deal {damage} damage.");
         DisplayManager.Instance.CreateDamageText(damage, position);
         var s = Stats;

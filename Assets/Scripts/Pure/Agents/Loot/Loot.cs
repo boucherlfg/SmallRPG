@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Loot : Agent, IDrawable, ICollision, IUsableAgent, IEndable
+public class Loot : Agent, IDrawable, ICollision, IActivatable, IEndable
 {
     public List<string> loot;
     const string loot_tag = "loot";
@@ -22,7 +22,7 @@ public class Loot : Agent, IDrawable, ICollision, IUsableAgent, IEndable
     public Tile CurrentTile => DisplayManager.Instance[loot_tag];
 
     public UseType UseType => UseType.Loot;
-    public void Use(Player user)
+    public void Activate(IMovable user)
     {
         if (locked)
         {

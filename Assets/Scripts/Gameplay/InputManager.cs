@@ -1,22 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class InputManager : MonoSingleton<InputManager>
 {
+
+    #region events
     private event TypedAction<Vector2Int> onMoved;
     public static event TypedAction<Vector2Int> Moved
     {
         add => _instance.onMoved += value;
         remove => _instance.onMoved -= value;
-    }
-
-    private event VoidAction onUsed;
-    public static event VoidAction Used
-    {
-        add => _instance.onUsed += value;
-        remove => _instance.onUsed -= value;
     }
 
     private event VoidAction onAttacked;
@@ -68,6 +64,16 @@ public class InputManager : MonoSingleton<InputManager>
         remove => _instance.onLogs -= value;
     }
 
+    private event VoidAction onClick;
+    public static event VoidAction Clicked
+    {
+        add => _instance.onClick += value;
+        remove => _instance.onClick -= value;
+    }
+    #endregion
+
+    public static Vector2 MousePosition => Camera.main.ScreenToWorldPoint(_instance.controls.Player.MousePosition.ReadValue<Vector2>());
+
     public static bool Active
     {
         get => _instance.controls.Player.enabled;
@@ -90,8 +96,16 @@ public class InputManager : MonoSingleton<InputManager>
         controls.Player.Equipment.performed += Equipment_performed;
         controls.Player.Crafting.performed += Crafting_performed;
         controls.Player.Stats.performed += Stats_performed;
-        controls.Player.Use.performed += Use_performed;
         controls.Player.Logs.performed += Logs_performed;
+        controls.Player.Click.performed += Click_performed;
+    }
+
+    private void Click_performed(InputAction.CallbackContext obj)
+    {
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            onClick?.Invoke();
+        }
     }
 
     private void Logs_performed(InputAction.CallbackContext obj)
@@ -102,11 +116,6 @@ public class InputManager : MonoSingleton<InputManager>
     private void Crafting_performed(InputAction.CallbackContext obj)
     {
         onCrafting?.Invoke();
-    }
-
-    private void Use_performed(InputAction.CallbackContext obj)
-    {
-        onUsed?.Invoke();
     }
 
     private void Stats_performed(InputAction.CallbackContext obj)

@@ -13,7 +13,6 @@ public class Controller : MonoBehaviour
     {
         InputManager.Moved += InputManager_Moved;
         InputManager.Attacked += InputManager_Attacked;
-        InputManager.Used += InputManager_Used;
         //menus
         InputManager.Equipment += InputManager_Equipment;
         InputManager.Inventory += InputManager_Inventory;

@@ -1,7 +1,7 @@
 ﻿using UnityEngine.Tilemaps;
 using static UnityEngine.GraphicsBuffer;
 
-public class TrapAgent : Agent, IActivatable, IDrawable, IUsableAgent
+public class TrapAgent : Agent, IActivatable, IDrawable
 {
     public Trap data;
     const string trap_tag = "trap";
@@ -30,12 +30,5 @@ public class TrapAgent : Agent, IActivatable, IDrawable, IUsableAgent
         var buff = new Buff(() => source as Agent, data.heal, data.regen, data.resolve, data.duration);
         DataModel.ActiveBuffs.Add(buff);
         Game.Instance.Destroy(this);
-    }
-
-    public void Use(Player user)
-    {
-        AudioManager.PlayAsSound("empty");
-        Game.Instance.Destroy(this);
-        UIManager.Notifications.CreateNotification("you just deactivated a trap");
     }
 }

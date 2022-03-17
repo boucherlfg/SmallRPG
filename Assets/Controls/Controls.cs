@@ -107,6 +107,24 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""8a14435e-b818-4e9f-abb7-d43e57b223eb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MousePosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""e3c4716b-7beb-4870-be5e-1cbdf63895b5"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -329,6 +347,28 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""Logs"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""949195ba-3564-40f9-bfc5-02702e01020c"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c836773-29f2-482f-93f8-e1d720884179"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MousePosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -346,6 +386,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
         m_Player_Crafting = m_Player.FindAction("Crafting", throwIfNotFound: true);
         m_Player_Logs = m_Player.FindAction("Logs", throwIfNotFound: true);
+        m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
+        m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -414,6 +456,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Use;
     private readonly InputAction m_Player_Crafting;
     private readonly InputAction m_Player_Logs;
+    private readonly InputAction m_Player_Click;
+    private readonly InputAction m_Player_MousePosition;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -427,6 +471,8 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         public InputAction @Use => m_Wrapper.m_Player_Use;
         public InputAction @Crafting => m_Wrapper.m_Player_Crafting;
         public InputAction @Logs => m_Wrapper.m_Player_Logs;
+        public InputAction @Click => m_Wrapper.m_Player_Click;
+        public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -463,6 +509,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Logs.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLogs;
                 @Logs.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLogs;
                 @Logs.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLogs;
+                @Click.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
+                @Click.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
+                @Click.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClick;
+                @MousePosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
+                @MousePosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
+                @MousePosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -494,6 +546,12 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Logs.started += instance.OnLogs;
                 @Logs.performed += instance.OnLogs;
                 @Logs.canceled += instance.OnLogs;
+                @Click.started += instance.OnClick;
+                @Click.performed += instance.OnClick;
+                @Click.canceled += instance.OnClick;
+                @MousePosition.started += instance.OnMousePosition;
+                @MousePosition.performed += instance.OnMousePosition;
+                @MousePosition.canceled += instance.OnMousePosition;
             }
         }
     }
@@ -509,5 +567,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         void OnUse(InputAction.CallbackContext context);
         void OnCrafting(InputAction.CallbackContext context);
         void OnLogs(InputAction.CallbackContext context);
+        void OnClick(InputAction.CallbackContext context);
+        void OnMousePosition(InputAction.CallbackContext context);
     }
 }

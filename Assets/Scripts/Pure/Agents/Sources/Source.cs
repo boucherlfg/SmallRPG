@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public abstract class Source : Agent, IUsableAgent, IDrawable, ICollision
+public abstract class Source : Agent, IActivatable, IDrawable, ICollision
 {
     public enum SourceType
     {
@@ -30,7 +30,7 @@ public abstract class Source : Agent, IUsableAgent, IDrawable, ICollision
     public abstract UseType UseType { get; }
     public abstract Tile CurrentTile { get; }
     public abstract string Name { get; }
-    public virtual void Use(Player player)
+    public virtual void Activate(IMovable player)
     {
         var tool = DataModel.Equipment.Tool;
         if (tool == null || !(tool is Tool) || (tool as Tool).useType != UseType)
