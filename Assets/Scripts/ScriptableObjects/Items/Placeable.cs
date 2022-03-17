@@ -10,11 +10,16 @@ public abstract class Placeable : Item
             UIManager.Notifications.CreateNotification("you can't place something there");
             return;
         }
-
+        
         var agent = AgentFactory;
         agent.position = player.position + player.Orientation;
         Game.Instance.Create(agent);
-        DataModel.Inventory.Delete(name);
-        DataModel.Inventory.Delete("you placed " + visibleName);
+        UIManager.Notifications.CreateNotification("you placed " + visibleName);
+        DataModel.Equipment.ConsumeTool();
+        if (DataModel.Inventory.HowMany(name) > 0)
+        {
+            DataModel.Equipment.Tool = this;
+        }
+        
     }
 }
