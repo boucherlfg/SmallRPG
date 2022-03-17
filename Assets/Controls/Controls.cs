@@ -37,7 +37,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""Use"",
                     ""type"": ""Button"",
                     ""id"": ""f38625e2-d6d3-427d-b228-006947575b11"",
                     ""expectedControlType"": ""Button"",
@@ -82,15 +82,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Use"",
-                    ""type"": ""Button"",
-                    ""id"": ""e1740466-d767-4609-b30a-f0d4c00af764"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Crafting"",
                     ""type"": ""Button"",
                     ""id"": ""9cc9214d-4379-4a68-a3ff-6d50477dc6eb"",
@@ -125,6 +116,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Wait"",
+                    ""type"": ""Button"",
+                    ""id"": ""28f38b0d-7408-4c3d-93c7-ae4ef719a47b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -267,7 +267,7 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Attack"",
+                    ""action"": ""Use"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -317,17 +317,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9aa79370-d533-4098-b83c-39c862ae6425"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Use"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""c5294536-e3c9-4401-bc93-a1b0b5f5246d"",
                     ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
@@ -369,6 +358,17 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                     ""action"": ""MousePosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ba786d1-6f11-4c50-9d11-4a3067a4b1ea"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Wait"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -378,16 +378,16 @@ public partial class @Controls : IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
-        m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
+        m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
         m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_Equipment = m_Player.FindAction("Equipment", throwIfNotFound: true);
         m_Player_Stats = m_Player.FindAction("Stats", throwIfNotFound: true);
-        m_Player_Use = m_Player.FindAction("Use", throwIfNotFound: true);
         m_Player_Crafting = m_Player.FindAction("Crafting", throwIfNotFound: true);
         m_Player_Logs = m_Player.FindAction("Logs", throwIfNotFound: true);
         m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
         m_Player_MousePosition = m_Player.FindAction("MousePosition", throwIfNotFound: true);
+        m_Player_Wait = m_Player.FindAction("Wait", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -448,31 +448,31 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
-    private readonly InputAction m_Player_Attack;
+    private readonly InputAction m_Player_Use;
     private readonly InputAction m_Player_Escape;
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_Equipment;
     private readonly InputAction m_Player_Stats;
-    private readonly InputAction m_Player_Use;
     private readonly InputAction m_Player_Crafting;
     private readonly InputAction m_Player_Logs;
     private readonly InputAction m_Player_Click;
     private readonly InputAction m_Player_MousePosition;
+    private readonly InputAction m_Player_Wait;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
         public PlayerActions(@Controls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
-        public InputAction @Attack => m_Wrapper.m_Player_Attack;
+        public InputAction @Use => m_Wrapper.m_Player_Use;
         public InputAction @Escape => m_Wrapper.m_Player_Escape;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @Equipment => m_Wrapper.m_Player_Equipment;
         public InputAction @Stats => m_Wrapper.m_Player_Stats;
-        public InputAction @Use => m_Wrapper.m_Player_Use;
         public InputAction @Crafting => m_Wrapper.m_Player_Crafting;
         public InputAction @Logs => m_Wrapper.m_Player_Logs;
         public InputAction @Click => m_Wrapper.m_Player_Click;
         public InputAction @MousePosition => m_Wrapper.m_Player_MousePosition;
+        public InputAction @Wait => m_Wrapper.m_Player_Wait;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -485,9 +485,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
                 @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Attack.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                @Attack.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
-                @Attack.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAttack;
+                @Use.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
+                @Use.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
+                @Use.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
                 @Escape.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
                 @Escape.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
                 @Escape.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
@@ -500,9 +500,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Stats.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStats;
                 @Stats.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStats;
                 @Stats.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStats;
-                @Use.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
-                @Use.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
-                @Use.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUse;
                 @Crafting.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrafting;
                 @Crafting.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrafting;
                 @Crafting.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrafting;
@@ -515,6 +512,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @MousePosition.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
                 @MousePosition.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
                 @MousePosition.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMousePosition;
+                @Wait.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWait;
+                @Wait.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWait;
+                @Wait.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWait;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -522,9 +522,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Move.started += instance.OnMove;
                 @Move.performed += instance.OnMove;
                 @Move.canceled += instance.OnMove;
-                @Attack.started += instance.OnAttack;
-                @Attack.performed += instance.OnAttack;
-                @Attack.canceled += instance.OnAttack;
+                @Use.started += instance.OnUse;
+                @Use.performed += instance.OnUse;
+                @Use.canceled += instance.OnUse;
                 @Escape.started += instance.OnEscape;
                 @Escape.performed += instance.OnEscape;
                 @Escape.canceled += instance.OnEscape;
@@ -537,9 +537,6 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @Stats.started += instance.OnStats;
                 @Stats.performed += instance.OnStats;
                 @Stats.canceled += instance.OnStats;
-                @Use.started += instance.OnUse;
-                @Use.performed += instance.OnUse;
-                @Use.canceled += instance.OnUse;
                 @Crafting.started += instance.OnCrafting;
                 @Crafting.performed += instance.OnCrafting;
                 @Crafting.canceled += instance.OnCrafting;
@@ -552,6 +549,9 @@ public partial class @Controls : IInputActionCollection2, IDisposable
                 @MousePosition.started += instance.OnMousePosition;
                 @MousePosition.performed += instance.OnMousePosition;
                 @MousePosition.canceled += instance.OnMousePosition;
+                @Wait.started += instance.OnWait;
+                @Wait.performed += instance.OnWait;
+                @Wait.canceled += instance.OnWait;
             }
         }
     }
@@ -559,15 +559,15 @@ public partial class @Controls : IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
-        void OnAttack(InputAction.CallbackContext context);
+        void OnUse(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnEquipment(InputAction.CallbackContext context);
         void OnStats(InputAction.CallbackContext context);
-        void OnUse(InputAction.CallbackContext context);
         void OnCrafting(InputAction.CallbackContext context);
         void OnLogs(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
+        void OnWait(InputAction.CallbackContext context);
     }
 }

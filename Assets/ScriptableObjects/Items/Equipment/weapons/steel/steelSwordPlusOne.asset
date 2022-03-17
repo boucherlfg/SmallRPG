@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: steelSwordPlusOne
   m_EditorClassIdentifier: 
   visibleName: Steel sword +1
-  sprite: {fileID: -2974297893697859306, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
+  sprite: {fileID: 4898563026762817124, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
   value: 14
   equipType: 5

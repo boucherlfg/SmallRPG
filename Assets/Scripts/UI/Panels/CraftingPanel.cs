@@ -12,6 +12,7 @@ public class CraftingPanel : PanelWrapper
     [SerializeField]
     private TMP_Text title;
     private CraftingType craftingType;
+    public override bool ExitableByEscape => true;
 
     void Start()
     {

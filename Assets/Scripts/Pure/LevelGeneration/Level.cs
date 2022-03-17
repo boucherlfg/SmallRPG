@@ -166,10 +166,15 @@ public class Level
     private void AddCraftingStations()
     {
         var types = GameHelper.GetAllSubTypes<CraftingStation>();
-        var choice = GameHelper.LinearRandom(types);
-        var room = GameHelper.LinearRandom(rooms);
-        var agent = room.CreateAtRandomPosition(choice, agents);
-        agents.Add(agent);
+        var roomList = new List<Room>();
+        foreach (var type in types)
+        {
+            var room = GameHelper.LinearRandom(rooms);
+            while (roomList.Contains(room)) room = GameHelper.LinearRandom(rooms);
+            var agent = room.CreateAtRandomPosition(type, agents);
+            agents.Add(agent);
+        }
+        
     }
     private void AddCorridors()
     {

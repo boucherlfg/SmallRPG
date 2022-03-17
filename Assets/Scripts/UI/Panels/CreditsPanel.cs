@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class CreditsPanel : PanelWrapper
 {
+    public override bool ExitableByEscape => true;
 }

@@ -37,8 +37,8 @@ public class DataModel : CSharpSingleton<DataModel>
     {
         return new StatBlock()
         {
-            life = value.life < 0 ? 0 : value.life,
-            mana = value.mana < 0 ? 0 : value.mana,
+            life = value.life < 0 ? 0 : value.life > 20 ? 20 : value.life,
+            mana = value.mana < 0 ? 0 : value.mana > 20 ? 20 : value.mana,
             attack = value.attack < 0 ? 0 : value.attack,
             defense = value.defense < 0 ? 0 : value.defense,
             evasion = value.evasion < 0 ? 0 : value.evasion,

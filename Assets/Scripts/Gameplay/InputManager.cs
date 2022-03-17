@@ -15,11 +15,11 @@ public class InputManager : MonoSingleton<InputManager>
         remove => _instance.onMoved -= value;
     }
 
-    private event VoidAction onAttacked;
-    public static event VoidAction Attacked
+    private event VoidAction onUsed;
+    public static event VoidAction Used
     {
-        add => _instance.onAttacked += value;
-        remove => _instance.onAttacked -= value;
+        add => _instance.onUsed += value;
+        remove => _instance.onUsed -= value;
     }
 
     private event VoidAction onEquipment;
@@ -70,9 +70,19 @@ public class InputManager : MonoSingleton<InputManager>
         add => _instance.onClick += value;
         remove => _instance.onClick -= value;
     }
+
+    private event VoidAction onWait;
+    public static event VoidAction Waited
+    {
+        add => _instance.onWait += value;
+        remove => _instance.onWait -= value;
+    }
     #endregion
 
     public static Vector2 MousePosition => Camera.main.ScreenToWorldPoint(_instance.controls.Player.MousePosition.ReadValue<Vector2>());
+    public static Vector2Int MoveVector => Vector2Int.RoundToInt(_instance.controls.Player.Move.ReadValue<Vector2>());
+
+
 
     public static bool Active
     {
@@ -89,15 +99,23 @@ public class InputManager : MonoSingleton<InputManager>
         base.Awake();
         controls = new Controls();
         controls.Player.Enable();
+
         controls.Player.Move.performed += Move_performed;
-        controls.Player.Attack.performed += Attack_performed;
+        controls.Player.Use.performed += Use_Performed;
+        controls.Player.Click.performed += Click_performed;
+        controls.Player.Wait.performed += Wait_performed;
+
         controls.Player.Escape.performed += Escape_performed;
         controls.Player.Inventory.performed += Inventory_performed;
         controls.Player.Equipment.performed += Equipment_performed;
         controls.Player.Crafting.performed += Crafting_performed;
         controls.Player.Stats.performed += Stats_performed;
         controls.Player.Logs.performed += Logs_performed;
-        controls.Player.Click.performed += Click_performed;
+    }
+
+    private void Wait_performed(InputAction.CallbackContext obj)
+    {
+        onWait?.Invoke();
     }
 
     private void Click_performed(InputAction.CallbackContext obj)
@@ -138,9 +156,9 @@ public class InputManager : MonoSingleton<InputManager>
         onEquipment?.Invoke();
     }
 
-    private void Attack_performed(InputAction.CallbackContext obj)
+    private void Use_Performed(InputAction.CallbackContext obj)
     {
-        onAttacked?.Invoke();
+        onUsed?.Invoke();
     }
 
     private void Move_performed(InputAction.CallbackContext obj)

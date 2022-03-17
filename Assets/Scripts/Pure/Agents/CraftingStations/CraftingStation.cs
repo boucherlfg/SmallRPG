@@ -9,7 +9,7 @@ public abstract class CraftingStation : Agent, IActivatable, IDrawable, ICollisi
     {
     }
     public Tile CurrentTile => DisplayManager.Instance[Crafting_Tag];
-    public void Activate(IMovable user)
+    public virtual void Activate(IMovable user)
     {
         if (UIManager.Crafting.Active) UIManager.Crafting.Active = false;
         UIManager.Crafting.Toggle();

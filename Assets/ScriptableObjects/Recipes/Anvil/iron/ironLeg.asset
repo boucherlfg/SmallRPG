@@ -18,5 +18,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fb850d0c8689ab5419b4134d238861ea, type: 2}
   - {fileID: 11400000, guid: b3cae8b5da05be646b0bbb64d9ebbf33, type: 2}
   output:
-  - {fileID: 11400000, guid: fb850d0c8689ab5419b4134d238861ea, type: 2}
+  - {fileID: 11400000, guid: c12d8b8f86fd01f4a8c3ea303e6d8902, type: 2}
+  onFailure: []
   successRate: 1

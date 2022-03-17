@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: cotton
   m_EditorClassIdentifier: 
   visibleName: Cotton
-  sprite: {fileID: -6491380683623682671, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
+  sprite: {fileID: -1855789924996760358, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
   value: 1
   type: 2

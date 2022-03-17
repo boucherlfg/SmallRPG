@@ -2,6 +2,7 @@
 
 public class PausePanel : PanelWrapper
 {
+    public override bool ExitableByEscape => true;
     public void Continue()
     {
         Toggle();

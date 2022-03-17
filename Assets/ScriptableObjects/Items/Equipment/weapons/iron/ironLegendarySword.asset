@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ironLegendarySword
   m_EditorClassIdentifier: 
   visibleName: Iron legendary sword
-  sprite: {fileID: -2974297893697859306, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
+  sprite: {fileID: 8799331346380755975, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
   value: 40
   equipType: 5

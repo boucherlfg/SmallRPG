@@ -64,4 +64,12 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField]
     private TooltipPanel tooltip;
     public static TooltipPanel Tooltip => _instance.tooltip;
+
+    [SerializeField]
+    private ExitPromptPanel exitPrompt;
+    public static ExitPromptPanel ExitPrompt => _instance.exitPrompt;
+
+    [SerializeField]
+    private ScrapingPanel scraping;
+    public static ScrapingPanel Scraping => _instance.scraping;
 }

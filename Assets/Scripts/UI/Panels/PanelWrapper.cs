@@ -27,6 +27,9 @@ public class PanelWrapper : MonoBehaviour
             AnyActiveStateChanged?.Invoke();
         }
     }
+
+    public virtual bool ExitableByEscape => false;
+
     public void Toggle()
     {
         Active = !Active;

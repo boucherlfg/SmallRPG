@@ -32,14 +32,16 @@ public abstract class Source : Agent, IActivatable, IDrawable, ICollision
     public abstract string Name { get; }
     public virtual void Activate(IMovable player)
     {
-        var tool = DataModel.Equipment.Tool;
-        if (tool == null || !(tool is Tool) || (tool as Tool).useType != UseType)
+        var tool = Codex.Items.Find(x => x is Tool && (x as Tool).useType == UseType);
+        var hasTool = DataModel.Inventory.Items.Exists(x => x == tool.name);
+        //var tool = DataModel.Equipment.Tool;
+        if (!hasTool)
         {
-            UIManager.Notifications.CreateNotification("you need the right tools to harvest this.");
+            UIManager.Notifications.CreateNotification($"you need to have a {tool.visibleName} to harvest this");
             return;
         }
 
-        UIManager.Notifications.CreateNotification($"you start harvesting {Name}");
+        UIManager.Notifications.CreateNotification($"you start harvesting...");
         life--;
         if (possibleItems.Count > 0 && Random.value < 0.5)
         {

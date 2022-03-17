@@ -18,6 +18,7 @@ public class StatsPanel : PanelWrapper
     [SerializeField]
     private TMP_Text evasion;
     private StatBlock statBlock;
+    public override bool ExitableByEscape => true;
     void Start()
     {
         ActiveStateChanged += () => StatBlock = DataModel.StatBlock;

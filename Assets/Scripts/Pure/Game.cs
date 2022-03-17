@@ -107,6 +107,7 @@ public class Game : CSharpSingleton<Game>
         UIManager.Notifications.CreateNotification("welcome to level " + levelNumber);
         int newSize = (int)(Rooms.Count * level_expansion);
         Init(newSize);
+        DisplayManager.Instance.Draw();
     }
 
     public void Init(int size)

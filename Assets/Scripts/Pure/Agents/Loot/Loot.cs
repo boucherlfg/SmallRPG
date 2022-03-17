@@ -8,7 +8,6 @@ public class Loot : Agent, IDrawable, ICollision, IActivatable, IEndable
     public List<string> loot;
     const string loot_tag = "loot";
     private bool locked;
-    private bool broke;
     public Loot()
     {
         loot = new List<string>();
@@ -27,16 +26,16 @@ public class Loot : Agent, IDrawable, ICollision, IActivatable, IEndable
         if (locked)
         {
             UIManager.Notifications.CreateNotification("this loot is locked");
-            var tool = DataModel.Equipment.Tool;
-            if (tool == null || !(tool is Tool) || !UseType.Loot.HasFlag((tool as Tool).useType))
+            var tool = Codex.Items.Find(x => x is Tool && (x as Tool).useType == UseType);
+            var hasTool = DataModel.Inventory.Items.Exists(x => x == tool.name);
+
+            if (!hasTool)
             {
                 UIManager.Notifications.CreateNotification("You would need a key.");
                 return;
             }
 
-            var recharge = DataModel.Inventory.HowMany(DataModel.Equipment.Tool.name) > 0 ? DataModel.Equipment.Tool : null;
-            DataModel.Equipment.ConsumeTool();
-            DataModel.Equipment.Tool = recharge;
+            DataModel.Inventory.Delete(tool.name);
 
             UIManager.Notifications.CreateNotification("and you manage to open it.");
         }
@@ -63,6 +62,6 @@ public class Loot : Agent, IDrawable, ICollision, IActivatable, IEndable
 
     public void End()
     {
-        AudioManager.PlayAsSound(broke ? "empty" : "loot");
+        AudioManager.PlayAsSound("loot");
     }
 }
