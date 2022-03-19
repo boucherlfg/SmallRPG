@@ -2661,11 +2661,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You are a famous treasure hunter. After hearing rumors about an abandoned
-    cave that once belonged to a pirate called Don Juund. you first thought it was
+  m_text: You are a famous treasure hunter. When you heard rumors about an abandoned
+    cave that once belonged to a pirate called Don Juund, you first thought it was
     but an excuse for a pun. You went on with your life until you found evidences
-    of the cave's existence! Delve through the many rooms of the labyrintic crypt,
-    and find as much treasures as you can.
+    of the cave's existence! Delve through the many rooms of the cryptic maze, and
+    find as many treasures as you can.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7955d688c6dd47744a95995b389889a4, type: 2}
   m_sharedMaterial: {fileID: 3549541827858044549, guid: 7955d688c6dd47744a95995b389889a4, type: 2}
@@ -14445,10 +14445,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: '<b>WASD or arrows</b> : move / interact
 
-    <b>Spacebar</b> : use tool
+    <b>Spacebar</b> : wait
 
-    <b>Tab</b>
-    : wait
+    <b>1/2/3/4/5</b>
+    : hotbar
 
     <b>I/U/Y/T/R</b> : in game menus
 

@@ -16,6 +16,8 @@ MonoBehaviour:
   sprite: {fileID: 8227552562717936877, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
   value: 5
+  hasDurability: 0
+  durability: 35
   useType: 4
   stats:
     life: 0

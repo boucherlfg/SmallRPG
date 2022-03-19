@@ -16,6 +16,8 @@ MonoBehaviour:
   sprite: {fileID: -3894112613718088472, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
   value: 8
+  hasDurability: 0
+  durability: 30
   equipType: 2
   buff:
     life: 0
