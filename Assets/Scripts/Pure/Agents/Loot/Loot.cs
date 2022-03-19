@@ -27,7 +27,7 @@ public class Loot : Agent, IDrawable, ICollision, IActivatable, IEndable
         {
             UIManager.Notifications.CreateNotification("this loot is locked");
             var tool = Codex.Items.Find(x => x is Tool && (x as Tool).useType == UseType);
-            var hasTool = DataModel.Inventory.Items.Exists(x => x == tool.name);
+            var hasTool = DataModel.Inventory.Items.Exists(x => x.name == tool.name);
 
             if (!hasTool)
             {

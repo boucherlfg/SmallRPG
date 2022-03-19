@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
-public class TooltipWhenOver : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class DoWhenOver : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    public UnityEvent toDo;
     public string tooltipText;
     public void OnPointerEnter(PointerEventData eventData)
     {

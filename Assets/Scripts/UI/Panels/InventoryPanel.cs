@@ -15,7 +15,6 @@ public class InventoryPanel : PanelWrapper
     private GameObject itemMenuElementPrefab;
     public override bool ExitableByEscape => true;
 
-    private int currentFilter = 0;
     void Start()
     {
         InitDropdown();
@@ -50,6 +49,10 @@ public class InventoryPanel : PanelWrapper
         }
         dropdown.onValueChanged.AddListener(Refresh);
     }
+    public void Refresh()
+    {
+        Refresh(dropdown.value);
+    }
     public void Refresh(int value)
     {
         foreach (Transform t in container) Destroy(t.gameObject);
@@ -57,7 +60,7 @@ public class InventoryPanel : PanelWrapper
         var categories = GetInventoryCategories();
         var type = categories.FirstOrDefault(x => x.Name == dropdown.options[value].text);
 
-        var items = Codex.Items.FindAll(i => DataModel.Inventory.Items.Contains(i.name)).OrderBy(x => x.visibleName).ToList();
+        var items = Codex.Items.FindAll(i => DataModel.Inventory.Items.Exists(u => u.name == i.name)).OrderBy(x => x.visibleName).ToList();
         while(items.Count() > 0)
         {
             var item = items.ElementAt(0);

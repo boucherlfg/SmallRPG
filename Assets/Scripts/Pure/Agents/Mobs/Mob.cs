@@ -76,6 +76,9 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
     {
         AudioManager.PlayAsSound("use");
         UIManager.Notifications.CreateNotification($"you attempt to attack a {data.visibleName}...");
+
+        DataModel.Equipment.Damage(EquipType.Weapon);
+
         if (!GameHelper.CalculateHit(user as IStats, this))
         {
             UIManager.Notifications.CreateNotification("but your attack misses.");

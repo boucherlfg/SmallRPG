@@ -6,23 +6,12 @@ using UnityEngine;
 public class NotificationScript : MonoBehaviour
 {
     [SerializeField]
-    private float sustain = 2;
-    [SerializeField]
-    private float fadeOut = 2;
-    private float increment;
-    private float alpha;
-    [SerializeField]
     private TMP_Text text;
 
     public string Text
     {
         get => text.text;
         set => text.text = value;
-    }
-    void Start()
-    {
-        alpha = 1;
-        increment = 1 / fadeOut;
     }
 
     // Update is called once per frame

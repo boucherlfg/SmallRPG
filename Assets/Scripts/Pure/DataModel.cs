@@ -13,9 +13,13 @@ public class DataModel : CSharpSingleton<DataModel>
     }
 
     private List<string> logs;
+
+    private readonly Hotbar hotbar;
     private readonly Inventory items;
     private readonly Equipment equipment;
     private readonly ActiveBuffs activeBuffs;
+
+    public static Hotbar Hotbar => _instance.hotbar;
     public static Inventory Inventory => _instance.items;
     public static Equipment Equipment => _instance.equipment;
     public static ActiveBuffs ActiveBuffs => _instance.activeBuffs;
@@ -55,9 +59,12 @@ public class DataModel : CSharpSingleton<DataModel>
         activeBuffs = new ActiveBuffs();
         items = new Inventory();
         equipment = new Equipment();
+        hotbar = new Hotbar();
 
         items.Changed += () => ChangedPrivate?.Invoke();
         equipment.onChanged += () => ChangedPrivate?.Invoke();
+        hotbar.Changed += () => ChangedPrivate?.Invoke();
+        items.Changed += hotbar.Inventory_Changed;
     }
 
     public static void Reset()
@@ -67,6 +74,7 @@ public class DataModel : CSharpSingleton<DataModel>
         _instance.equipment.Init();
         _instance.items.Init();
         _instance.ChangedPrivate?.Invoke();
+        _instance.hotbar.Reset();
     }
 }
 

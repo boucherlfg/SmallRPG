@@ -29,11 +29,11 @@ public class ScrapingPanel : PanelWrapper
             Destroy(child.gameObject);
         }
 
-        DataModel.Inventory.ForEachDistinct(name =>
+        DataModel.Inventory.ForEachDistinct(item =>
         {
             GameObject obj = Instantiate(scrapingMenuElementPrefab, container);
             var comp = obj.GetComponent<ScrapingMenuElementScript>();
-            comp.Item = Codex.Items[name];
+            comp.Item = Codex.Items[item.name];
         });
     }
 }

@@ -272,6 +272,8 @@ public class Bandit : Mob
                 {
                     UIManager.Notifications.CreateNotification($"and deals {dmg} damage to you.");
                     DisplayManager.Instance.CreateDamageText(dmg, target.position);
+                    DataModel.Equipment.Damage(EquipType.Body, EquipType.Leg, EquipType.Head);
+                    
                 }
                 if ((target as IStats).Stats.life <= 0)
                 {

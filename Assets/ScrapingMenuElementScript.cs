@@ -18,8 +18,8 @@ public class ScrapingMenuElementScript : MonoBehaviour
         {
             item = value;
             int count = DataModel.Inventory.HowMany(item.name);
-            label.text = $"{count} x {item.visibleName}";
-            
+            label.text = $"{count}";
+            GetComponent<DoWhenOver>().tooltipText = item.visibleName;
             image.sprite = item.sprite;
         }
     }

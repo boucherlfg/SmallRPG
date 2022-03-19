@@ -69,7 +69,7 @@ public static class GameHelper
     {
         var loot = new List<string>();
         agentData.certainLoot.ForEach(item => loot.Add(item.name));
-        var choices = agentData.possibleLoot;
+        var choices = new List<Item>(agentData.possibleLoot);
         if (agentData.useCodexForPossibleLoot) choices = Codex.Items;
         float k = agentData.value;
 

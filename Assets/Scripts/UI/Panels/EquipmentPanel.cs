@@ -5,7 +5,17 @@ using UnityEngine;
 public class EquipmentPanel : PanelWrapper
 {
     [SerializeField]
-    private Transform container;
+    private Transform head;
+    [SerializeField]
+    private Transform body;
+    [SerializeField]
+    private Transform leg;
+    [SerializeField]
+    private Transform weapon;
+    [SerializeField]
+    private Transform necklace;
+    [SerializeField]
+    private Transform ring;
     [SerializeField]
     private GameObject equipmentMenuItemPrefab;
     public override bool ExitableByEscape => true;
@@ -22,23 +32,34 @@ public class EquipmentPanel : PanelWrapper
     }
     public void Refresh()
     {
-        foreach (Transform child in container)
+        DestroyChildren(head);
+        DestroyChildren(body);
+        DestroyChildren(leg);
+        DestroyChildren(weapon);
+        DestroyChildren(necklace);
+        DestroyChildren(ring);
+
+        InstantiateEquipment(EquipType.Head, head);
+        InstantiateEquipment(EquipType.Body, body);
+        InstantiateEquipment(EquipType.Leg, leg);
+        InstantiateEquipment(EquipType.Necklace, necklace);
+        InstantiateEquipment(EquipType.Ring, ring);
+        InstantiateEquipment(EquipType.Weapon, weapon);
+    }
+
+    private void InstantiateEquipment(EquipType type, Transform container)
+    {
+        var state = DataModel.Equipment[type];
+        if (state == null) return;
+        var obj = Instantiate(equipmentMenuItemPrefab, container);
+        var comp = obj.GetComponent<EquipmentMenuElement>();
+        comp.Item = state.Value.name;
+    }
+    private void DestroyChildren(Transform parent)
+    {
+        foreach (Transform child in parent)
         {
             Destroy(child.gameObject);
         }
-        foreach (EquipType e in System.Enum.GetValues(typeof(EquipType)))
-        {
-            var itemID = DataModel.Equipment[e];
-            if (itemID == null) continue;
-
-            var obj = Instantiate(equipmentMenuItemPrefab, container);
-            var comp = obj.GetComponent<EquipmentMenuElement>();
-            comp.Item = itemID;
-        }
-        if (DataModel.Equipment.Tool == null) return;
-        var tool = Instantiate(equipmentMenuItemPrefab, container);
-        var c = tool.GetComponent<EquipmentMenuElement>();
-
-        c.Item = DataModel.Equipment.Tool.name;
     }
 }

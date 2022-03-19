@@ -9,11 +9,7 @@ public abstract class Consumable : Item
     public sealed override void Use()
     {
         Consume();
-        DataModel.Equipment.ConsumeTool();
-        if (DataModel.Inventory.HowMany(name) > 0)
-        {
-            DataModel.Equipment.Tool = this;
-        }
+        DataModel.Inventory.Delete(this.name);
         
     }
 }

@@ -270,7 +270,7 @@ public class Wolf : Mob
                 if (isPlayer)
                 {
                     UIManager.Notifications.CreateNotification($"and deals {dmg} damage to you.");
-
+                    DataModel.Equipment.Damage(EquipType.Body, EquipType.Leg, EquipType.Head);
                     DisplayManager.Instance.CreateDamageText(dmg, target.position);
                 }
                 if ((target as IStats).Stats.life <= 0)

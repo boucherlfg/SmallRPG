@@ -12,8 +12,8 @@ public class Controller : MonoBehaviour
     void Start()
     {
         InputManager.Moved += InputManager_Moved;
-        InputManager.Used += InputManager_Used;
-        InputManager.Waited += InputManager_Waited;
+        InputManager.Used += InputManager_Waited;
+        InputManager.Hotbar += InputManager_Hotbar;
         //menus
         InputManager.Equipment += InputManager_Equipment;
         InputManager.Inventory += InputManager_Inventory;
@@ -23,7 +23,6 @@ public class Controller : MonoBehaviour
         InputManager.Escaped += InputManager_Escaped;
         PanelWrapper.AnyActiveStateChanged += PanelWrapper_AnyActiveStateChanged;
     }
-
 
     public void StartGame()
     {
@@ -111,12 +110,13 @@ public class Controller : MonoBehaviour
         Game.Instance.Player.state = new Player.MoveState(Game.Instance.Player);
         update = StartCoroutine(UpdateAndWait());
     }
-    private void InputManager_Used()
+
+    private void InputManager_Hotbar(int value)
     {
         if (paused) return;
         if (update != null) return;
 
-        Game.Instance.Player.state = new Player.UseState(Game.Instance.Player);
-        update = StartCoroutine(UpdateAndWait());
+        UIManager.Hotbar.hotbarMenuElements[value - 1].Use();
+        InputManager_Waited();
     }
 }

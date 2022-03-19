@@ -57,7 +57,7 @@ public class CraftingMenuElementScript : MonoBehaviour
         
         go.AddComponent<CanvasRenderer>();
 
-        var tooltip = go.AddComponent<TooltipWhenOver>();
+        var tooltip = go.AddComponent<DoWhenOver>();
         tooltip.tooltipText = item.visibleName;
         
         Image img = go.AddComponent<Image>();

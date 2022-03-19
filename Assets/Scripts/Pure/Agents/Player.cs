@@ -94,18 +94,6 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
             return new WaitState(self);
         }
     }
-    public class UseState : State 
-    {
-        public UseState(Player self) : base(self) { }
-        public override State Update()
-        {
-            if (DataModel.Equipment.Tool != null)
-            {
-                DataModel.Equipment.Tool.Use();
-            }
-            return new WaitState(self);
-        }
-    }
     public class AttackState : State
     {
         public AttackState(Player self) : base(self) { }

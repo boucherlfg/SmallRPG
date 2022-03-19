@@ -77,6 +77,12 @@ public class InputManager : MonoSingleton<InputManager>
         add => _instance.onWait += value;
         remove => _instance.onWait -= value;
     }
+    private event TypedAction<int> onHotbar;
+    public static event TypedAction<int> Hotbar
+    {
+        add => _instance.onHotbar += value;
+        remove => _instance.onHotbar -= value;
+    }
     #endregion
 
     public static Vector2 MousePosition => Camera.main.ScreenToWorldPoint(_instance.controls.Player.MousePosition.ReadValue<Vector2>());
@@ -111,6 +117,13 @@ public class InputManager : MonoSingleton<InputManager>
         controls.Player.Crafting.performed += Crafting_performed;
         controls.Player.Stats.performed += Stats_performed;
         controls.Player.Logs.performed += Logs_performed;
+        controls.Player.Hotbar.performed += Hotbar_performed;
+    }
+
+    private void Hotbar_performed(InputAction.CallbackContext obj)
+    {
+        int value = int.Parse(obj.control.name);
+        onHotbar?.Invoke(value);
     }
 
     private void Wait_performed(InputAction.CallbackContext obj)

@@ -15,11 +15,6 @@ public abstract class Placeable : Item
         agent.position = player.position + player.Orientation;
         Game.Instance.Create(agent);
         UIManager.Notifications.CreateNotification("you placed " + visibleName);
-        DataModel.Equipment.ConsumeTool();
-        if (DataModel.Inventory.HowMany(name) > 0)
-        {
-            DataModel.Equipment.Tool = this;
-        }
-        
+        DataModel.Inventory.Delete(name);
     }
 }

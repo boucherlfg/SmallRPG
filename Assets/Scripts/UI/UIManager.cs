@@ -72,4 +72,8 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField]
     private ScrapingPanel scraping;
     public static ScrapingPanel Scraping => _instance.scraping;
+
+    [SerializeField]
+    private HotbarPanel hotbar;
+    public static HotbarPanel Hotbar => _instance.hotbar;
 }

@@ -33,7 +33,7 @@ public abstract class Source : Agent, IActivatable, IDrawable, ICollision
     public virtual void Activate(IMovable player)
     {
         var tool = Codex.Items.Find(x => x is Tool && (x as Tool).useType == UseType);
-        var hasTool = DataModel.Inventory.Items.Exists(x => x == tool.name);
+        var hasTool = DataModel.Inventory.Items.Exists(x => x.name == tool.name);
         //var tool = DataModel.Equipment.Tool;
         if (!hasTool)
         {
@@ -42,6 +42,7 @@ public abstract class Source : Agent, IActivatable, IDrawable, ICollision
         }
 
         UIManager.Notifications.CreateNotification($"you start harvesting...");
+        DataModel.Inventory.Damage(tool.name);
         life--;
         if (possibleItems.Count > 0 && Random.value < 0.5)
         {

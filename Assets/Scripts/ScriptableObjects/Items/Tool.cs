@@ -15,14 +15,6 @@ public class Tool : Item
     public UseType useType;
     public StatBlock stats;
 
-    public override void Equip()
-    {
-        UIManager.Notifications.CreateNotification("you don't need to equip that tool");
-    }
-    public override void Unequip()
-    {
-        base.Unequip();
-    }
     public override void Use()
     {
         UIManager.Notifications.CreateNotification("you don't need to activate that tool");
