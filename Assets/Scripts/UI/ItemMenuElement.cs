@@ -33,6 +33,7 @@ public class ItemMenuElement : MonoBehaviour, IBeginDragHandler, IEndDragHandler
     {
         DataModel.Inventory.Delete(item.name);
         var floorItem = new FloorItem(item) { position = Game.Instance.Player.position };
+        
         Game.Instance.Create(floorItem);
         inventoryPanel.Refresh();
     }

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3e25d7f44c51248aab4075620632e4, type: 3}
+  m_Name: basicTopPlus1
+  m_EditorClassIdentifier: 
+  craftingType: 6
+  input:
+  - {fileID: 11400000, guid: a70fefca04ac92947a6971123a16bb2e, type: 2}
+  - {fileID: 11400000, guid: 6e5a3427416c35c439216f230a6ca510, type: 2}
+  output:
+  - {fileID: 11400000, guid: 9231b6175e13d284db713a55429ec824, type: 2}
+  onFailure:
+  - {fileID: 11400000, guid: 96bf8d24ff5c8ee4cb1d3005376ab7cb, type: 2}
+  successRate: 0.9

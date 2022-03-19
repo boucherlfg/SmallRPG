@@ -42,7 +42,7 @@ public abstract class Source : Agent, IActivatable, IDrawable, ICollision
         }
 
         UIManager.Notifications.CreateNotification($"you start harvesting...");
-        DataModel.Inventory.Damage(tool.name);
+        //DataModel.Inventory.Damage(tool.name);
         life--;
         if (possibleItems.Count > 0 && Random.value < 0.5)
         {

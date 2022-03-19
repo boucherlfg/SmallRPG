@@ -33,11 +33,15 @@ public class Inventory
         items = new List<ItemState>();
     }
 
+    public void Add(string name, int durability)
+    {
+        items.Add(new ItemState(name, durability));
+        Changed?.Invoke();
+    }
     public void Add(string name)
     {
         var obj = Codex.Items[name];
-        items.Add(new ItemState(name, obj.durability));
-        Changed?.Invoke();
+        Add(name, obj.durability);
     }
     public void Delete(string item)
     {

@@ -17,14 +17,23 @@ public class FloorItem : Agent, IActivatable, IDrawable
         }
     }
 
+    public ItemState droppedItemState;
     public FloorItem(Item reference)
     {
         this.reference = reference;
+        droppedItemState = new ItemState(null);
     }
     private void Pickup()
     {
         AudioManager.PlayAsSound("equip");
-        DataModel.Inventory.Add(reference.name);
+        if (droppedItemState.name != null)
+        {
+            DataModel.Inventory.Add(reference.name, droppedItemState.durability);
+        }
+        else
+        {
+            DataModel.Inventory.Add(reference.name);
+        }
         UIManager.Notifications.CreateNotification("you just found " + reference.visibleName);
         Game.Instance.Destroy(this);
     }

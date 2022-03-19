@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95d31c9b461da4f4b945edf6cc95b54e, type: 3}
-  m_Name: legendaryHeroPants
+  m_Name: legendaryClothPants
   m_EditorClassIdentifier: 
   visibleName: Legendary cloth pants
   sprite: {fileID: -3894112613718088472, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}

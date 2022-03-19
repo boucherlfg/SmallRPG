@@ -26,6 +26,6 @@ public class Equipable : Item
     {
         DataModel.Equipment.Unequip(equipType);
         UIManager.Notifications.CreateNotification("you unequiped " + visibleName);
-        AudioManager.PlayAsMusic("equip");
+        AudioManager.PlayAsSound("equip");
     }
 }

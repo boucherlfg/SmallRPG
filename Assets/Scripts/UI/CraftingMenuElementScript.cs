@@ -10,6 +10,7 @@ public class CraftingMenuElementScript : MonoBehaviour
     {
         [CraftingType.Alchemy] = "potion",
         [CraftingType.Anvil] = "rock",
+        [CraftingType.Upgrading] = "rock",
         [CraftingType.Hand] = "equip",
         [CraftingType.Bench] = "wood",
         [CraftingType.Smelting] = "longMetal"
