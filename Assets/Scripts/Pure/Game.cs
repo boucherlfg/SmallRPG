@@ -116,7 +116,7 @@ public class Game : CSharpSingleton<Game>
         level = new Level(size);
         turn = 0;
         level.Generate();
-        level.Ground.ForEach(x => DisplayManager.Instance.Background(x.x, x.y));
+        //level.Ground.ForEach(x => DisplayManager.Instance.Background(x.x, x.y));
         MinimapScript.Instance.UpdateMinimap();
 
         player = null;

@@ -142,7 +142,10 @@ public static class GameHelper
         }
         return null;
     }
-
+    public static int MinimumNumberOfCircleRadii(float range)
+    {
+        return (int)((2 * Mathf.PI) / Mathf.Acos(1 - 1 / (2 * range * range))) + 1;
+    }
     class Geometry 
     {
         public struct Line

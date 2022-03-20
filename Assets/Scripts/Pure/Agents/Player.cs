@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
-public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision, IEndable
+public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision, IEndable, ILightSource
 {
     const string player_south = nameof(player_south);
     const string player_north = nameof(player_north);
@@ -12,6 +12,7 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
     public bool Immobilized { get; set; }
     public Vector2Int Orientation { get; set; }
 
+    public float Range => 20;
     public virtual Tile CurrentTile
     {
         get
@@ -33,6 +34,7 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
             if (DataModel.StatBlock.life <= 0) Game.Instance.Destroy(this);
         }
     }
+
     #endregion
 
     public State state;
