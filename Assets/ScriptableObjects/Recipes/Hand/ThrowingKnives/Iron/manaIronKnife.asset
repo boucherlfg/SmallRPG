@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   craftingType: 3
   input:
-  - {fileID: 11400000, guid: b47bbccb986f21a41851c3ca8fd4dd57, type: 2}
   - {fileID: 11400000, guid: 57d9585f03ca8904da831e9d8963bcf3, type: 2}
+  - {fileID: 11400000, guid: b47bbccb986f21a41851c3ca8fd4dd57, type: 2}
+  - {fileID: 11400000, guid: b47bbccb986f21a41851c3ca8fd4dd57, type: 2}
+  - {fileID: 11400000, guid: b47bbccb986f21a41851c3ca8fd4dd57, type: 2}
   output:
+  - {fileID: 11400000, guid: e42a5c4371e6f7548ab614512b1458e0, type: 2}
+  - {fileID: 11400000, guid: e42a5c4371e6f7548ab614512b1458e0, type: 2}
   - {fileID: 11400000, guid: e42a5c4371e6f7548ab614512b1458e0, type: 2}
   onFailure: []
   successRate: 1

@@ -10304,6 +10304,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8ae9ebf8aae46bf4fb2091fac7286c89, type: 2}
   - {fileID: 11400000, guid: d7a718b6a16086b43a11eef16c917df0, type: 2}
   - {fileID: 11400000, guid: 458b9453b8346ce43a5aaecf529afdd2, type: 2}
+  - {fileID: 11400000, guid: f8c730385f3e4344f847aba180bec6b1, type: 2}
   tilemap: {fileID: 567844595}
   background: {fileID: 1778391385}
   floorTile: {fileID: 11400000, guid: a4dd2e97ceed3c548a3ede6bf5fa68eb, type: 2}
@@ -19022,6 +19023,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7c6909ce9feb11943b1b2da21b5a4a35, type: 2}
   - {fileID: 11400000, guid: 8080ff620b92cda4fb0fae41dde4b0ec, type: 2}
   - {fileID: 11400000, guid: e5d8e779070e7e248904bb9fff1208da, type: 2}
+  - {fileID: 11400000, guid: 64fa3149033849143b068371bb72108c, type: 2}
   agents:
   - {fileID: 11400000, guid: b73fd2a1c6427814f98c5427302764f2, type: 2}
   - {fileID: 11400000, guid: 65e4934533dc9a24db7a310a75f29ab3, type: 2}
@@ -19153,6 +19155,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c083460cdb906fe42aad00ff0d2af8b6, type: 2}
   - {fileID: 11400000, guid: e792c9f80bc6cc54b86296f463a09c25, type: 2}
   - {fileID: 11400000, guid: de826b14ec31d1c43bfd156dec206f80, type: 2}
+  - {fileID: 11400000, guid: 8c51cc8034799d84096b7e168e5bc70e, type: 2}
 --- !u!114 &1795025055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19397,7 +19400,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 8
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
