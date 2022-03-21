@@ -121,6 +121,7 @@ public static class GameHelper
 
     public static List<Agent> FOV(Vector2 center, float distance)
     {
+        List<Vector2> poses = new List<Vector2>();
         var ret = new List<Agent>();
         var nb = MinimumNumberOfCircleRadii(distance);
         for (float a = 0; a < Mathf.PI * 2; a += Mathf.PI * 2 / nb)
@@ -129,6 +130,8 @@ public static class GameHelper
             {
                 var dir = new Vector2(Mathf.Cos(a), Mathf.Sin(a));
                 var pos = center + Vector2Int.RoundToInt(len * dir);
+                if (poses.Exists(x => Vector2.Distance(pos, x) < 0.1f)) continue;
+                poses.Add(pos);
 
                 var agent = Game.Instance.Agents.Find(a => a.position == pos);
 

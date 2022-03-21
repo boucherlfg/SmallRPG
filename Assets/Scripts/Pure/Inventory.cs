@@ -20,6 +20,7 @@ public struct ItemState
 }
 public class Inventory
 {
+    const int maximumCount = 50;
     public List<ItemState> Items => items;
     private readonly List<ItemState> items;
     public delegate void OnChange();
@@ -37,6 +38,10 @@ public class Inventory
 
     public void Add(string name, int durability)
     {
+        if (items.Count >= maximumCount)
+        {
+            UIManager.Notifications.CreateNotification("you can't carry any more items");
+        }
         ItemState toAdd = Codex.Items[name];
         toAdd.durability = durability;
         items.Add(toAdd);
