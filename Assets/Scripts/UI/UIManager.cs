@@ -76,4 +76,8 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField]
     private HotbarPanel hotbar;
     public static HotbarPanel Hotbar => _instance.hotbar;
+
+    [SerializeField]
+    private RepairPanel repair;
+    public static RepairPanel Repair => _instance.repair;
 }

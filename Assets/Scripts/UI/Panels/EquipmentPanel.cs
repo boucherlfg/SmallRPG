@@ -49,11 +49,11 @@ public class EquipmentPanel : PanelWrapper
 
     private void InstantiateEquipment(EquipType type, Transform container)
     {
-        var state = DataModel.Equipment[type];
-        if (state == null) return;
+        var item = DataModel.Equipment[type];
+        if (item == null) return;
         var obj = Instantiate(equipmentMenuItemPrefab, container);
         var comp = obj.GetComponent<EquipmentMenuElement>();
-        comp.Item = state.Value.name;
+        comp.Item = item;
     }
     private void DestroyChildren(Transform parent)
     {

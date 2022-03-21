@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,7 +18,8 @@ public class MinimapScript : MonoSingleton<MinimapScript>
         var rooms = Game.Instance.Rooms;
 
         var center = rooms.Find(x => x.Ground.Contains(Game.Instance.Player.position)).position;
-        
+        var torches = Game.Instance.Agents.FindAll(x => x is LightSourceAgent).Select(l => rooms.Find(x => x.Ground.Contains(l.position)).position);
+
         foreach (Room r in rooms)
         {
             if (!r.discovered) continue;
@@ -45,10 +47,14 @@ public class MinimapScript : MonoSingleton<MinimapScript>
             var x = width / 2 + (-center.x + r.position.x) * res - res / 2;
             var y = height / 2 + (-center.y + r.position.y) * res - res / 2;
             
-            var color = r is StartingRoom ? Color.red : r is EndRoom ? Color.green : Color.gray;
-            if (r.position == center) color = Color.yellow;
+            var color = r is StartingRoom ? Color.red : r is EndRoom ? Color.green : torches.Contains(r.position) ? Color.yellow : Color.gray;
+            
+            DrawRect(texture, x, y, res - 2, res - 2, color);
 
-            DrawRect(texture, x, y, res - 3, res - 3, color);
+            if (r.position == center) 
+            {
+                DrawRect(texture, x + (res - 2)/4, y + (res - 2) / 4, (res - 2) / 2, (res - 2) / 2, Color.blue);
+            }
         }
 
         texture.Apply();

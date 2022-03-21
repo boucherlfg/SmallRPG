@@ -21,7 +21,7 @@ public class FloorItem : Agent, IActivatable, IDrawable
     public FloorItem(Item reference)
     {
         this.reference = reference;
-        droppedItemState = new ItemState(null);
+        droppedItemState = reference;
     }
     private void Pickup()
     {

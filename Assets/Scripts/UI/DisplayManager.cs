@@ -55,7 +55,7 @@ class DisplayManager : MonoSingleton<DisplayManager>
                     var tile = (agent as IDrawable).CurrentTile;
                     tilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), tile);
 
-                    if (agent is Wall && !(agent is Player)) break;
+                    if (agent is IOpaque) break;
                 }
             }
         }

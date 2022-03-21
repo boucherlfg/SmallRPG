@@ -15,7 +15,7 @@ MonoBehaviour:
   craftingType: 6
   input:
   - {fileID: 11400000, guid: 96566e7d29ba2ec4eae932a640f3e02b, type: 2}
-  - {fileID: 11400000, guid: 21990b0ddce7ff54f98b1af33dc33e6f, type: 2}
+  - {fileID: 11400000, guid: 12409a92426c0c641a4f0219132d2514, type: 2}
   output:
   - {fileID: 11400000, guid: e59351cd3c7576c438b816cfb5352695, type: 2}
   onFailure:

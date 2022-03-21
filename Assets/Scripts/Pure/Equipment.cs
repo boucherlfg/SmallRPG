@@ -10,14 +10,14 @@ public class Equipment
     {
         equipment.Clear();
         buffs.Clear();
-        StartingGear.Equipment.ForEach(e => Equip(e, e.equipType));
+        StartingGear.Equipment.ForEach(e => Equip(e.name, e.equipType));
     }
     public Equipment()
     {
-        equipment = new Dictionary<EquipType, ItemState?>();
+        equipment = new Dictionary<EquipType, string>();
         buffs = new List<Buff>();
     }
-    public ItemState? this[EquipType type]
+    public string this[EquipType type]
     {
         get
         {
@@ -27,15 +27,21 @@ public class Equipment
             }
             return equipment[type];
         }
-        set => equipment[type] = value.Value;
+        set => equipment[type] = value;
     }
-    private Dictionary<EquipType, ItemState?> equipment;
+    private Dictionary<EquipType, string> equipment;
 
     public void ConsumeEquipment(EquipType type)
     {
+        var name = this[type];
         var buff = GetBuff(type);
         equipment[type] = null;
         DataModel.StatBlock -= buff;
+
+        if (name != null)
+        {
+            DataModel.Inventory.Delete(name);
+        }
     }
 
     private StatBlock GetBuff(EquipType type)
@@ -50,25 +56,19 @@ public class Equipment
             precision = 0,
             evasion = 0
         };
-        return (Codex.Items[item.Value.name] as Equipable).buff;
+        return (Codex.Items[item] as Equipable).buff;
     }
-    public void Equip(ItemState equipment, EquipType type)
+    public void Equip(string equipment, EquipType type)
     {
         Unequip(type);
 
         this[type] = equipment;
-
-        DataModel.Inventory.Delete(this[type].Value.name);
         DataModel.StatBlock += GetBuff(type);
         onChanged?.Invoke();
     }
     public void Unequip(EquipType type)
     {
         DataModel.StatBlock -= GetBuff(type);
-        if (this[type] != null)
-        {
-            DataModel.Inventory.Add(this[type].Value.name);
-        }
         equipment[type] = null;
         onChanged?.Invoke();
     }
@@ -80,15 +80,7 @@ public class Equipment
         {
             var equip = this[type];
             if (equip == null) continue;
-            var equipNN = equip.Value;
-            var info = Codex.Items[equipNN.name];
-            equipNN.durability--;
-            equipment[type] = equipNN;
-            if (equipNN.durability <= 0)
-            {
-                ConsumeEquipment(type);
-                UIManager.Notifications.CreateNotification($"your {info.visibleName} just broke");
-            }
+            DataModel.Inventory.Damage(equip);
         }
     }
 }

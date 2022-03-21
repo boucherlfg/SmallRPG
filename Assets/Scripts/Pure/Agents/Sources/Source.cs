@@ -34,7 +34,6 @@ public abstract class Source : Agent, IActivatable, IDrawable, ICollision
     {
         var tool = Codex.Items.Find(x => x is Tool && (x as Tool).useType == UseType);
         var hasTool = DataModel.Inventory.Items.Exists(x => x.name == tool.name);
-        //var tool = DataModel.Equipment.Tool;
         if (!hasTool)
         {
             UIManager.Notifications.CreateNotification($"you need to have a {tool.visibleName} to harvest this");
@@ -42,7 +41,7 @@ public abstract class Source : Agent, IActivatable, IDrawable, ICollision
         }
 
         UIManager.Notifications.CreateNotification($"you start harvesting...");
-        //DataModel.Inventory.Damage(tool.name);
+        DataModel.Inventory.Damage(tool.name);
         life--;
         if (possibleItems.Count > 0 && Random.value < 0.5)
         {

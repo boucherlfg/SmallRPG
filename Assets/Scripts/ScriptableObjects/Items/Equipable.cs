@@ -18,9 +18,17 @@ public class Equipable : Item
     
     public override void Use()
     {
-        DataModel.Equipment.Equip(this, equipType);
-        UIManager.Notifications.CreateNotification("you equiped " + visibleName);
-        AudioManager.PlayAsSound("equip");
+        var currentlyEquiped = DataModel.Equipment[equipType];
+        if (currentlyEquiped == name)
+        {
+            Unequip();
+        }
+        else
+        {
+            DataModel.Equipment.Equip(name, equipType);
+            UIManager.Notifications.CreateNotification("you equiped " + visibleName);
+            AudioManager.PlayAsSound("equip");
+        }
     }
     public void Unequip()
     {

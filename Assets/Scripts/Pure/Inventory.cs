@@ -5,15 +5,17 @@ public struct ItemState
 {
     public string name;
     public int durability;
-    public ItemState(string name, int durability = 0)
+    public int maxDurability;
+    public ItemState(string name, int durability, int maxDurability)
     {
         this.name = name;
         this.durability = durability;
+        this.maxDurability = durability;
     }
 
     public static implicit operator ItemState(Item i)
     {
-        return new ItemState(i.name, i.durability);
+        return new ItemState(i.name, i.durability, i.durability);
     }
 }
 public class Inventory
@@ -26,7 +28,7 @@ public class Inventory
     public void Init()
     {
         items.Clear();
-        StartingGear.Inventory.ForEach(item => items.Add(new ItemState(item.name, item.durability)));
+        StartingGear.Inventory.ForEach(item => items.Add(item));
     }
     public Inventory()
     {
@@ -35,13 +37,15 @@ public class Inventory
 
     public void Add(string name, int durability)
     {
-        items.Add(new ItemState(name, durability));
+        ItemState toAdd = Codex.Items[name];
+        toAdd.durability = durability;
+        items.Add(toAdd);
         Changed?.Invoke();
     }
     public void Add(string name)
     {
         var obj = Codex.Items[name];
-        Add(name, obj.durability);
+        items.Add(obj);
     }
     public void Delete(string item)
     {
@@ -52,9 +56,11 @@ public class Inventory
     {
         try
         {
-            var item = items.Find(x => x.name == name);
+            var item = items.FindAll(x => x.name == name).Minimum(x => x.durability);
             var info = Codex.Items[item.name];
+
             items.Remove(item);
+            
             item.durability--;
             if (item.durability <= 0)
             {
