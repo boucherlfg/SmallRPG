@@ -49,7 +49,11 @@ public class Inventory
     }
     public void Delete(string item)
     {
-        items.Remove(items.Find(x => x.name == item));
+        if (DataModel.Equipment.HasItem(item, out EquipType type))
+        {
+            DataModel.Equipment.Unequip(type);
+        }
+        items.Remove(items.FindAll(x => x.name == item).Minimum(x => x.durability));
         Changed?.Invoke();
     }
     public void Damage(string name)

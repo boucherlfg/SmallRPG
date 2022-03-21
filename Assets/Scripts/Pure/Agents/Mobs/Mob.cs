@@ -18,7 +18,7 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
             return data.visibleName + Game.Instance.Agents.IndexOf(this);
         }
     }
-    public int detectionTreshold = 15;
+    public int detectionTreshold = 10;
     public abstract AgentData.AgentType AgentType { get; }
     public Mob()
     {

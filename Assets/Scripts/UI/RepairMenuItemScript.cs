@@ -28,7 +28,7 @@ public class RepairMenuItemScript : MonoBehaviour
         DataModel.Inventory.Items.Remove(itemState);
         itemState.durability = itemState.maxDurability;
         DataModel.Inventory.Items.Add(itemState);
-        AudioManager.PlayAsSound("mine");
+        AudioManager.PlayAsSound("longMetal");
         UIManager.Repair.Refresh();
     }
 }

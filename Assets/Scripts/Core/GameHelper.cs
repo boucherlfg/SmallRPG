@@ -118,6 +118,28 @@ public static class GameHelper
     {
         return new Rect(agent.position, Vector2.one);
     }
+
+    public static List<Agent> FOV(Vector2 center, float distance)
+    {
+        var ret = new List<Agent>();
+        var nb = MinimumNumberOfCircleRadii(distance);
+        for (float a = 0; a < Mathf.PI * 2; a += Mathf.PI * 2 / nb)
+        {
+            for (int len = 0; len < distance; len++)
+            {
+                var dir = new Vector2(Mathf.Cos(a), Mathf.Sin(a));
+                var pos = center + Vector2Int.RoundToInt(len * dir);
+
+                var agent = Game.Instance.Agents.Find(a => a.position == pos);
+
+                if (agent == null) continue;
+                ret.Add(agent);
+
+                if (agent is IOpaque) break;
+            }
+        }
+        return ret.Distinct(new AgentComparer()).ToList();
+    }
     public static Agent Raycast(Vector2 startingPoint, Vector2 endingPoint, float distance, params Agent[] exclude)
     {
         //techniquement O(n²) mais exclude sera toujours très petit

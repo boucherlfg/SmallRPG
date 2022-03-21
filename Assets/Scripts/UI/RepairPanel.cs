@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class RepairPanel : PanelWrapper
 {
+    public override bool ExitableByEscape => true;
+    public override bool ExcludeFromPause => false;
     [SerializeField]
     private Transform container;
 

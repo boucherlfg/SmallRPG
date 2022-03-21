@@ -39,14 +39,14 @@ public class AudioManager : MonoSingleton<AudioManager>
         source.Play();
 
     }
-    public static void PlayAsSound(string key, float delay = 0) => _instance.PlayAsSoundInstance(key, delay);
-    private void PlayAsSoundInstance(string key, float delay = 0)
+    public static void PlayAsSound(string key, float delay = 0, float volume = 0.5f) => _instance.PlayAsSoundInstance(key, delay, volume);
+    private void PlayAsSoundInstance(string key, float delay = 0, float volume = 0.5f)
     {
         IEnumerator Play()
         {
             yield return new WaitForSeconds(delay);
             var clip = audiosClips.Find(x => x.name == key);
-            _instance.source.PlayOneShot(clip, 0.5f);
+            _instance.source.PlayOneShot(clip, volume);
         }
         StartCoroutine(Play());
     }

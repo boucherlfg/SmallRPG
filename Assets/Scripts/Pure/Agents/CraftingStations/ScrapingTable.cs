@@ -5,6 +5,7 @@
     protected override CraftingType craftingType => CraftingType.Scraping;
     public override void Activate(IMovable user)
     {
+        if (UIManager.Scraping.Active) UIManager.Crafting.Active = false;
         UIManager.Scraping.Toggle();
     }
 }

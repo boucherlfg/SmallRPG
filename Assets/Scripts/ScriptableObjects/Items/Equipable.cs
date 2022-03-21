@@ -2,12 +2,14 @@
 
 public enum EquipType
 {
+    None = -1,
     Head = 0,
     Body = 1,
     Leg = 2,
     Necklace = 3,
     Ring = 4, 
     Weapon = 5,
+    
 }
 [CreateAssetMenu(menuName = "Felix/Items/Equipment")]
 [InventoryCategory]

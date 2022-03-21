@@ -8,7 +8,7 @@ public class ScrapingPanel : PanelWrapper
     [SerializeField]
     private Transform container;
     public override bool ExitableByEscape => true;
-
+    public override bool ExcludeFromPause => false;
     void Awake()
     {
         StartCoroutine(WaitForNull());

@@ -6,6 +6,7 @@
 
     public override void Activate(IMovable user)
     {
+        if (UIManager.Repair.Active) UIManager.Crafting.Active = false;
         UIManager.Repair.Toggle();
     }
 }

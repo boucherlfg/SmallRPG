@@ -58,6 +58,17 @@ public class Equipment
         };
         return (Codex.Items[item] as Equipable).buff;
     }
+
+    internal bool HasItem(string item, out EquipType eqType)
+    {
+        eqType = EquipType.Weapon;
+        foreach (EquipType type in System.Enum.GetValues(typeof(EquipType)))
+        {
+            if (this[type] == item) return true;
+        }
+        return false;
+    }
+
     public void Equip(string equipment, EquipType type)
     {
         Unequip(type);

@@ -10776,6 +10776,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 458b9453b8346ce43a5aaecf529afdd2, type: 2}
   - {fileID: 11400000, guid: f8c730385f3e4344f847aba180bec6b1, type: 2}
   - {fileID: 11400000, guid: 2111e6edc812a20488670a9f32a4f5e4, type: 2}
+  - {fileID: 11400000, guid: 25930f7162092e748902914a86f91d8d, type: 2}
   tilemap: {fileID: 567844595}
   background: {fileID: 1778391385}
   floorTile: {fileID: 11400000, guid: a4dd2e97ceed3c548a3ede6bf5fa68eb, type: 2}
@@ -11907,6 +11908,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e47e0d9576744524fbc65731b3b59f4c, type: 3}
   - {fileID: 8300000, guid: a3758fedf6cad774798e7381dd38fcf9, type: 3}
   - {fileID: 8300000, guid: f247872858416b841b7c1aa42230c37c, type: 3}
+  - {fileID: 8300000, guid: 286552e2135fc74468e3a4eb4b263351, type: 3}
   source: {fileID: 1062343003}
 --- !u!1 &1064458460
 GameObject:
@@ -19955,7 +19957,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e0b90bd98be8d3848968d1577f2f79e9, type: 2}
   - {fileID: 11400000, guid: a70fefca04ac92947a6971123a16bb2e, type: 2}
   - {fileID: 11400000, guid: 6da32143e3cd23a429b07b59511e6649, type: 2}
-  tool: {fileID: 0}
   stats:
     life: 10
     mana: 3

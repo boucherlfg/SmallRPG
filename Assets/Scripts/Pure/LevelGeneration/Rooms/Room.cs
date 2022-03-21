@@ -9,6 +9,22 @@ using UnityEngine;
 
 public class Room
 {
+    public Room precedent;
+    public List<Room> Path
+    {
+        get
+        {
+            List<Room> ret = new List<Room>();
+            Room temp = this;
+            while (!(temp != null))
+            {
+                ret.Add(temp);
+                temp = temp.precedent;
+            }
+            return ret;
+        }
+    }
+
     public static (int x, int y) Constraint => (15, 15);
     public Vector2Int position;
     public List<Vector2Int> doors;

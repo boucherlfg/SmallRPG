@@ -27,11 +27,12 @@ public class Level
 
             var dir = available[Random.Range(0, available.Count)];
             room.doors.Add(dir);
-            room = new T { position = room.position + dir };
-            room.doors.Add(-dir);
+            var newRoom = new T { position = room.position + dir };
+            newRoom.precedent = room;
+            newRoom.doors.Add(-dir);
 
 
-            return room;
+            return newRoom;
         }
 
         rooms = new List<Room>();
@@ -53,6 +54,7 @@ public class Level
         agents = new List<Agent>();
         AddWallsAndStartEnd();
         AddCorridors();
+        AddDoors();
         AddFoes();
         AddTraps();
         AddFurniture();
@@ -148,6 +150,57 @@ public class Level
             loot.loot = GameHelper.PopulateLoot(nextPrice);
             agents.Add(loot);
             lootBudget -= nextPrice;
+        }
+    }
+    private void AddDoors()
+    {
+        var path = rooms.Find(x => x is EndRoom).Path;
+        foreach (var room in rooms)
+        {
+            foreach (var door in room.doors)
+            {
+                var center = new Vector2Int(
+                    Mathf.FloorToInt(Room.Constraint.x * room.position.x + Room.Constraint.x / 2),
+                    Mathf.FloorToInt(Room.Constraint.y * room.position.y + Room.Constraint.y / 2));
+
+                var topLeft = new Vector2Int(
+                    room.topLeft.x + room.position.x * Room.Constraint.x,
+                    room.topLeft.y + room.position.y * Room.Constraint.y);
+
+                var bottomRight = new Vector2Int(
+                    room.bottomRight.x + room.position.x * Room.Constraint.x,
+                    room.bottomRight.y + room.position.y * Room.Constraint.y);
+
+
+                var start = Vector2Int.zero;
+                if (door == Vector2Int.up)
+                {
+                    start = new Vector2Int(center.x, topLeft.y);
+                }
+                else if (door == Vector2Int.down)
+                {
+                    start = new Vector2Int(center.x, bottomRight.y);
+                }
+                else if (door == Vector2Int.left)
+                {
+                    start = new Vector2Int(topLeft.x, center.y);
+                }
+                else if (door == Vector2Int.right)
+                {
+                    start = new Vector2Int(bottomRight.x, center.y);
+                }
+                else throw new System.Exception();
+                var doorAgent = new DoorAgent { position = start };
+                if (path.Exists(x => room.position + door == x.position))
+                {
+                    doorAgent.locked = false;
+                }
+                else
+                {
+                    doorAgent.locked = Random.value < 0.5f;
+                }
+                agents.Add(doorAgent);
+            }
         }
     }
     private void AddResources()
