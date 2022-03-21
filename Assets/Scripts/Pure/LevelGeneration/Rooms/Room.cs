@@ -16,7 +16,7 @@ public class Room
         {
             List<Room> ret = new List<Room>();
             Room temp = this;
-            while (!(temp != null))
+            while (temp != null)
             {
                 ret.Add(temp);
                 temp = temp.precedent;

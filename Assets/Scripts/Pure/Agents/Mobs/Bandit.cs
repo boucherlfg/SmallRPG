@@ -26,55 +26,33 @@ public class Bandit : Mob
 
         public Agent FindATarget()
         {
+            var all = GameHelper.FOV(self.position, self.detectionTreshold);
+
             // -------------------------------------------- trying to find a lure of type bandit
-            var hit = Game.Instance.Agents.FindAll(x => x is LureAgent && (x as LureAgent).lure.type == Lure.LureType.Bandit).Minimum(x => Vector2.Distance(x.position, self.position));
+            var hit = all.Find(x => x is LureAgent && (x as LureAgent).lure.type == Lure.LureType.Bandit);
             if (hit != null)
             {
-                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
-                if (hit is Deer)
-                {
-                    return hit;
-                }
+                return hit;
             }
             //------------------------------------------- trying to find player
-            hit = GameHelper.Raycast(self.position, Game.Instance.Player.position, self.detectionTreshold);
-            if (hit == Game.Instance.Player)
+            hit = all.Find(x => x is Player);
+            if (hit != null)
             {
                 return hit;
             }
 
             // -------------------------------------------- trying to find a deer
-            hit = Game.Instance.Agents.FindAll(x =>
-            {
-                return x is Deer;
-            }).Minimum(x =>
-            {
-                return Vector2.Distance(x.position, self.position);
-            });
+            hit = all.Find(x => x is Deer);
             if (hit != null)
             {
-                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
-                if (hit is Deer)
-                {
-                    return hit;
-                }
+                return hit;
             }
 
             // -------------------------------------------- trying to find a wolf
-            hit = Game.Instance.Agents.FindAll(x =>
-            {
-                return x is Wolf;
-            }).Minimum(x =>
-            {
-                return Vector2.Distance(x.position, self.position);
-            });
+            hit = all.Find(x => x is Wolf);
             if (hit != null)
             {
-                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
-                if (hit is Wolf)
-                {
-                    return hit;
-                }
+                return hit;
             }
 
             return null;
@@ -138,7 +116,9 @@ public class Bandit : Mob
             //if we're following ourself, we skur ASAP
             if (target == self) return new RandomWalk(self as Bandit);
 
-            bool isInRange = IsInRange(target);
+            var all = GameHelper.FOV(self.position, self.detectionTreshold);
+
+            bool isInRange = all.Exists(x => x == target);
             var player = Game.Instance.Player;
 
             //if we were following a lure, and we get next to it, then we eat it. 
@@ -150,14 +130,14 @@ public class Bandit : Mob
             //if we're not following the player, we try to find the player (bc we're obsessed with him)
             if (!(target is Player))
             {
-                var hit = GameHelper.Raycast(self.position, player.position, self.detectionTreshold);
-                if (hit == player)
+                var hit = all.Find(x => x is Player);
+                if (hit != null)
                 {
                     return new GotoState(self as Bandit, hit);
                 }
             }
 
-            if (isInRange)
+            if (all.Exists(x => x == target))
             {
                 lastSeenAt = target.position;
             }

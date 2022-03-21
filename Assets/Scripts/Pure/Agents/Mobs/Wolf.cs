@@ -31,26 +31,18 @@ public class Wolf : Mob
 
         public Agent FindATarget()
         {
+            var all = GameHelper.FOV(self.position, self.detectionTreshold);
             // -------------------------------------------- trying to find a lure of type wolf
-            var hit = Game.Instance.Agents.FindAll(x => x is LureAgent && (x as LureAgent).lure.type == Lure.LureType.Carnivore).Minimum(x => Vector2.Distance(x.position, self.position));
+            var hit = all.Find(x => x is LureAgent && (x as LureAgent).lure.type == Lure.LureType.Carnivore);
             if (hit != null)
             {
-                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
-                if (hit is LureAgent)
-                {
-                    return hit;
-                }
+                return hit;
             }
             // -------------------------------------------- trying to find a deer
-            hit = Game.Instance.Agents.FindAll(x => x is Deer).Minimum(x => Vector2.Distance(x.position, self.position));
+            hit = all.Find(x => x is Deer);
             if (hit != null)
             {
-                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
-
-                if (hit is Deer)
-                {
-                    return hit;
-                }
+                return hit;
             }
             return null;
         }
@@ -149,7 +141,9 @@ public class Wolf : Mob
         public override State Update()
         {
             if (target == self) return new RandomWalk(self as Wolf);
-            var isInRange = IsInRange(target, self);
+
+            var all = GameHelper.FOV(self.position, self.detectionTreshold);
+            var isInRange = all.Exists(x => x == target);
 
             //if target is next to us, we attack/eat it
             if (IsNextToMe(target))
@@ -181,7 +175,7 @@ public class Wolf : Mob
                 if (!isInRange)
                 {
                     //follow player back after loosing track of foe
-                    if ((self as Wolf).friendly && !(target is Player) && IsInRange(Game.Instance.Player, self))
+                    if ((self as Wolf).friendly && !(target is Player) && all.Exists(x => x == Game.Instance.Player))
                     {
                         return new GotoState(self as Wolf, Game.Instance.Player);
                     }

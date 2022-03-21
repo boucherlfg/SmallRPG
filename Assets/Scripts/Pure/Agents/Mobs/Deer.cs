@@ -19,15 +19,13 @@ public class Deer : Mob
 
         public override State Update()
         {
+            var allVisible = GameHelper.FOV(self.position, self.detectionTreshold);
             // -------------------------------------------- trying to find a lure of type deer
-            var hit = Game.Instance.Agents.FindAll(x => x is LureAgent && (x as LureAgent).lure.type == Lure.LureType.Carnivore).Minimum(x => Vector2.Distance(x.position, self.position));
-            if (hit != null)
+
+            var lure = allVisible.Find(x => x is LureAgent && (x as LureAgent).lure.type == Lure.LureType.Herbivore);
+            if (lure != null)
             {
-                hit = GameHelper.Raycast(self.position, hit.position, self.detectionTreshold);
-                if (hit is LureAgent)
-                {
-                    return new GoToState(self as Deer, hit);
-                }
+                return new GoToState(self as Deer, lure);
             }
 
             if (path.Count <= 0)
@@ -105,7 +103,7 @@ public class Deer : Mob
     class GoToState : State
     {
         private Agent target;
-        public GoToState(Deer self, Agent target) : base(self) 
+        public GoToState(Deer self, Agent target) : base(self)
         {
             this.target = target;
         }

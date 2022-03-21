@@ -9,6 +9,7 @@ public class Game : CSharpSingleton<Game>
     int levelNumber = 1;
     const float level_expansion = 1.25f;
     private int turn = 0;
+    public int LevelBudget => (int)(15 * Mathf.Pow(1.25f, levelNumber));
     public static int Turn => _instance.turn;
     public static event VoidAction OnTurn;
     #region [properties]
@@ -97,7 +98,7 @@ public class Game : CSharpSingleton<Game>
     {
         AudioManager.PlayAsMusic("theme_song");
         DataModel.Reset();
-        Init(10);
+        Init();
         turn = 0;
         DisplayManager.Instance.Draw();
     }
@@ -106,14 +107,14 @@ public class Game : CSharpSingleton<Game>
         levelNumber++;
         UIManager.Notifications.CreateNotification("welcome to level " + levelNumber);
         int newSize = (int)(Rooms.Count * level_expansion);
-        Init(newSize);
+        Init();
         DisplayManager.Instance.Draw();
     }
 
-    public void Init(int size)
+    public void Init()
     {
         DisplayManager.Instance.ResetBackground();
-        level = new Level(size);
+        level = new Level(15);
         turn = 0;
         level.Generate();
         //level.Ground.ForEach(x => DisplayManager.Instance.Background(x.x, x.y));

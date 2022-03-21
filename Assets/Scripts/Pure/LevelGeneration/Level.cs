@@ -93,7 +93,7 @@ public class Level
             var type = GameHelper.LinearRandom(types);
             return room.CreateAtRandomPosition(type, room.Agents) as Mob;
         }
-        float foeBudget = rooms.Count;
+        float foeBudget = Game.Instance.LevelBudget;
         
         while (foeBudget > 0)
         {
@@ -129,7 +129,7 @@ public class Level
     }
     private void AddTraps()
     {
-        float trapBudget = rooms.Count/2;
+        float trapBudget = rooms.Count;
 
         while (trapBudget > 0)
         {
@@ -190,8 +190,10 @@ public class Level
                     start = new Vector2Int(bottomRight.x, center.y);
                 }
                 else throw new System.Exception();
+
+
                 var doorAgent = new DoorAgent { position = start };
-                if (path.Exists(x => room.position + door == x.position))
+                if (path.Exists(x => x.position == room.position + door || (room.precedent != null && room.precedent.position == room.position + door)))
                 {
                     doorAgent.locked = false;
                 }

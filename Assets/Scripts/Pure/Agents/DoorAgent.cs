@@ -25,6 +25,8 @@ public class DoorAgent : Agent, ICollision, IOpaque, IActivatable, IDrawable
             UIManager.Notifications.CreateNotification("the door is locked");
             return;
         }
+
+        DataModel.Inventory.Delete(tool.name);
         AudioManager.PlayAsSound("door", volume : 0.25f);
         Game.Instance.Destroy(this);
     }
