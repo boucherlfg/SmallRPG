@@ -7,7 +7,6 @@ using UnityEngine.EventSystems;
 
 public class ItemMenuElement : MonoBehaviour, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
-    public static RectTransform selected;
     public Item Item
     {
         get => item;
@@ -46,16 +45,19 @@ public class ItemMenuElement : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         inventoryPanel.Refresh();
     }
 
+
+    #region interface implementation
+
     public void OnDrag(PointerEventData eventData)
     {
-        selected.position = eventData.position;
+        HotbarMenuElementScript.selected.position = eventData.position;
         
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Destroy(selected.gameObject);
-        selected = null;
+        Destroy(HotbarMenuElementScript.selected.gameObject);
+        HotbarMenuElementScript.selected = null;
         Debug.Log("end drag");
     }
 
@@ -78,9 +80,10 @@ public class ItemMenuElement : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         
         obj.transform.SetParent(transform.root);
         obj.transform.position = transform.position;
-        
-        selected = obj.GetComponent<RectTransform>();
-        selected.sizeDelta = Vector2.one * 50;
+
+        HotbarMenuElementScript.selected = obj.GetComponent<RectTransform>();
+        HotbarMenuElementScript.selected.sizeDelta = Vector2.one * 50;
         Debug.Log("begin drag");
     }
+    #endregion
 }

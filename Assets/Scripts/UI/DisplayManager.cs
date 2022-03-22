@@ -49,7 +49,7 @@ class DisplayManager : MonoSingleton<DisplayManager>
                         Background(pos.x, pos.y);
                     }
 
-                    var agent = Game.Instance.Agents.Find(a => a.position == pos);
+                    var agent = Game.Instance.Agents.Find(a => a.position == pos && a is IDrawable);
 
                     if (agent == null) continue;
                     var tile = (agent as IDrawable).CurrentTile;

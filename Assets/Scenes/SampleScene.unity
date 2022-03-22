@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 13260688}
   - component: {fileID: 13260690}
   - component: {fileID: 13260691}
+  - component: {fileID: 13260692}
   m_Layer: 5
   m_Name: hot2
   m_TagString: Untagged
@@ -272,6 +273,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &13260692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 13260686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5644153e32f114fbd5722f245c8303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toDo:
+    m_PersistentCalls:
+      m_Calls: []
+  tooltipText: 
 --- !u!1 &17717626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1002,6 +1019,7 @@ GameObject:
   - component: {fileID: 73511742}
   - component: {fileID: 73511744}
   - component: {fileID: 73511745}
+  - component: {fileID: 73511746}
   m_Layer: 5
   m_Name: hot3
   m_TagString: Untagged
@@ -1138,6 +1156,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &73511746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73511740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5644153e32f114fbd5722f245c8303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toDo:
+    m_PersistentCalls:
+      m_Calls: []
+  tooltipText: 
 --- !u!1 &92743574
 GameObject:
   m_ObjectHideFlags: 0
@@ -12204,6 +12238,7 @@ GameObject:
   - component: {fileID: 1074411660}
   - component: {fileID: 1074411662}
   - component: {fileID: 1074411663}
+  - component: {fileID: 1074411664}
   m_Layer: 5
   m_Name: hot5
   m_TagString: Untagged
@@ -12340,6 +12375,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1074411664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074411658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5644153e32f114fbd5722f245c8303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toDo:
+    m_PersistentCalls:
+      m_Calls: []
+  tooltipText: 
 --- !u!1 &1077542482
 GameObject:
   m_ObjectHideFlags: 0
@@ -15055,6 +15106,7 @@ GameObject:
   - component: {fileID: 1426011977}
   - component: {fileID: 1426011979}
   - component: {fileID: 1426011980}
+  - component: {fileID: 1426011981}
   m_Layer: 5
   m_Name: hot4
   m_TagString: Untagged
@@ -15191,6 +15243,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1426011981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426011975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5644153e32f114fbd5722f245c8303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toDo:
+    m_PersistentCalls:
+      m_Calls: []
+  tooltipText: 
 --- !u!1 &1459441930
 GameObject:
   m_ObjectHideFlags: 0
@@ -19989,6 +20057,7 @@ GameObject:
   - component: {fileID: 1796131457}
   - component: {fileID: 1796131459}
   - component: {fileID: 1796131460}
+  - component: {fileID: 1796131461}
   m_Layer: 5
   m_Name: hot1
   m_TagString: Untagged
@@ -20125,6 +20194,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1796131461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796131455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5644153e32f114fbd5722f245c8303, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toDo:
+    m_PersistentCalls:
+      m_Calls: []
+  tooltipText: 
 --- !u!1 &1800728031
 GameObject:
   m_ObjectHideFlags: 0

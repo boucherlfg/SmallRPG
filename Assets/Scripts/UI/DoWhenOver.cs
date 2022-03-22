@@ -10,6 +10,7 @@ public class DoWhenOver : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (PlayerPrefs.HasKey(SettingsPanel.tooltips_tag) && PlayerPrefs.GetInt(SettingsPanel.tooltips_tag) == 0) return;
+        if (tooltipText == null) return;
         UIManager.Tooltip.Active = true;
         UIManager.Tooltip.Text = tooltipText;
     }

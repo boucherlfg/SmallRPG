@@ -38,17 +38,29 @@ public class Inventory
 
     public void Add(string name, int durability)
     {
-        if (items.Count >= maximumCount)
-        {
-            UIManager.Notifications.CreateNotification("you can't carry any more items");
-        }
         ItemState toAdd = Codex.Items[name];
         toAdd.durability = durability;
+        if (items.Count >= maximumCount)
+        {
+            var floorItem = new FloorItem(Codex.Items[name]);
+            floorItem.droppedItemState = toAdd;
+            Game.Instance.Create(floorItem);
+            UIManager.Notifications.CreateNotification("you can't carry any more items");
+            return;
+        }
+        
         items.Add(toAdd);
         Changed?.Invoke();
     }
     public void Add(string name)
     {
+        if (items.Count >= maximumCount)
+        {
+            var floorItem = new FloorItem(Codex.Items[name]);
+            Game.Instance.Create(floorItem);
+            UIManager.Notifications.CreateNotification("you can't carry any more items");
+            return;
+        }
         var obj = Codex.Items[name];
         items.Add(obj);
     }

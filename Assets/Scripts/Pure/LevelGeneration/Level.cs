@@ -55,7 +55,8 @@ public class Level
         AddWallsAndStartEnd();
         AddCorridors();
         AddDoors();
-        AddFoes();
+        //AddFoes();
+        AddSpawns();
         AddTraps();
         AddFurniture();
         AddLoot();
@@ -85,6 +86,16 @@ public class Level
         agents.Add(agent);
         
     }
+    private void AddSpawns()
+    {
+        foreach (var room in rooms)
+        {
+            var agent = room.CreateAtRandomPosition<SpawnAgent>(agents);
+            agents.Add(agent);
+        }
+    }
+
+    [System.Obsolete("AddFoes is not used as of now. AddSpawns is currently used instead.")]
     private void AddFoes()
     {
         Mob RandomAgent(Room room)
