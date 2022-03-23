@@ -4750,6 +4750,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 2083945418}
+  playerContainer: {fileID: 590524498}
+  traderContainer: {fileID: 609753378}
 --- !u!1 &403782526
 GameObject:
   m_ObjectHideFlags: 0
@@ -7482,7 +7484,7 @@ GameObject:
   - component: {fileID: 590524500}
   - component: {fileID: 590524499}
   m_Layer: 5
-  m_Name: Content
+  m_Name: PlayerContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7557,7 +7559,7 @@ GameObject:
   - component: {fileID: 609753380}
   - component: {fileID: 609753379}
   m_Layer: 5
-  m_Name: Content
+  m_Name: TraderContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11640,6 +11642,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f8c730385f3e4344f847aba180bec6b1, type: 2}
   - {fileID: 11400000, guid: 2111e6edc812a20488670a9f32a4f5e4, type: 2}
   - {fileID: 11400000, guid: 25930f7162092e748902914a86f91d8d, type: 2}
+  - {fileID: 11400000, guid: 75186f81f8627574ca04c89490d9f1bb, type: 2}
   tilemap: {fileID: 567844595}
   background: {fileID: 1778391385}
   floorTile: {fileID: 11400000, guid: a4dd2e97ceed3c548a3ede6bf5fa68eb, type: 2}

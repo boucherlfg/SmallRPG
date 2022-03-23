@@ -56,12 +56,13 @@ public class Level
         AddCorridors();
         AddDoors();
         //AddFoes();
-        AddSpawns();
+        //AddSpawns();
         AddTraps();
         AddFurniture();
         AddLoot();
         AddResources();
         AddCraftingStations();
+        AddTrader();
     }
 
     private void AddWallsAndStartEnd()
@@ -210,7 +211,7 @@ public class Level
                 }
                 else
                 {
-                    doorAgent.locked = Random.value < 0.5f;
+                    doorAgent.locked = false && Random.value < 0.5f;
                 }
                 agents.Add(doorAgent);
             }
@@ -241,6 +242,12 @@ public class Level
             agents.Add(agent);
         }
         
+    }
+    private void AddTrader()
+    {
+        var room = GameHelper.LinearRandom(rooms);
+        var trader = room.CreateAtRandomPosition<TraderAgent>(agents);
+        agents.Add(trader);
     }
     private void AddCorridors()
     {
