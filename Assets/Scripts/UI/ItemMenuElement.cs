@@ -37,7 +37,6 @@ public class ItemMenuElement : MonoBehaviour, IBeginDragHandler, IEndDragHandler
         inventoryPanel.Refresh();
     }
 
-    int position = 0;
     public void Use()
     {
         item.Prepare();

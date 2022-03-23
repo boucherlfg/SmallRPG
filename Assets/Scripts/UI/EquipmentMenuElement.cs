@@ -8,8 +8,6 @@ public class EquipmentMenuElement : MonoBehaviour
 {
     [SerializeField]
     private Image image;
-    public event VoidAction isEnter;
-    public event VoidAction isExit;
 
     public string Item
     {

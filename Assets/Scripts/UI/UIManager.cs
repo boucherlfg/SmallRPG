@@ -80,4 +80,8 @@ public class UIManager : MonoSingleton<UIManager>
     [SerializeField]
     private RepairPanel repair;
     public static RepairPanel Repair => _instance.repair;
+
+    [SerializeField]
+    private TraderPanel trader;
+    public static TraderPanel Trader => _instance.trader;
 }

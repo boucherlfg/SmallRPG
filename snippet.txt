@@ -1,0 +1,53 @@
+public class TraderSystem {
+	private static float multiplier = 1f;
+	private TraderAgent trader;
+	private List<string> offer;
+	private List<string> demand;
+	
+	public List<string> Player => DataModel.Inventory.Items.Select(x => x.name).Difference(offer).Concat(demand);
+	public List<string> Trader => trader.sales.Difference(demand).Concat(offer);
+	public float Value => (1/multiplier) * offer.Select(x => Codex.Items[x]).Sum() 
+							- multiplier * demand.Select(x => Codex.Item[x]).Sum();
+	
+	public TraderSystem(TraderAgent trader) {
+		this.trader = trader;
+		this.offer = new List<string>();
+		this.demand = new List<string>();
+	}
+
+	public void AddOffer(string item) {
+		this.offer.Add(item);
+	}
+	public void AddDemand(string item) {
+		this.demand.Add(item);
+	}
+	public void RemoveOffer(string item) {
+		this.offer.Remove(item);
+	}
+	public void RemoveDemand(string item) {
+		this.demand.Remove(item);
+	}
+}
+
+premier contact
+- le joueur demande à échanger du stock
+- le système montre tout ce que le joueur a et tour ce que le trader a dans une liste
+- un indicateur numérique de qui a le meilleur marché en ce moment est à 0.
+
+le joueur demande un objet au marchand
+- le joueur drag and drop un objet de la section marchand jusqu'à la section du joueur
+- le système rafraîchit les deux listes et l'item se trouve maintenant dans la liste du joueur (et n'est plus dans la liste du marchand)
+- un indicateur numérique de qui a le meilleur marché à l'instant a bougé pour aller un peu plus en faveur du joueur.
+- l'échange n'a pas encore réellement été fait. ce n'est qu'une simulation pour l'instant.
+
+le joueur propose un objet au marchand
+- le joueur drag and drop un objet de la section marchand jusqu'à la section joueur
+- le système rafraîchit les deux listes et l'item se trouve maintenant dans la liste du marchand (et nest plus dans la liste du joueur)
+- un indicateur numérique de qui a le meilleur marché a bougé pour aller en faveur du marchand.
+- l'échange n'a pas encore réellement été fait. ce n'est qu'une simulation pour l'instant.
+
+confirmer la vente
+- le joueur appuye sur le bouton de confirmation
+- le système effectue réellement la transaction. le menu se ferme. 
+- si la vente va en faveur du joueur, le bouton confirmation ne fonctionne pas.
+- si la vente va en faveur du marchand, la vente fonctionne et l'excédent est gardé en mémoire pour les prochaines ventes
