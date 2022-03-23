@@ -24,5 +24,6 @@ public class TraderAgent : Agent, ICollision, IActivatable, IDrawable
         if (!(source is Player)) return;
 
         UIManager.Trader.Toggle();
+        UIManager.Trader.Trader = this;
     }
 }

@@ -7,6 +7,34 @@ using UnityEngine.Tilemaps;
 
 public static class GameHelper
 {
+    public static void ForEachDistinct<T>(this List<T> list, System.Action<T> action)
+    {
+        List<T> done = new List<T>();
+        list.ForEach(l =>
+        {
+            if (done.Contains(l)) return;
+            done.Add(l);
+            action(l);
+        });
+    }
+    public static List<T> Subtract<T>(this List<T> list, List<T> other)
+    {
+        var ret = new List<T>();
+        list.ForEach(x =>
+        {
+            if (!other.Contains(x))
+            {
+                ret.Add(x);
+            }
+        });
+        return ret;
+    }
+    public static List<U> Transform<T, U>(this List<T> list, System.Func<T, U> selector)
+    {
+        List<U> ret = new List<U>();
+        list.ForEach(x => ret.Add(selector(x)));
+        return ret;
+    }
     public static float Round(this float f, int place)
     {
         f *= Mathf.Pow(10, place);

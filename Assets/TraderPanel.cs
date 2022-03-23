@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TraderPanel : PanelWrapper
 {
+    public static TraderService service;
     public override bool ExcludeFromPause => false;
     public override bool ExitableByEscape => true;
 
@@ -19,11 +20,27 @@ public class TraderPanel : PanelWrapper
         set
         {
             trader = value;
+            service = new TraderService(value);
             Refresh();
         }
     }
     public void Refresh()
     {
-        
+        service.Player.ForEachDistinct(item =>
+        {
+
+        });
+        service.demand.ForEachDistinct(item =>
+        {
+
+        });
+        service.Trader.ForEachDistinct(item =>
+        {
+
+        });
+        service.offer.ForEachDistinct(item =>
+        {
+
+        });
     }
 }
