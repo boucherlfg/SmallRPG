@@ -4752,6 +4752,7 @@ MonoBehaviour:
   menu: {fileID: 2083945418}
   playerContainer: {fileID: 590524498}
   traderContainer: {fileID: 609753378}
+  salesMenuElementPrefab: {fileID: 2338182097803109324, guid: 644e1b8e7ef593d418c62d13699856dc, type: 3}
 --- !u!1 &403782526
 GameObject:
   m_ObjectHideFlags: 0

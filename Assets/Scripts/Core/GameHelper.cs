@@ -7,15 +7,15 @@ using UnityEngine.Tilemaps;
 
 public static class GameHelper
 {
-    public static void ForEachDistinct<T>(this List<T> list, System.Action<T> action)
+    public static void ForEachDistinct<T>(this IEnumerable<T> list, System.Action<T> action)
     {
         List<T> done = new List<T>();
-        list.ForEach(l =>
+        foreach(var l in list) 
         {
             if (done.Contains(l)) return;
             done.Add(l);
             action(l);
-        });
+        }
     }
     public static List<T> Subtract<T>(this List<T> list, List<T> other)
     {
