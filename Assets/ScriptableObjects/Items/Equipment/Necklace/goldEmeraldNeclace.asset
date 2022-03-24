@@ -15,7 +15,8 @@ MonoBehaviour:
   visibleName: Gold emerald necklace
   sprite: {fileID: -4211939078310032478, guid: cbcdb24b63574804e8b3567d38b828ce, type: 3}
   description: 
-  value: 0
+  value: 30
+  durability: 0
   equipType: 3
   buff:
     life: 0

@@ -56,7 +56,7 @@ public class Level
         AddCorridors();
         AddDoors();
         //AddFoes();
-        //AddSpawns();
+        AddSpawns();
         AddTraps();
         AddFurniture();
         AddLoot();

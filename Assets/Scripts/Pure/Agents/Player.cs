@@ -78,7 +78,7 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
 
         public override State Update()
         {
-            return this;
+            return null;
         }
     }
     public class MoveState : State
@@ -99,7 +99,7 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
                 room.discovered = true;
                 MinimapScript.Instance.UpdateMinimap();
             }
-            return new WaitState(self);
+            return null;
         }
     }
     public class AttackState : State
@@ -112,7 +112,7 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
             {
                 (target as IUsableAgent).Use(self);
             }
-            return new WaitState(self);
+            return null;
         }
     }
     public class UseState : State
@@ -126,7 +126,7 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
         public override State Update()
 {
             UIManager.Hotbar.hotbarMenuElements[position - 1].Use();
-            return new WaitState(self);
+            return null;
         }
     }
     public class WaitState : State
@@ -135,7 +135,7 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
 
         public override State Update()
         {
-            return this;
+            return null;
         }
     }
 }

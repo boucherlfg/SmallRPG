@@ -6,7 +6,7 @@ using System;
 
 public class Game : CSharpSingleton<Game>
 {
-    int levelNumber = 1;
+    int levelNumber = 0;
     const float level_expansion = 1.25f;
     private int turn = 0;
     public int LevelBudget => (int)(15 * Mathf.Pow(1.25f, levelNumber));

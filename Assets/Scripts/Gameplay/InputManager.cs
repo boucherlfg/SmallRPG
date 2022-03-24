@@ -86,7 +86,21 @@ public class InputManager : MonoSingleton<InputManager>
     #endregion
 
     public static Vector2 MousePosition => Camera.main.ScreenToWorldPoint(_instance.controls.Player.MousePosition.ReadValue<Vector2>());
-    public static Vector2Int MoveVector => Vector2Int.RoundToInt(_instance.controls.Player.Move.ReadValue<Vector2>());
+
+    private static Vector2Int lastMove;
+    public static Vector2Int MoveVector
+    {
+        get
+        {
+            var move = _instance.controls.Player.Move.ReadValue<Vector2>();
+            if (Mathf.Abs(move.x) > 0.1f && Mathf.Abs(move.y) > 0.1f)
+            {
+                return lastMove;
+            }
+            lastMove = Vector2Int.RoundToInt(move);
+            return lastMove;
+        }
+    }
 
 
 
@@ -176,9 +190,6 @@ public class InputManager : MonoSingleton<InputManager>
 
     private void Move_performed(InputAction.CallbackContext obj)
     {
-        var vect = obj.ReadValue<Vector2>();
-        float len = vect.magnitude;
-        if (len > 1) return;
-        onMoved?.Invoke(Vector2Int.RoundToInt(vect));
+        onMoved?.Invoke(MoveVector);
     }
 }

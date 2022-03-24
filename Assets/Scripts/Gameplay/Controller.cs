@@ -7,7 +7,6 @@ using UnityEngine.UIElements;
 
 public class Controller : MonoBehaviour
 {
-    private Queue<Player.State> todo = new Queue<Player.State>();
     const float updateTime = 0.5f;
     private bool paused = true;
     void Start()
@@ -86,17 +85,15 @@ public class Controller : MonoBehaviour
 
     IEnumerator UpdateAndWait()
     {
+        yield return new WaitUntil(() => Game.Instance != null && Game.Instance.Player != null);
         while (true)
         {
-            if (todo.Count <= 0)
+            if (Game.Instance.Player.state == null)
             {
                 yield return null;
             }
             else
             {
-                var state = todo.Dequeue();
-                Game.Instance.Player.state = state;
-
                 do
                 {
                     Game.Instance.Update();
@@ -120,19 +117,19 @@ public class Controller : MonoBehaviour
     {
         if (paused) return;
 
-        todo.Enqueue(new Player.WaitState(Game.Instance.Player));
+        Game.Instance.Player.state = new Player.WaitState(Game.Instance.Player);
     }
     private void InputManager_Moved(Vector2Int orientation)
     {
         if (paused) return;
 
-        todo.Enqueue(new Player.MoveState(Game.Instance.Player, orientation));
+        Game.Instance.Player.state = new Player.MoveState(Game.Instance.Player, orientation);
     }
 
     private void InputManager_Hotbar(int value)
     {
         if (paused) return;
 
-        todo.Enqueue(new Player.UseState(Game.Instance.Player, value));
+        Game.Instance.Player.state = new Player.UseState(Game.Instance.Player, value);
     }
 }

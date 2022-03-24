@@ -11,10 +11,10 @@ public class TraderService
     private List<string> demand;
     float multiplier;
 
-    public string[] Offer => offer.ToArray();
-    public string[] Demand => demand.ToArray();
-    public IEnumerable<string> Player => DataModel.Inventory.Items.Select(x => x.name).Subtract(offer);
-    public IEnumerable<string> Trader => trader.sales.Subtract(demand);
+    public string[] Offer => offer.OrderBy(x => x).ToArray();
+    public string[] Demand => demand.OrderBy(x => x).ToArray();
+    public IEnumerable<string> Player => DataModel.Inventory.Items.Select(x => x.name).Subtract(offer).OrderBy(x => x);
+    public IEnumerable<string> Trader => trader.sales.Subtract(demand).OrderBy(x => x);
     public float Value => persistentValue + UnityEngine.Mathf.Round(offer.Sum(x => (1/multiplier) * Codex.Items[x].value) - demand.Sum(x => multiplier * Codex.Items[x].value));
 
     public TraderService(TraderAgent trader)
