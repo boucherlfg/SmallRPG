@@ -16,7 +16,6 @@ public class ScrapingPanel : PanelWrapper
         IEnumerator WaitForNull()
         {
             yield return null;
-            DataModel.Inventory.Changed += Refresh;
             ActiveStateChanged += Refresh;
         }
     }

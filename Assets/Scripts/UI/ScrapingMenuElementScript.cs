@@ -38,5 +38,6 @@ public class ScrapingMenuElementScript : MonoBehaviour
         var chosenItem = GameHelper.LinearRandom(chosenRecipe.input);
         UIManager.Notifications.CreateNotification($"and got a {chosenItem.visibleName}.");
         DataModel.Inventory.Add(chosenItem.name);
+        UIManager.Scraping.Refresh();
     }
 }
