@@ -49,7 +49,11 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
     public virtual void Update()
     {
         Immobilized = false;
-        state = state.Update();
+
+        if (state != null)
+        {
+            state = state.Update();
+        }
     }
 
     public virtual void End()

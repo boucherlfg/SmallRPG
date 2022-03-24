@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MainMenuPanel : PanelWrapper
 {
+
+    public override bool ExcludeFromPause => false;
+    public override bool ExitableByEscape => false;
     [SerializeField]
     private Controller controller;
     void Start()

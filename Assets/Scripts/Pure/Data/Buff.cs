@@ -1,4 +1,6 @@
-﻿public class Buff
+﻿using static UnityEngine.GraphicsBuffer;
+
+public class Buff
 {
     private int counter = 0;
     System.Func<Agent> getter;
@@ -20,12 +22,20 @@
         if (!Game.Instance.Agents.Contains(getter())) return;
         var obj = getter() as IStats;
         obj.Stats += start;
+        if (start.life < 0)
+        {
+            DisplayManager.Instance.CreateDamageText(-(int)start.life, getter().position);
+        }
     }
     public void Update()
     {
         if (!Game.Instance.Agents.Contains(getter())) return;
         var obj = getter() as IStats;
         obj.Stats += overtime;
+        if (overtime.life < 0)
+        {
+            DisplayManager.Instance.CreateDamageText(-(int)start.life, getter().position);
+        }
         counter++;
     }
     public void End()
@@ -33,5 +43,9 @@
         if (!Game.Instance.Agents.Contains(getter())) return;
         var obj = getter() as IStats;
         obj.Stats += end;
+        if (end.life < 0)
+        {
+            DisplayManager.Instance.CreateDamageText(-(int)start.life, getter().position);
+        }
     }
 }

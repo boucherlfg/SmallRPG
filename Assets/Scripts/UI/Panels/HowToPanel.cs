@@ -4,5 +4,4 @@ using UnityEngine;
 
 public class HowToPanel : PanelWrapper
 {
-    public override bool ExitableByEscape => true;
 }

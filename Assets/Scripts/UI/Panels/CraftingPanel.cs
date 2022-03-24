@@ -12,8 +12,6 @@ public class CraftingPanel : PanelWrapper
     [SerializeField]
     private TMP_Text title;
     private CraftingType craftingType;
-    public override bool ExitableByEscape => true;
-    public override bool ExcludeFromPause => false;
     void Start()
     {
         StartCoroutine(HookAfterNull());

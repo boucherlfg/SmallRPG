@@ -8,7 +8,6 @@ public class SettingsPanel : PanelWrapper
 {
     public const string tooltips_tag = "tooltips";
     public const string volume_tag = "volume";
-    public override bool ExitableByEscape => true;
 
     public GameObject volume;
     public GameObject tooltips;

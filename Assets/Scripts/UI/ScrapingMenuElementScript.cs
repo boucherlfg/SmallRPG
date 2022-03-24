@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ScrapingMenuElementScript : MonoBehaviour
+public class ScrapingMenuElementScript : MonoBehaviour 
 {
     private Item item;
     [SerializeField]
@@ -31,6 +31,7 @@ public class ScrapingMenuElementScript : MonoBehaviour
         if (recipes.Count == 0)
         {
             UIManager.Notifications.CreateNotification("and got nothing.");
+            UIManager.Scraping.Refresh();
             return;
         }
 

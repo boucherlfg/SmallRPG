@@ -18,7 +18,6 @@ public class EquipmentPanel : PanelWrapper
     private Transform ring;
     [SerializeField]
     private GameObject equipmentMenuItemPrefab;
-    public override bool ExitableByEscape => true;
     public void Start()
     {
         ActiveStateChanged += Refresh;

@@ -2,6 +2,7 @@
 
 public class PanelWrapper : MonoBehaviour
 {
+    public virtual bool ExitableByEscape => true;
     public virtual bool ExcludeFromPause => false;
     public static event VoidAction AnyActiveStateChanged;
     [SerializeField]
@@ -11,7 +12,7 @@ public class PanelWrapper : MonoBehaviour
     public event OnActiveStateChange ActiveStateChanged;
     public bool Active
     {
-        get => menu.activeSelf && menu.transform.GetSiblingIndex() >= menu.transform.parent.childCount - 1;
+        get => menu.activeSelf;
         set
         {
             menu.SetActive(value);
@@ -28,7 +29,6 @@ public class PanelWrapper : MonoBehaviour
         }
     }
 
-    public virtual bool ExitableByEscape => false;
 
     public void Toggle()
     {

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ExitPromptPanel : PanelWrapper
 {
+  
     public void LoadNextLevel()
     {
         Game.Instance.NextLevel();

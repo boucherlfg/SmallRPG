@@ -6,6 +6,7 @@ public class SplashScreen : PanelWrapper
     CanvasGroup canvasGroup;
     public float timeBeforeFadeout = 3;
     public float fadeoutTime = 2;
+    public override bool ExcludeFromPause => false;
     void Update()
     {
         if (!Active) return;

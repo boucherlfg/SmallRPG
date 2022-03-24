@@ -7,6 +7,8 @@ public class NotifManager : PanelWrapper
 {
     public GameObject notifPrefab;
     Queue<GameObject> notifs = new Queue<GameObject>();
+    public override bool ExcludeFromPause => true;
+    public override bool ExitableByEscape => false;
 
     CanvasGroup group;
     float holdTimer = 0;

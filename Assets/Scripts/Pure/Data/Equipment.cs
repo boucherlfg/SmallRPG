@@ -64,6 +64,7 @@ public class Equipment
         eqType = EquipType.Weapon;
         foreach (EquipType type in System.Enum.GetValues(typeof(EquipType)))
         {
+            eqType = type;
             if (this[type] == item) return true;
         }
         return false;

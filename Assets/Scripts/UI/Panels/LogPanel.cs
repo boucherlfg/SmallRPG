@@ -9,7 +9,6 @@ public class LogPanel : PanelWrapper
     private GameObject notificationElementPrefab;
     [SerializeField]
     private Transform container;
-    public override bool ExitableByEscape => true;
     void Start()
     {
         ActiveStateChanged += Refresh;

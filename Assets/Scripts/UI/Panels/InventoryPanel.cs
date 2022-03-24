@@ -13,7 +13,6 @@ public class InventoryPanel : PanelWrapper
     private Transform container;
     [SerializeField]
     private GameObject itemMenuElementPrefab;
-    public override bool ExitableByEscape => true;
 
     void Start()
     {
