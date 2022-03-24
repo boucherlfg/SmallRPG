@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -82,10 +83,15 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
     }
     public class MoveState : State
     {
-        public MoveState(Player self) : base(self) { }
+        private Vector2Int orientation;
+        public MoveState(Player self, Vector2Int orientation) : base(self) 
+        {
+            this.orientation = orientation;
+        }
 
         public override State Update()
         {
+            self.Orientation = orientation;
             self.position += self.Orientation;
             var room = Game.Instance.Level.Rooms.Find(x => x.Ground.Contains(self.position));
             if (room != null)
@@ -106,6 +112,20 @@ public class Player : Agent, IStats, IMovable, IDrawable, IUpdatable, ICollision
             {
                 (target as IUsableAgent).Use(self);
             }
+            return new WaitState(self);
+        }
+    }
+    public class UseState : State
+    {
+        private int position;
+        public UseState(Player self, int position) : base(self)
+        {
+            this.position = position;
+        }
+
+        public override State Update()
+{
+            UIManager.Hotbar.hotbarMenuElements[position - 1].Use();
             return new WaitState(self);
         }
     }

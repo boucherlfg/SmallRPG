@@ -6,7 +6,8 @@ using UnityEngine;
 using UnityEngine.UIElements;
 
 public class Controller : MonoBehaviour
-{    
+{
+    private Queue<Player.State> todo = new Queue<Player.State>();
     const float updateTime = 0.5f;
     private bool paused = true;
     void Start()
@@ -22,6 +23,7 @@ public class Controller : MonoBehaviour
         InputManager.Logs += InputManager_Logs;
         InputManager.Escaped += InputManager_Escaped;
         PanelWrapper.AnyActiveStateChanged += PanelWrapper_AnyActiveStateChanged;
+        StartCoroutine(UpdateAndWait());
     }
 
     public void StartGame()
@@ -84,10 +86,31 @@ public class Controller : MonoBehaviour
 
     IEnumerator UpdateAndWait()
     {
-        Game.Instance.Update();
-        DisplayManager.Instance.Draw();
-        yield return new WaitForSeconds(0.1f);
-        update = null;
+        while (true)
+        {
+            if (todo.Count <= 0)
+            {
+                yield return null;
+            }
+            else
+            {
+                var state = todo.Dequeue();
+                Game.Instance.Player.state = state;
+
+                do
+                {
+                    Game.Instance.Update();
+                    DisplayManager.Instance.Draw();
+                    yield return new WaitForSeconds(0.25f);
+                    yield return new WaitUntil(() => !paused);
+                    if (InputManager.MoveVector.magnitude > 0.5f)
+                    {
+                        Game.Instance.Player.state = new Player.MoveState(Game.Instance.Player, InputManager.MoveVector);
+                    }
+                }
+                while (Game.Instance.Player.state is Player.MoveState);
+            }
+        }
     }
 
     private Coroutine update;
@@ -96,27 +119,20 @@ public class Controller : MonoBehaviour
     private void InputManager_Waited()
     {
         if (paused) return;
-        if (update != null) return;
 
-        Game.Instance.Player.state = new Player.WaitState(Game.Instance.Player);
-        update = StartCoroutine(UpdateAndWait());
+        todo.Enqueue(new Player.WaitState(Game.Instance.Player));
     }
     private void InputManager_Moved(Vector2Int orientation)
     {
         if (paused) return;
-        if (update != null) return;
 
-        Game.Instance.Player.Orientation = orientation;
-        Game.Instance.Player.state = new Player.MoveState(Game.Instance.Player);
-        update = StartCoroutine(UpdateAndWait());
+        todo.Enqueue(new Player.MoveState(Game.Instance.Player, orientation));
     }
 
     private void InputManager_Hotbar(int value)
     {
         if (paused) return;
-        if (update != null) return;
 
-        UIManager.Hotbar.hotbarMenuElements[value - 1].Use();
-        InputManager_Waited();
+        todo.Enqueue(new Player.UseState(Game.Instance.Player, value));
     }
 }
