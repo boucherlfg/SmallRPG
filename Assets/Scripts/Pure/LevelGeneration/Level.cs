@@ -80,10 +80,10 @@ public class Level
         Room room = rooms.Find(x => x is StartingRoom);
         Agent agent = room.CreateAtRandomPosition<Entrance>(Agents);
         agents.Add(agent);
-        agent = room.CreateAtRandomPosition<Player>(Agents);
+        agent = room.CreateAtRandomPosition<Player>(agents);
         agents.Add(agent);
         room = rooms.Find(x => x is EndRoom);
-        agent = room.CreateAtRandomPosition<Exit>(Agents);
+        agent = room.CreateAtRandomPosition<Exit>(agents);
         agents.Add(agent);
         
     }
@@ -158,7 +158,7 @@ public class Level
         {
             var nextPrice = Random.Range(3, 5);
             var room = rooms[Random.Range(0, rooms.Count)];
-            var loot = room.CreateAtRandomPosition<Loot>(room.Agents);
+            var loot = room.CreateAtRandomPosition<Loot>(agents);
             loot.loot = GameHelper.PopulateLoot(nextPrice);
             agents.Add(loot);
             lootBudget -= nextPrice;
@@ -211,7 +211,7 @@ public class Level
                 }
                 else
                 {
-                    doorAgent.locked = false && Random.value < 0.5f;
+                    doorAgent.locked = Random.value < 0.5f;
                 }
                 agents.Add(doorAgent);
             }

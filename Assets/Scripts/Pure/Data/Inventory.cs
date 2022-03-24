@@ -42,7 +42,7 @@ public class Inventory
         toAdd.durability = durability;
         if (items.Count >= maximumCount)
         {
-            var floorItem = new FloorItem(Codex.Items[name]);
+            var floorItem = new FloorItem(Codex.Items[name]) { position = Game.Instance.Player.position };
             floorItem.droppedItemState = toAdd;
             Game.Instance.Create(floorItem);
             UIManager.Notifications.CreateNotification("you can't carry any more items");
@@ -56,13 +56,14 @@ public class Inventory
     {
         if (items.Count >= maximumCount)
         {
-            var floorItem = new FloorItem(Codex.Items[name]);
+            var floorItem = new FloorItem(Codex.Items[name]) { position = Game.Instance.Player.position };
             Game.Instance.Create(floorItem);
             UIManager.Notifications.CreateNotification("you can't carry any more items");
             return;
         }
         var obj = Codex.Items[name];
         items.Add(obj);
+        Changed?.Invoke();
     }
     public void Delete(string item)
     {
