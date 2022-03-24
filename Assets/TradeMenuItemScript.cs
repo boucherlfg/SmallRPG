@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SalesMenuElement : MonoBehaviour
+public class TradeMenuItemScript : MonoBehaviour
 {
     [SerializeField]
     private Image image;
@@ -42,5 +42,6 @@ public class SalesMenuElement : MonoBehaviour
     public void TradeAction()
     {
         tradeAction?.Invoke();
+        AudioManager.PlayAsSound("equip");
     }
 }

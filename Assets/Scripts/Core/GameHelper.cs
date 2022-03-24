@@ -9,30 +9,26 @@ public static class GameHelper
 {
     public static void ForEachDistinct<T>(this IEnumerable<T> list, System.Action<T> action)
     {
-        List<T> done = new List<T>();
-        foreach(var l in list) 
+        foreach (var item in list.Distinct())
         {
-            if (done.Contains(l)) return;
-            done.Add(l);
-            action(l);
+            action(item);
         }
     }
-    public static List<T> Subtract<T>(this List<T> list, List<T> other)
+    public static IEnumerable<T> Subtract<T>(this IEnumerable<T> list, IEnumerable<T> other)
     {
         var ret = new List<T>();
-        list.ForEach(x =>
+        var temp = new List<T>(other);
+        foreach(var x in list)
         {
-            if (!other.Contains(x))
+            if (!temp.Contains(x))
             {
                 ret.Add(x);
             }
-        });
-        return ret;
-    }
-    public static List<U> Transform<T, U>(this List<T> list, System.Func<T, U> selector)
-    {
-        List<U> ret = new List<U>();
-        list.ForEach(x => ret.Add(selector(x)));
+            else
+            {
+                temp.Remove(x); 
+            }
+        }
         return ret;
     }
     public static float Round(this float f, int place)

@@ -18,7 +18,7 @@ public class MinimapScript : MonoSingleton<MinimapScript>
         var rooms = Game.Instance.Rooms;
 
         var center = rooms.Find(x => x.Ground.Contains(Game.Instance.Player.position)).position;
-        var torches = Game.Instance.Agents.FindAll(x => x is LightSourceAgent).Transform(l => rooms.Find(x => x.Ground.Contains(l.position)).position);
+        var torches = Game.Instance.Agents.FindAll(x => x is LightSourceAgent).Select(l => rooms.Find(x => x.Ground.Contains(l.position)).position);
 
         foreach (Room r in rooms)
         {

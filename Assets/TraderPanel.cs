@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TraderPanel : PanelWrapper
 {
@@ -15,6 +17,10 @@ public class TraderPanel : PanelWrapper
     private Transform traderContainer;
     [SerializeField]
     private GameObject salesMenuElementPrefab;
+    [SerializeField]
+    private Button confirmButton;
+    [SerializeField]
+    private TMP_Text valueIndicator;
 
     private TraderAgent trader;
     public TraderAgent Trader
@@ -30,6 +36,11 @@ public class TraderPanel : PanelWrapper
     }
     public void Refresh()
     {
+        var sign = Mathf.Sign(service.Value);
+        valueIndicator.text = (sign > 0 ? "+" : "") + service.Value;
+        valueIndicator.color = sign < 0 ? Color.red : sign > 0 ? Color.green : Color.gray;
+        confirmButton.interactable = sign >= 0;
+
         foreach (Transform child in playerContainer)
         {
             Destroy(child.gameObject);
@@ -41,7 +52,7 @@ public class TraderPanel : PanelWrapper
         service.Player.ForEachDistinct(item =>
         {
             var obj = Instantiate(salesMenuElementPrefab, playerContainer);
-            var comp = obj.GetComponent<SalesMenuElement>();
+            var comp = obj.GetComponent<TradeMenuItemScript>();
             comp.Item = item;
             comp.Count = service.Player.Count(x => x == item);
             comp.Color = Color.white;
@@ -50,7 +61,7 @@ public class TraderPanel : PanelWrapper
         service.Demand.ForEachDistinct(item =>
         {
             var obj = Instantiate(salesMenuElementPrefab, playerContainer);
-            var comp = obj.GetComponent<SalesMenuElement>();
+            var comp = obj.GetComponent<TradeMenuItemScript>();
             comp.Item = item;
             comp.Count = service.Demand.Count(x => x == item);
             comp.Color = Color.gray;
@@ -59,7 +70,7 @@ public class TraderPanel : PanelWrapper
         service.Trader.ForEachDistinct(item =>
         {
             var obj = Instantiate(salesMenuElementPrefab, traderContainer);
-            var comp = obj.GetComponent<SalesMenuElement>();
+            var comp = obj.GetComponent<TradeMenuItemScript>();
             comp.Item = item;
             comp.Count = service.Trader.Count(x => x == item);
             comp.Color = Color.white;
@@ -68,7 +79,7 @@ public class TraderPanel : PanelWrapper
         service.Offer.ForEachDistinct(item =>
         {
             var obj = Instantiate(salesMenuElementPrefab, traderContainer);
-            var comp = obj.GetComponent<SalesMenuElement>();
+            var comp = obj.GetComponent<TradeMenuItemScript>();
             comp.Item = item;
             comp.Count = service.Offer.Count(x => x == item);
             comp.Color = Color.gray;
@@ -80,5 +91,6 @@ public class TraderPanel : PanelWrapper
     {
         if (service.Value < 0) return;
         service.Confirm();
+        AudioManager.PlayAsSound("loot");
     }
 }

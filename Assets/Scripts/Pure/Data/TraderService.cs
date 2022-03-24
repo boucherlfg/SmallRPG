@@ -4,22 +4,25 @@ using System.Linq;
 
 public class TraderService
 {
+    private static float persistentValue = 0;
     public event Action OnChange;
     private readonly TraderAgent trader;
     private List<string> offer;
     private List<string> demand;
+    float multiplier;
 
     public string[] Offer => offer.ToArray();
     public string[] Demand => demand.ToArray();
-    public IEnumerable<string> Player => DataModel.Inventory.Items.Select(x => x.name).Except(offer);
+    public IEnumerable<string> Player => DataModel.Inventory.Items.Select(x => x.name).Subtract(offer);
     public IEnumerable<string> Trader => trader.sales.Subtract(demand);
-    public float Value => offer.Sum(x => Codex.Items[x].value) - demand.Sum(x => Codex.Items[x].value);
+    public float Value => persistentValue + UnityEngine.Mathf.Round(offer.Sum(x => (1/multiplier) * Codex.Items[x].value) - demand.Sum(x => multiplier * Codex.Items[x].value));
 
     public TraderService(TraderAgent trader)
     {
         this.trader = trader;
         this.offer = new List<string>();
         this.demand = new List<string>();
+        this.multiplier = UnityEngine.Random.value + 1;
     }
 
     ~TraderService() 
@@ -51,6 +54,7 @@ public class TraderService
 
     internal void Confirm()
     {
+        persistentValue = (((int)(Value / 10)) * 10);
         offer.ForEach(x =>
         {
             DataModel.Inventory.Delete(x);
