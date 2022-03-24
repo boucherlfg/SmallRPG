@@ -19,7 +19,7 @@ public class SpawnAgent : Agent, IUpdatable
 
         //dont spawn if we already have max spawn
         var mobCount = Game.Instance.Agents.Count(x => x is Mob);
-        Debug.Log($"there is currently {mobCount} mobs");
+        mobCount = mobCount > 8 ? 8 : mobCount;
         if (mobCount > Game.Instance.LevelBudget / 5) return;
         
         //random chance of not spawning
