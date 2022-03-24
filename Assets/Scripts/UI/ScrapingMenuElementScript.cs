@@ -36,7 +36,18 @@ public class ScrapingMenuElementScript : MonoBehaviour
         }
 
         var chosenRecipe = GameHelper.LinearRandom(recipes);
+        float inputCount = chosenRecipe.input.Count;
+        float outputCount = chosenRecipe.output.Count;
+
         var chosenItem = GameHelper.LinearRandom(chosenRecipe.input);
+
+        if (Random.value > inputCount/outputCount)
+        {
+            UIManager.Notifications.CreateNotification("and got nothing.");
+            UIManager.Scraping.Refresh();
+            return;
+        }
+
         UIManager.Notifications.CreateNotification($"and got a {chosenItem.visibleName}.");
         DataModel.Inventory.Add(chosenItem.name);
         UIManager.Scraping.Refresh();
