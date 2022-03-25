@@ -8,10 +8,10 @@ using UnityEditor;
 #endif
 
 
-public class ScrollsBehaviours
+public class SpellsBehaviours
 {
 #if UNITY_EDITOR
-    [CustomPropertyDrawer(typeof(ScrollBehaviourEnumAttribute))]
+    [CustomPropertyDrawer(typeof(SpellBehaviourEnumAttribute))]
     public class ScrollBehaviourDrawer : PropertyDrawer
     {
 
@@ -37,8 +37,8 @@ public class ScrollsBehaviours
         }
     }
 #endif
-    public class ScrollBehaviourEnumAttribute : PropertyAttribute { }
-    public class ScrollBehaviourDefinitionAttribute : Attribute { }
+    public class SpellBehaviourEnumAttribute : PropertyAttribute { }
+    public class SpellBehaviourDefinitionAttribute : Attribute { }
 
     public static void ExecuteAsTrap(string methodName, Vector2Int target)
     {
@@ -70,7 +70,7 @@ public class ScrollsBehaviours
         }
     }
 
-    private static List<MethodInfo> scrollBehaviour => typeof(ScrollsBehaviours).GetMethods(BindingFlags.Static | BindingFlags.NonPublic).Where(x => Attribute.IsDefined(x, typeof(ScrollBehaviourDefinitionAttribute))).ToList();
+    private static List<MethodInfo> scrollBehaviour => typeof(SpellsBehaviours).GetMethods(BindingFlags.Static | BindingFlags.NonPublic).Where(x => Attribute.IsDefined(x, typeof(SpellBehaviourDefinitionAttribute))).ToList();
     public static List<string> ScrollBehaviourNames
     {
         get
@@ -79,7 +79,7 @@ public class ScrollsBehaviours
         }
     }
 
-    [ScrollBehaviourDefinition]
+    [SpellBehaviourDefinition]
     private static void Fire(Agent agent)
     {
         Game.Instance.Create(new FireAgent()
@@ -88,7 +88,7 @@ public class ScrollsBehaviours
         });
         return;
     }
-    [ScrollBehaviourDefinition]
+    [SpellBehaviourDefinition]
     private static void Ice(Agent agent)
     {
         if (agent is Mob)
@@ -132,7 +132,7 @@ public class ScrollsBehaviours
         }
     }
 
-    [ScrollBehaviourDefinition]
+    [SpellBehaviourDefinition]
     private static void Summon(Agent agent)
     {
         if (!Game.Instance.Agents.Exists(x => x.position == agent.position + Vector2Int.up) && Game.Instance.Level.Ground.Contains(agent.position + Vector2Int.up)) Create(agent.position + Vector2Int.up);
@@ -148,7 +148,7 @@ public class ScrollsBehaviours
             });
         }
     }
-    [ScrollBehaviourDefinition]
+    [SpellBehaviourDefinition]
     private static void Teleport(Agent agent)
     {
         if (!(agent is IMovable)) return;

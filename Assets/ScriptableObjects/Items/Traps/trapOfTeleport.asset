@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb790b95e2ab4c24c88e5914b3fcef53, type: 3}
   m_Name: trapOfTeleport
   m_EditorClassIdentifier: 
-  visibleName: Trap of teleport
+  visibleName: Trap of chaos
   sprite: {fileID: -8172146270579444734, guid: f9e5565fba1c3f945b4b532943ef7c76, type: 3}
   description: 
   value: 15

@@ -3,7 +3,7 @@
 [CreateAssetMenu(menuName = "Felix/Items/Magic trap")]
 public class MagicTrap : Trap
 {
-    [ScrollsBehaviours.ScrollBehaviourEnum]
+    [SpellsBehaviours.SpellBehaviourEnum]
     public string spell;
     public override Agent AgentFactory => new MagicTrapAgent(this);
 }

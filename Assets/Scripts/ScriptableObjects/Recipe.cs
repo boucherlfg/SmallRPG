@@ -13,6 +13,7 @@ public enum CraftingType
     Scraping = 5,
     Upgrading = 6,
     Repair = 7,
+    Enchanting = 8,
 }
 [CreateAssetMenu(menuName = "Felix/Recipe")]
 public class Recipe : ScriptableObject

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b3e25d7f44c51248aab4075620632e4, type: 3}
+  m_Name: staffOfFire
+  m_EditorClassIdentifier: 
+  craftingType: 8
+  input:
+  - {fileID: 11400000, guid: 29f1540bb87181947877bcfc1bf9e678, type: 2}
+  - {fileID: 11400000, guid: 75b6d66d06adfff428d6a42d01a0acd1, type: 2}
+  - {fileID: 11400000, guid: 45af65ab880019340ac980be24db23a5, type: 2}
+  output:
+  - {fileID: 11400000, guid: 302b433d01313394499b6b2407a6e639, type: 2}
+  onFailure: []
+  successRate: 1

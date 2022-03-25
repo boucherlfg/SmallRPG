@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ally
+  m_Name: enchanting
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 3016928708138566120, guid: 7bfdc5f1f374224459cd9c44bb5eb594, type: 3}
+  m_Sprite: {fileID: -2577323360938896151, guid: f9e5565fba1c3f945b4b532943ef7c76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1

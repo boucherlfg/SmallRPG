@@ -16,7 +16,7 @@
             UIManager.Notifications.CreateNotification("you just fell in a trap!");
 
         }
-        ScrollsBehaviours.ExecuteAsTrap(magicTrap.spell, position);
+        SpellsBehaviours.ExecuteAsTrap(magicTrap.spell, position);
         Game.Instance.Destroy(this);
     }
 }
