@@ -8,9 +8,6 @@ public class Bandit : Mob
 {
     private Vector2Int savedPosition;
     public override float Value => 3;
-
-    private string mob_tag = "bandit";
-    protected override string Mob_tag => mob_tag;
     protected override State InitialState => new RandomWalk(this);
     public override void Activate(IMovable user)
     {
@@ -20,7 +17,7 @@ public class Bandit : Mob
 
     public override AgentData.AgentType AgentType => AgentData.AgentType.Bandit;
 
-    abstract class BanditState : State
+    public abstract class BanditState : State
     {
         public BanditState(Bandit self) : base(self) { }
 
@@ -58,14 +55,12 @@ public class Bandit : Mob
             return null;
         }
     }
-    class ReturnToPosition : BanditState
+    public class ReturnToPosition : BanditState
     {
         public ReturnToPosition(Bandit self) : base(self)
         {
             path = new List<Vector2Int>();
         }
-
-        public override string Message => "returns to position";
 
         public override State Update()
         {
@@ -97,7 +92,7 @@ public class Bandit : Mob
             return this;
         }
     }
-    class GotoState : BanditState
+    public class GotoState : BanditState
     {
         Vector2Int lastSeenAt;
         private Agent target;
@@ -109,7 +104,6 @@ public class Bandit : Mob
             lastSeenAt = target.position;
         }
 
-        public override string Message => "go to " + target.ID;
 
         public override State Update()
         {
@@ -182,14 +176,13 @@ public class Bandit : Mob
             }
         }
     }
-    class RandomWalk : BanditState
+    public class RandomWalk : BanditState
     {       
         public RandomWalk(Bandit self) : base(self) 
         {
             path = new List<Vector2Int>();
         }
 
-        public override string Message => "random walk";
 
         public override State Update()
         {
@@ -225,7 +218,7 @@ public class Bandit : Mob
             return this;
         }
     }
-    class AttackState : BanditState
+    public class AttackState : BanditState
     {
         private Agent target;
         public AttackState(Bandit self, Agent target) : base(self)
@@ -233,7 +226,6 @@ public class Bandit : Mob
             this.target = target;
         }
 
-        public override string Message => "attacks " + target.ID;
 
         public override State Update()
         {
@@ -268,15 +260,13 @@ public class Bandit : Mob
             else return new GotoState(self as Bandit, target);
         }
     }
-    class EatState : BanditState
+    public class EatState : BanditState
     {
         private Agent target;
         public EatState(Bandit self, Agent target) : base(self)
         {
             this.target = target;
         }
-
-        public override string Message => "eats " + target.ID;
 
         public override State Update()
         {

@@ -14,7 +14,6 @@ public class Wolf : Mob
 
     public override AgentData.AgentType AgentType => AgentData.AgentType.Carnivore;
 
-    protected override string Mob_tag => "wolf";
     protected override State InitialState => new RandomWalk(this);
 
 
@@ -25,7 +24,7 @@ public class Wolf : Mob
         state = new AttackState(this, user as Agent);
     }
 
-    abstract class WolfState : State
+    public abstract class WolfState : State
     {
         public WolfState(Wolf self) : base(self) { }
 
@@ -47,9 +46,8 @@ public class Wolf : Mob
             return null;
         }
     }
-    class ReturnToPosition : WolfState
+    public class ReturnToPosition : WolfState
     {
-        public override string Message => "returns to position";
         public ReturnToPosition(Wolf self) : base(self)
         {
             path = new List<Vector2Int>();
@@ -84,11 +82,10 @@ public class Wolf : Mob
             return this;
         }
     }
-    class RandomWalk : WolfState
+    public class RandomWalk : WolfState
     {
         public RandomWalk(Wolf self) : base(self) { }
 
-        public override string Message => "random walk";
 
         public override State Update()
         {
@@ -124,7 +121,7 @@ public class Wolf : Mob
             return this;
         }
     }
-    class GotoState : WolfState
+    public class GotoState : WolfState
     {
         Vector2Int lastSeenAt;
         private Agent target;
@@ -135,8 +132,6 @@ public class Wolf : Mob
             path = new List<Vector2Int>();
             lastSeenAt = target.position;
         }
-
-        public override string Message => "goes to " + target.ID;
 
         public override State Update()
         {
@@ -209,15 +204,13 @@ public class Wolf : Mob
             }
         }
     }
-    class EatState : WolfState
+    public class EatState : WolfState
     {
         private Agent target;
         public EatState(Wolf self, Agent target) : base(self)
         {
             this.target = target;
         }
-
-        public override string Message => "eats " + target.ID;
 
         public override State Update()
         {
@@ -234,15 +227,13 @@ public class Wolf : Mob
             }
         }
     }
-    class AttackState : WolfState
+    public class AttackState : WolfState
     {
         private Agent target;
         public AttackState(Wolf wolf, Agent target) : base(wolf)
         {
             this.target = target;
         }
-
-        public override string Message => "attacks " + target.ID;
 
         public override State Update()
         {
@@ -255,7 +246,6 @@ public class Wolf : Mob
             if (hit)
             {
                 var dmg = GameHelper.CalculateDamage(self, target as IStats);
-                var lifeBefore = (target as IStats).Stats.life;
 
                 var s = (target as IStats).Stats;
                 s.life -= dmg;

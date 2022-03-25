@@ -3,8 +3,11 @@
 [CreateAssetMenu(menuName = "Felix/Items/Scroll")]
 public class Scroll : Item
 {
+    [ScrollsBehaviours.ScrollBehaviourEnum]
+    public string spell;
     public override void Use()
     {
-        UIManager.Notifications.CreateNotification("unimplemented yet *wink wink*");
+        ScrollsBehaviours.ExecuteAsProjectile(spell, Game.Instance.Player.position, Game.Instance.Player.Orientation);
+        DataModel.Inventory.Delete(this.name);
     }
 }

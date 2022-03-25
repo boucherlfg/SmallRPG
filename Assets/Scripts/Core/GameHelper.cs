@@ -273,7 +273,7 @@ public static class GameHelper
         var ret = new List<System.Type>();
         foreach (var type in typeof(T).Assembly.GetTypes())
         {
-            if (type.IsSubclassOf(typeof(T))) ret.Add(type);
+            if (type.IsSubclassOf(typeof(T)) && !System.Attribute.IsDefined(type, typeof(ExcludeAttribute))) ret.Add(type);
         }
         return ret.ToArray();
     }

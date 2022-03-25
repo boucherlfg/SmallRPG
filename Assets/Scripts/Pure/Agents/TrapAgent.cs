@@ -17,7 +17,7 @@ public class TrapAgent : Agent, IActivatable, IDrawable
         this.data = data;
     }
     
-    public void Activate(IMovable source)
+    public virtual void Activate(IMovable source)
     {
         if (!(source is IStats)) return;
 

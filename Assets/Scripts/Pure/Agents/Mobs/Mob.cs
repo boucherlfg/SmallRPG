@@ -10,14 +10,7 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
     
     protected List<string> loot;
     public AgentData data;
-    protected State state;
-    public override string ID
-    {
-        get
-        {
-            return data.visibleName + Game.Instance.Agents.IndexOf(this);
-        }
-    }
+    public State state;
     public int detectionTreshold = 8;
     public abstract AgentData.AgentType AgentType { get; }
     public Mob()
@@ -39,7 +32,6 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
         get => stats;
         set
         {
-            Debug.Log(ID + " stats " + stats + " -> " + value);
             stats = value;
             if (stats.life <= 0) Game.Instance.Destroy(this);
         }
@@ -48,14 +40,12 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
 
     public abstract float Value { get; }
     protected abstract State InitialState { get; }
-    protected abstract string Mob_tag { get; }
     public virtual Tile CurrentTile => data.tile;
     public Vector2Int Orientation { get; set; }
     public bool Immobilized { get; set; }
 
     public virtual void End()
     {
-        Debug.Log(ID + " ended");
         loot.ForEach(item =>
         {
             Game.Instance.Create(new FloorItem(Codex.Items[item]) { position = position });
@@ -65,11 +55,6 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
     {
         Immobilized = false;
         var newState = state.Update();
-
-        if (newState != state)
-        {
-            Debug.Log(ID + " : " + state.Message);
-        }
         state = newState;
     }
     public virtual void Activate(IMovable user)
@@ -91,9 +76,8 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
         s.life -= damage;
         Stats = s;
     }
-    protected abstract class State
+    public abstract class State
     {
-        public abstract string Message { get; }
         protected List<Vector2Int> path;
         protected Mob self;
         public State(Mob self) 
@@ -116,5 +100,19 @@ public abstract class Mob : Agent, IStats, IMovable, IDrawable, IUpdatable, ICol
             return hit == obj;
         }
         protected bool IsNextToMe<U>(U obj) where U : Agent => Vector2Int.Distance(self.position, obj.position) < 1.1;
+    }
+    public class IdleState : State
+    {
+        private State previous;
+        public IdleState(Mob self, State previous) : base(self)
+        {
+            this.previous = previous;
+        }
+
+        public override State Update()
+        {
+            path.Clear();
+            return self.InitialState;
+        }
     }
 }

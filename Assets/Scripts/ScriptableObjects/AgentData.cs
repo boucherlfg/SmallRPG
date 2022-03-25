@@ -35,6 +35,7 @@ public class AgentData : ScriptableObject
         Bandit = 0,
         Carnivore = 1,
         Herbivore = 2,
+        Ally = 3,
         None = -1
     }
     public string visibleName;
