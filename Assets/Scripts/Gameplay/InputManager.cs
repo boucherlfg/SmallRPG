@@ -134,6 +134,16 @@ public class InputManager : MonoSingleton<InputManager>
         controls.Player.Hotbar.performed += Hotbar_performed;
     }
 
+#if UNITY_ANDROID
+    public static void SimulateInput(Vector2Int input)
+    {
+        if (input == Vector2Int.zero) 
+            _instance.onUsed?.Invoke();
+        else _instance.onMoved?.Invoke(input);
+    }
+#endif
+
+
     private void Hotbar_performed(InputAction.CallbackContext obj)
     {
         int value = int.Parse(obj.control.name);

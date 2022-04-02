@@ -54,7 +54,7 @@ public class CraftingMenuElementScript : MonoBehaviour
         go.transform.SetParent(container, false);
         
         RectTransform rect = go.AddComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(40, 40);
+        rect.sizeDelta = new Vector2(70, 70);
         
         go.AddComponent<CanvasRenderer>();
 

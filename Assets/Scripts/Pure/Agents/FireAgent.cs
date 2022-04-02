@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using UnityEngine;
-using UnityEngine.Rendering.VirtualTexturing;
 using UnityEngine.Tilemaps;
 
 public class FireAgent : Agent, IUpdatable, IActivatable, IDrawable, ILightSource
